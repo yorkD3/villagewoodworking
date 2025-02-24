@@ -35,7 +35,7 @@ body {
   padding-right: 15px;
   padding-left: 15px;
 }
-ul {
+#fine_print {
 	padding-inline-start: 1.5em;
 	font-weight: 400;
 
@@ -49,7 +49,7 @@ ul {
 	}
 }
 
-li {
+#fine_print li {
 	position: relative;
 	padding-inline-start: 0.5em;
 	padding-top: 1.5em;
