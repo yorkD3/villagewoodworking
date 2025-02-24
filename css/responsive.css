@@ -57,7 +57,7 @@
 
   .about_section .img-box {
     margin-bottom: 45px;
-
+    object-fit:scale-down;
   }
 
   .contact_section .form_container {

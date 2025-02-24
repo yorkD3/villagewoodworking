@@ -67,3 +67,48 @@ function myMap() {
     };
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
+
+// Attempt at form-sheets submission
+// async function signup(){
+//   var form = document.getElementById("sheetdb-form");
+//   form.addEventListener("submit", e => {
+//     e.preventDefault();
+
+//     let email = document.getElementById("newsletter_email").value;
+//     // console.log(email);
+//     if (email == "" || !email.contains("@")){
+//         //throw error
+//         // alert("Confirm you have a valid email address!")
+//     } else{
+//         // alert("Form Submitted")
+//         // send data
+//         // console.log('email address : ${email.value}');
+
+//         const url = "https://script.google.com/macros/s/AKfycbxpBogxbGVRkfT-jyhxYvFUX2WfCZS6yB42Twyc83UPsxuGCiXmfpJl39qITbUhJdTR/exec"
+//         let formData = new FormData();
+//         formData.append("Email", email);
+        
+//         fetch(url, {
+//             method: "POST",
+//             body: formData
+//         }).then(
+//             response => response.json()
+//         ).then(r=>console.log(r))
+
+//         return alert 
+//     }
+//   }
+//   )
+// }
+
+
+// function formDataToJson(f) {
+//     return Object.fromEntries(Array.from(f.keys(), k =>
+//       k.endsWith('[]') ? [k.slice(0, -2), f.getAll(k)] : [k, f.get(k)]));
+// }
+
+// const url = "https://script.google.com/macros/s/AKfycbxpBogxbGVRkfT-jyhxYvFUX2WfCZS6yB42Twyc83UPsxuGCiXmfpJl39qITbUhJdTR/exec"
+// let formData = new FormData();
+// formData.append("Email", "ledonna.griffin@gmail.com");
+
+// fetch(url, {method:'POST', body: formDataToJson(formData)}).then(r=>r.json()).then(r=>console.log(r))
