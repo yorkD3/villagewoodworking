@@ -335,6 +335,8 @@ a:focus {
   .img-box {
     img {
       width: 100%;
+      align-items: center;
+      align-content: center;
     }
   }
 
@@ -377,6 +379,9 @@ a:focus {
     .img-box {
       img {
         width: 100%;
+        align-self: center;
+        align-items: center;
+        align-content: center;
       }
     }
 

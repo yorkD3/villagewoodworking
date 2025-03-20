@@ -198,6 +198,7 @@ figure {
 img {
   vertical-align: middle;
   border-style: none;
+  border: 5px solid #555;
 }
 
 svg {
