@@ -1,3 +1,3 @@
 # villagewoodworking
 
-<a href="villagewoodwork.com">Check out the Site</a>
+<a href="https://villagewoodwork.com/">Check out the Site</a>
