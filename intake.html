@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <link rel="icon" href="images/VWfavicon.png" type="image/gif" />
+  <meta name="keywords" content="custom furniture, woodworking, Omaha, heirloom, intake" />
+  <meta name="description" content="Begin your custom project with Village Woodworking. Tell us your story and we'll craft something permanent." />
+  <meta name="author" content="Village Woodworking" />
+
+  <title>Start a Project | Village Woodworking</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- VW fonts style -->
+  <link rel="stylesheet" href="css/vw-fonts.css" type="text/css" charset="utf-8" />
+  <!-- Custom styles -->
+  <link href="css/style.css" rel="stylesheet" />
+
+  <style>
+    /* Budget pill — dollar tier indicator */
+    .intake_pill-dollar {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #B7999C;
+      letter-spacing: 0.04em;
+    }
+
+
+    /* Allow pill groups to wrap across multiple lines */
+    .intake_pills--wrap {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Hide native checkbox — mirrors the existing radio rule in style.css */
+    .intake_pills input[type="checkbox"] {
+      display: none;
+    }
+
+    /* Checked state — mirrors input[type="radio"]:checked + .intake_pill */
+    .intake_pills input[type="checkbox"]:checked + .intake_pill {
+      background-color: #B7999C;
+      color: #F0E8DA;
+      border-color: #B7999C;
+    }
+  </style>
+
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <!-- header section -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html">
+            <span>Village Woodworking</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about.html">How We Do It</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="intake.html">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/about.html#the_fine_print">FAQs</a>
+                </li>
+              </ul>
+            </div>
+            <div class="social_box">
+              <a href="https://www.instagram.com/villagewoodworking/">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+
+  <!-- ==========================================
+       INTAKE HERO
+       ========================================== -->
+  <section class="intake_hero">
+    <div class="container">
+      <div class="row">
+
+        <!-- Left column — Invitation copy -->
+        <div class="col-lg-5">
+          <div class="intake_intro">
+            <p class="intake_eyebrow">New Client Inquiry</p>
+            <h1 class="intake_headline">Every Piece Begins<br>With a Conversation</h1>
+            <div class="intake_rule"></div>
+            <p class="intake_description">
+              We don't build from catalogs. Every project starts here — with your story, your space, and the kind of permanence you're looking for. Fill out the form and we'll reach out on your terms.
+            </p>
+
+            <div class="intake_expect">
+              <h3 class="intake_expect-title">What to Expect</h3>
+              <div class="intake_expect-item">
+                <span class="intake_expect-number">01</span>
+                <div>
+                  <strong>Initial Conversation</strong>
+                  <p>We'll connect at the time and method you prefer to understand your vision, space, and timeline.</p>
+                </div>
+              </div>
+              <div class="intake_expect-item">
+                <span class="intake_expect-number">02</span>
+                <div>
+                  <strong>Design & Modeling</strong>
+                  <p>Your project is modeled in 3D CAD — proportions, joinery, and material decisions happen here.</p>
+                </div>
+              </div>
+              <div class="intake_expect-item">
+                <span class="intake_expect-number">03</span>
+                <div>
+                  <strong>Build & Delivery</strong>
+                  <p>One active project at a time. Your work gets full attention from concept through install.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column — Intake form -->
+        <div class="col-lg-6 offset-lg-1">
+          <div class="intake_form-container">
+            <form id="intakeForm" novalidate>
+
+              <!-- SECTION: Contact Info -->
+              <div class="intake_section">
+                <p class="intake_section-label">Contact Information</p>
+
+                <div class="intake_field-row">
+                  <div class="intake_field">
+                    <label for="intake_fname">First Name <span class="intake_required">*</span></label>
+                    <input type="text" id="intake_fname" name="first_name" required />
+                  </div>
+                  <div class="intake_field">
+                    <label for="intake_lname">Last Name <span class="intake_required">*</span></label>
+                    <input type="text" id="intake_lname" name="last_name" required />
+                  </div>
+                </div>
+
+                <div class="intake_field">
+                  <label for="intake_email">Email <span class="intake_required">*</span></label>
+                  <input type="email" id="intake_email" name="email" required />
+                </div>
+
+                <div class="intake_field">
+                  <label for="intake_phone">Phone</label>
+                  <input type="tel" id="intake_phone" name="phone" />
+                </div>
+
+                <div class="intake_field">
+                  <label for="intake_location">City / Area</label>
+                  <input type="text" id="intake_location" name="location" placeholder="e.g. Omaha, Elkhorn, Lincoln" />
+                </div>
+              </div>
+
+              <!-- SECTION: Contact Preferences -->
+              <div class="intake_section">
+                <p class="intake_section-label">How Should We Reach You?</p>
+
+                <div class="intake_field">
+                  <label class="intake_label-small">Preferred Contact Method</label>
+                  <div class="intake_pills">
+                    <input type="radio" id="method_email" name="contact_method" value="Email" checked />
+                    <label for="method_email" class="intake_pill">
+                      <i class="fa fa-envelope-o"></i> Email
+                    </label>
+
+                    <input type="radio" id="method_phone" name="contact_method" value="Phone" />
+                    <label for="method_phone" class="intake_pill">
+                      <i class="fa fa-phone"></i> Phone
+                    </label>
+
+                    <input type="radio" id="method_text" name="contact_method" value="Text" />
+                    <label for="method_text" class="intake_pill">
+                      <i class="fa fa-commenting-o"></i> Text
+                    </label>
+                  </div>
+                </div>
+
+                <div class="intake_field">
+                  <label class="intake_label-small">Best Time of Day</label>
+                  <div class="intake_pills">
+                    <input type="radio" id="time_morning" name="best_time" value="Morning (8am–12pm)" checked />
+                    <label for="time_morning" class="intake_pill">Morning</label>
+
+                    <input type="radio" id="time_afternoon" name="best_time" value="Afternoon (12pm–5pm)" />
+                    <label for="time_afternoon" class="intake_pill">Afternoon</label>
+
+                    <input type="radio" id="time_evening" name="best_time" value="Evening (5pm–8pm)" />
+                    <label for="time_evening" class="intake_pill">Evening</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECTION: Project Type -->
+              <div class="intake_section">
+                <p class="intake_section-label">What Are You Looking For?</p>
+
+                <div class="intake_type-grid">
+                  <input type="radio" id="type_furniture" name="project_type" value="Furniture" checked />
+                  <label for="type_furniture" class="intake_type-card">
+                    <i class="fa fa-cube"></i>
+                    <span>Furniture</span>
+                    <small>Tables, shelving, seating, custom builds</small>
+                  </label>
+
+                  <input type="radio" id="type_gift" name="project_type" value="Gift" />
+                  <label for="type_gift" class="intake_type-card">
+                    <i class="fa fa-gift"></i>
+                    <span>Gift</span>
+                    <small>Keepsakes, heirlooms, meaningful objects</small>
+                  </label>
+
+                  <input type="radio" id="type_wallart" name="project_type" value="Wall Art" />
+                  <label for="type_wallart" class="intake_type-card">
+                    <i class="fa fa-picture-o"></i>
+                    <span>Wall Art</span>
+                    <small>Panels, carved work, dimensional pieces</small>
+                  </label>
+
+                  <input type="radio" id="type_other" name="project_type" value="Other" />
+                  <label for="type_other" class="intake_type-card">
+                    <i class="fa fa-ellipsis-h"></i>
+                    <span>Other</span>
+                    <small>Millwork, cabinetry, something new</small>
+                  </label>
+                </div>
+              </div>
+
+              <!-- SECTION: Budget -->
+              <div class="intake_section">
+                <p class="intake_section-label">Budget Range <span class="intake_optional">(optional)</span></p>
+                <label class="intake_label-small" style="display:block; margin-bottom: 14px;">Select the range that fits — helps us scope the right solution for you.</label>
+
+                <div class="intake_pills intake_pills--wrap">
+
+                  <input type="checkbox" id="budget_1" name="budget" value="$ — Under $100" />
+                  <label for="budget_1" class="intake_pill">
+                    <span class="intake_pill-dollar">$</span>&nbsp;&nbsp;Under $100
+                  </label>
+
+                  <input type="checkbox" id="budget_2" name="budget" value="$$ — $100–$500" />
+                  <label for="budget_2" class="intake_pill">
+                    <span class="intake_pill-dollar">$$</span>&nbsp;&nbsp;$100 – $500
+                  </label>
+
+                  <input type="checkbox" id="budget_3" name="budget" value="$$$ — $500–$1,000" />
+                  <label for="budget_3" class="intake_pill">
+                    <span class="intake_pill-dollar">$$$</span>&nbsp;&nbsp;$500 – $1,000
+                  </label>
+
+                  <input type="checkbox" id="budget_4" name="budget" value="$$$ — $1,000–$3,000" />
+                  <label for="budget_4" class="intake_pill">
+                    <span class="intake_pill-dollar">$$$</span>&nbsp;&nbsp;$1,000 – $3,000
+                  </label>
+
+                  <input type="checkbox" id="budget_6" name="budget" value="$$$$ — $3,000+" />
+                  <label for="budget_6" class="intake_pill">
+                    <span class="intake_pill-dollar">$$$$</span>&nbsp;&nbsp;$3,000+
+                  </label>
+
+                </div>
+              </div>
+
+              <!-- SECTION: Project Details -->
+              <div class="intake_section">
+                <p class="intake_section-label">Tell Us More <span class="intake_optional">(optional)</span></p>
+
+                <div class="intake_field">
+                  <label for="intake_story">What's the story behind this project? What problem are you trying to solve, or what moment are you trying to capture?</label>
+                  <textarea id="intake_story" name="project_story" rows="4"></textarea>
+                </div>
+
+                <div class="intake_field">
+                  <label for="intake_timeline">Do you have a timeline or deadline in mind?</label>
+                  <input type="text" id="intake_timeline" name="timeline" placeholder="e.g. Before December, no rush, within 3 months" />
+                </div>
+
+                <div class="intake_field">
+                  <label for="intake_referral">How did you hear about us?</label>
+                  <input type="text" id="intake_referral" name="referral" />
+                </div>
+              </div>
+
+              <!-- SUBMIT -->
+              <div class="intake_submit-area">
+                <button type="submit" class="intake_submit-btn" id="intakeSubmitBtn">
+                  Start the Conversation
+                </button>
+                <p class="intake_submit-note">
+                  We'll respond within 1–2 business days at the time you prefer.
+                </p>
+                <!-- Inline error message -->
+                <p class="intake_submit-error" id="intakeError" style="display:none;"></p>
+              </div>
+
+            </form>
+
+            <!-- Confirmation message (hidden by default) -->
+            <div class="intake_confirmation" id="intakeConfirmation" style="display:none;">
+              <div class="intake_confirmation-inner">
+                <i class="fa fa-check-circle"></i>
+                <h3>We Received Your Inquiry</h3>
+                <p>Thank you for reaching out. We'll be in touch soon — at the time and method you selected.</p>
+                <a href="index.html" class="intake_confirmation-link">Back to Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="vw_footer">
+    <div class="vw_footer__main">
+
+      <div>
+        <div class="vw_footer__brand-name">Village <span>Woodworking</span></div>
+        <p class="vw_footer__tagline">Crafted with Vision, Rooted in Story.<br>From our village to yours.</p>
+        <div class="vw_footer__social">
+          <a href="https://www.instagram.com/villagewoodworking/" target="_blank" aria-label="Instagram">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="vw_footer__nav">
+        <div class="vw_footer__nav-group">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">How We Do It</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="/about.html#the_fine_print">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="vw_footer__nav-group">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="intake.html">Start a Project</a></li>
+            <li><a href="https://www.instagram.com/villagewoodworking/" target="_blank">Instagram</a></li>
+            <li><a href="/cdn-cgi/l/email-protection#6f190603030e080a411800000b181d040601082f08020e0603410c0002">Email Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="vw_footer__newsletter">
+        <h4>Newsletter</h4>
+        <form action="https://formspree.io/f/xwpvjrqq" method="POST">
+          <input name="email" type="email" placeholder="Enter Your Email" />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="vw_footer__bottom">
+      <span class="vw_footer__copyright">&copy; <span id="displayYear"></span> Village Woodworking &mdash; Lincoln &amp; Omaha, NE</span>
+      <span class="vw_footer__email"><a href="/cdn-cgi/l/email-protection#06706f6a6a676163287169696271746d6f686146616b676f6a2865696b"><span class="__cf_email__" data-cfemail="3147585d5d5056541f465e5e5546435a585f5671565c50585d1f525e5c">[email&#160;protected]</span></a></span>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/jquery-3.4.1.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="js/bootstrap.js"></script>
+  <!-- custom js -->
+  <script src="js/custom.js"></script>
+
+  <script>
+    // ====================================================
+    // ★  GOOGLE APPS SCRIPT ENDPOINT — same URL as portfolio
+    //    Replace with your deployed Web App URL.
+    // ====================================================
+    const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_DEPLOYMENT_URL_HERE';
+
+    // ====================================================
+    // DISPLAY YEAR
+    // ====================================================
+    const yearEl = document.getElementById('displayYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // ====================================================
+    // FORM SUBMISSION
+    // ====================================================
+    const form         = document.getElementById('intakeForm');
+    const confirmation = document.getElementById('intakeConfirmation');
+    const submitBtn    = document.getElementById('intakeSubmitBtn');
+    const errorEl      = document.getElementById('intakeError');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      // Client-side required field check
+      const firstName = form.querySelector('[name="first_name"]').value.trim();
+      const lastName  = form.querySelector('[name="last_name"]').value.trim();
+      const email     = form.querySelector('[name="email"]').value.trim();
+
+      if (!firstName || !lastName || !email) {
+        showError('Please fill in your first name, last name, and email before submitting.');
+        return;
+      }
+
+      // Lock UI
+      submitBtn.textContent = 'Sending…';
+      submitBtn.disabled    = true;
+      hideError();
+
+      // Collect all form fields into a structured payload.
+      // The "source" field tells the Apps Script which Sheet tab to write to.
+      const payload = {
+        source:          'Intake Form',
+        timestamp:       new Date().toISOString(),
+        firstName,
+        lastName,
+        email,
+        phone:           form.querySelector('[name="phone"]').value.trim(),
+        location:        form.querySelector('[name="location"]').value.trim(),
+        contactMethod:   getRadioValue('contact_method'),
+        bestTime:        getRadioValue('best_time'),
+        projectType:     getRadioValue('project_type'),
+        budget:          Array.from(form.querySelectorAll('[name="budget"]:checked')).map(el => el.value).join(', '),
+        projectStory:    form.querySelector('[name="project_story"]').value.trim(),
+        timeline:        form.querySelector('[name="timeline"]').value.trim(),
+        referral:        form.querySelector('[name="referral"]').value.trim()
+      };
+
+      try {
+        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.startsWith('YOUR_')) {
+          throw new Error('Apps Script URL not configured');
+        }
+
+        // Apps Script Web Apps require no-cors → opaque response.
+        // Any non-throw means the request reached the server.
+        await fetch(APPS_SCRIPT_URL, {
+          method:  'POST',
+          mode:    'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload)
+        });
+
+        // Show confirmation, hide form
+        form.style.display            = 'none';
+        confirmation.style.display    = 'block';
+        window.scrollTo({ top: confirmation.offsetTop - 120, behavior: 'smooth' });
+
+      } catch (err) {
+        // Graceful fallback — open mailto with pre-filled subject + body
+        const subject = encodeURIComponent('New Project Inquiry — Village Woodworking');
+        const body    = encodeURIComponent([
+          `Name: ${payload.firstName} ${payload.lastName}`,
+          `Email: ${payload.email}`,
+          `Phone: ${payload.phone      || '—'}`,
+          `Location: ${payload.location || '—'}`,
+          `Contact: ${payload.contactMethod} / ${payload.bestTime}`,
+          `Project Type: ${payload.projectType}`,
+          ``,
+          `Story: ${payload.projectStory || '—'}`,
+          `Timeline: ${payload.timeline   || '—'}`,
+          `Referral: ${payload.referral   || '—'}`
+        ].join('\n'));
+
+        showError(
+          `Our form couldn't connect. ` +
+          `<a href="mailto:village.woodwrking@gmail.com?subject=${subject}&body=${body}" ` +
+          `style="color:#B7999C;text-decoration:underline;">Send via email instead</a> ` +
+          `— your details will be pre-filled.`
+        );
+
+        submitBtn.textContent = 'Start the Conversation';
+        submitBtn.disabled    = false;
+      }
+    });
+
+    // ====================================================
+    // HELPERS
+    // ====================================================
+    function getRadioValue(name) {
+      const checked = form.querySelector(`[name="${name}"]:checked`);
+      return checked ? checked.value : '';
+    }
+
+    function showError(msg) {
+      errorEl.innerHTML     = msg;
+      errorEl.style.display = 'block';
+    }
+
+    function hideError() {
+      errorEl.innerHTML     = '';
+      errorEl.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

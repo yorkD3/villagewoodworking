@@ -59,11 +59,11 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="about.html"> How We Do It</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="service.html"> Projects <span class="sr-only">(current)</span></a>
+                <li class="nav-item active">
+                  <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact Us</a>
+                  <a class="nav-link" href="intake.html">Contact Us</a>
                 </li>
               </ul>
             </div>
@@ -158,74 +158,64 @@
 
   <!-- end service section -->
 
-  <!-- info section -->
-  <section class="info_section ">
+  <!-- ==========================================
+       NEW FOOTER — vw_footer
+       
+       Drop-in replacement for info_section + 
+       footer_section on any page. Copy the 
+       HTML below and the .vw_footer CSS above.
+       ========================================== -->
+  <footer class="vw_footer">
+    <div class="vw_footer__main">
 
-    <div class="container">
-      <div class="info_top ">
-        <div class="row ">
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="info_detail">
-              <a href="index.html">
-                <h4>
-                  Village Woodworking
-                </h4>
-              </a>
-              <p>
-                With love, peace and joy. From my village to yours
-              </p>
-              <div class="social_box">
-                <!-- <a href="">
-                  <i class="fa fa-facebook" aria-hidden="true"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/darrylyork3/">
-                  <i class="fa fa-linkedin" aria-hidden="true"></i>
-                </a> -->
-                <a href="https://www.instagram.com/villagewoodworking/">
-                  <i class="fa fa-instagram" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4 col-lg-3 mx-auto">
-            <h4>
-              Contact us
-            </h4>
-            <div class="contact_nav">
-                <a aria-disabled="true">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                <span>
-                  Lincoln & Omaha, NE
-                </span>
-              </a>
-              <a target="_blank" href="mailto:darrylyork3@gmail.com?
-                        subject=A New Contact&
-                        body=Share your Name, where you are from, a good Contact, and how you would like to work together.">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                <span>
-                  Email Us
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="info_form">
-              <h4>
-                SIGN UP TO OUR NEWSLETTER
-              </h4>
-              <form action="https://formspree.io/f/xwpvjrqq" method="POST" id="sheetdb-form">
-                <input name="email" type="email" placeholder="Enter Your Email" id="newsletter_email" />
-                <button type="submit">
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
+      <!-- Brand column -->
+      <div>
+        <div class="vw_footer__brand-name">Village <span>Woodworking</span></div>
+        <p class="vw_footer__tagline">Crafted with Vision, Rooted in Story.<br>From our village to yours.</p>
+        <div class="vw_footer__social">
+          <a href="https://www.instagram.com/villagewoodworking/" target="_blank" aria-label="Instagram">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
         </div>
       </div>
+
+      <!-- Navigate column -->
+      <div class="vw_footer__nav">
+        <div class="vw_footer__nav-group">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">How We Do It</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="/about.html#the_fine_print">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="vw_footer__nav-group">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="intake.html">Start a Project</a></li>
+            <li><a href="https://www.instagram.com/villagewoodworking/" target="_blank">Instagram</a></li>
+            <li><a href="mailto:village.woodwrking@gmail.com">Email Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Newsletter column -->
+      <div class="vw_footer__newsletter">
+        <h4>Newsletter</h4>
+        <form action="https://formspree.io/f/xwpvjrqq" method="POST">
+          <input name="email" type="email" placeholder="Enter Your Email" />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
     </div>
-  </section>
-  <!-- end info_section -->
+
+    <div class="vw_footer__bottom">
+      <span class="vw_footer__copyright">&copy; <span id="displayYear"></span> Village Woodworking &mdash; Lincoln &amp; Omaha, NE</span>
+      <span class="vw_footer__email"><a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a></span>
+    </div>
+  </footer>
   <!-- jQery -->
   <script src="js/jquery-3.4.1.min.js"></script>
   <!-- bootstrap js -->

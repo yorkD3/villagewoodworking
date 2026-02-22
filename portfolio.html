@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <link rel="icon" href="images/VWfavicon.png" type="image/gif" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Portfolio | Village Woodworking</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- VW fonts style -->
+  <link rel="stylesheet" href="css/vw-fonts.css" type="text/css" charset="utf-8" />
+  <!-- Custom styles -->
+  <link href="css/style.css" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       LIGHTBOX — VW Portfolio
+       ============================================ */
+
+    .vw_lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(14, 13, 12, 0.92);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .vw_lightbox.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .vw_lightbox__panel {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      width: 90vw;
+      max-width: 1100px;
+      max-height: 90vh;
+      background: #1E1C1A;
+      overflow: hidden;
+      transform: translateY(24px) scale(0.98);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .vw_lightbox.is-open .vw_lightbox__panel {
+      transform: translateY(0) scale(1);
+    }
+
+    .vw_lightbox__close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 10;
+      width: 36px;
+      height: 36px;
+      background: rgba(14, 13, 12, 0.6);
+      border: 1px solid rgba(240, 232, 218, 0.15);
+      color: #F0E8DA;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .vw_lightbox__close:hover {
+      background: rgba(111, 70, 133, 0.45);
+      border-color: #6F4685;
+    }
+
+    /* Image pane */
+    .vw_lightbox__image-pane {
+      position: relative;
+      overflow: hidden;
+      background: #141210;
+      min-height: 420px;
+    }
+
+    .vw_lightbox__image-pane img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .vw_lightbox__no-image {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(240, 232, 218, 0.15);
+      font-family: "Calder_dark", serif;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .vw_lightbox__badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #F0E8DA;
+      background: #6F4685;
+      padding: 5px 12px;
+    }
+
+    /* Side panel */
+    .vw_lightbox__side {
+      display: flex;
+      flex-direction: column;
+      padding: 48px 36px 36px;
+      overflow-y: auto;
+    }
+
+    .vw_lightbox__project-title {
+      font-family: "Calder_dark", serif;
+      font-size: 1.75rem;
+      color: #F0E8DA;
+      margin: 0 0 6px;
+      line-height: 1.1;
+    }
+
+    .vw_lightbox__divider {
+      width: 40px;
+      height: 2px;
+      background: #B7999C;
+      margin: 14px 0 22px;
+      flex-shrink: 0;
+    }
+
+    .vw_lightbox__description {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.82rem;
+      color: #F0E8DA;
+      line-height: 1.65;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .vw_lightbox__project-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      padding: 9px 22px;
+      border: 1px solid #B7999C;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #B7999C;
+      transition: all 0.2s ease;
+    }
+
+    .vw_lightbox__project-link:hover {
+      background: #B7999C;
+      color: #1E1C1A;
+      text-decoration: none;
+    }
+
+    .vw_lightbox__intro {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.78rem;
+      color: #A89F91;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .vw_lightbox__form-heading {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 16px;
+    }
+
+    .vw_lightbox__form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .vw_lightbox__form input,
+    .vw_lightbox__form textarea {
+      width: 100%;
+      background: rgba(240, 232, 218, 0.05);
+      border: 1px solid rgba(240, 232, 218, 0.12);
+      padding: 10px 14px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.75rem;
+      color: #F0E8DA;
+      outline: none;
+      transition: border-color 0.2s ease;
+      resize: none;
+    }
+
+    .vw_lightbox__form input::placeholder,
+    .vw_lightbox__form textarea::placeholder {
+      color: #5A5650;
+    }
+
+    .vw_lightbox__form input:focus,
+    .vw_lightbox__form textarea:focus {
+      border-color: #6F4685;
+    }
+
+    .vw_lightbox__form textarea {
+      min-height: 90px;
+    }
+
+    .vw_lightbox__submit {
+      margin-top: 4px;
+      padding: 12px 24px;
+      background: #6F4685;
+      border: 1px solid #6F4685;
+      color: #F0E8DA;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      align-self: flex-start;
+    }
+
+    .vw_lightbox__submit:hover {
+      background: transparent;
+      color: #B7999C;
+      border-color: #B7999C;
+    }
+
+    .vw_lightbox__submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .vw_lightbox__status {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.72rem;
+      margin-top: 10px;
+      min-height: 18px;
+      line-height: 1.5;
+    }
+
+    .vw_lightbox__status.success { color: #8BBD8B; }
+    .vw_lightbox__status.error   { color: #C47A7A; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .vw_lightbox__panel {
+        grid-template-columns: 1fr;
+        grid-template-rows: 260px 1fr;
+        width: 95vw;
+        max-height: 92vh;
+      }
+
+      .vw_lightbox__image-pane { min-height: 260px; }
+      .vw_lightbox__no-image   { min-height: 260px; }
+
+      .vw_lightbox__side {
+        padding: 28px 24px 24px;
+      }
+
+      .vw_lightbox__project-title {
+        font-size: 1.35rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html">
+            <span>Village Woodworking</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">How We Do It</a></li>
+                <li class="nav-item"><a class="nav-link" href="intake.html">Contact Us</a></li>
+                <li class="nav-item active"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about.html#the_fine_print">FAQs</a></li>
+              </ul>
+            </div>
+            <div class="social_box">
+              <a href="https://www.instagram.com/villagewoodworking/">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+  </div>
+
+  <!-- Portfolio header -->
+  <section class="portfolio_header layout_padding2">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <p class="portfolio_eyebrow">The Village Portfolio</p>
+        <h2>Our Work</h2>
+        <div class="portfolio_rule"></div>
+        <p class="portfolio_subtitle">
+          Custom cabinetry, heirloom furniture, and specialty spaces &mdash; each piece rooted in story, built with intention.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter controls -->
+  <div class="portfolio_filters">
+    <button class="portfolio_filter-btn active" data-filter="all">All</button>
+    <button class="portfolio_filter-btn" data-filter="furniture">Furniture</button>
+    <button class="portfolio_filter-btn" data-filter="cabinetry">Cabinetry</button>
+    <button class="portfolio_filter-btn" data-filter="gifts">Gifts</button>
+    <button class="portfolio_filter-btn" data-filter="millwork">Millwork</button>
+    <button class="portfolio_filter-btn" data-filter="signs">Signs</button>
+  </div>
+
+  <!-- Portfolio grid -->
+  <section class="portfolio_section layout_padding-bottom">
+    <div class="container">
+      <div class="portfolio_grid" id="portfolioGrid"></div>
+    </div>
+  </section>
+
+  <!-- CTA band -->
+  <section class="portfolio_cta">
+    <div class="container">
+      <p class="portfolio_cta-eyebrow">Start a Conversation</p>
+      <h2 class="portfolio_cta-title">Have a Project in Mind?</h2>
+      <p class="portfolio_cta-text">
+        Every piece begins with a conversation. Tell us your story and we'll bring it to life in wood, stone, and intention.
+      </p>
+      <a href="intake.html" class="portfolio_cta-btn">Contact the Village</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="vw_footer">
+    <div class="vw_footer__main">
+      <div>
+        <div class="vw_footer__brand-name">Village <span>Woodworking</span></div>
+        <p class="vw_footer__tagline">Crafted with Vision, Rooted in Story.<br>From our village to yours.</p>
+        <div class="vw_footer__social">
+          <a href="https://www.instagram.com/villagewoodworking/" target="_blank" aria-label="Instagram">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <div class="vw_footer__nav">
+        <div class="vw_footer__nav-group">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">How We Do It</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="/about.html#the_fine_print">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="vw_footer__nav-group">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="intake.html">Start a Project</a></li>
+            <li><a href="https://www.instagram.com/villagewoodworking/" target="_blank">Instagram</a></li>
+            <li><a href="mailto:village.woodwrking@gmail.com">Email Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="vw_footer__newsletter">
+        <h4>Newsletter</h4>
+        <form action="https://formspree.io/f/xwpvjrqq" method="POST">
+          <input name="email" type="email" placeholder="Enter Your Email" />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="vw_footer__bottom">
+      <span class="vw_footer__copyright">&copy; <span id="displayYear"></span> Village Woodworking &mdash; Lincoln &amp; Omaha, NE</span>
+      <span class="vw_footer__email"><a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a></span>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+     LIGHTBOX MARKUP
+     ========================================== -->
+  <div class="vw_lightbox" id="vwLightbox" role="dialog" aria-modal="true" aria-label="Project detail">
+    <div class="vw_lightbox__panel">
+
+      <button class="vw_lightbox__close" id="vwLightboxClose" aria-label="Close">&times;</button>
+
+      <!-- Image pane — populated by JS -->
+      <div class="vw_lightbox__image-pane" id="vwLightboxImagePane"></div>
+
+      <!-- Side panel -->
+      <div class="vw_lightbox__side">
+        <h2 class="vw_lightbox__project-title" id="vwLightboxTitle"></h2>
+        <div class="vw_lightbox__divider"></div>
+
+        <!-- Project description — populated by JS when available -->
+        <p class="vw_lightbox__description" id="vwLightboxDescription"></p>
+
+        <p class="vw_lightbox__intro">
+          Interested in a piece like this? Share a few details and we'll reach out to begin the conversation.
+        </p>
+
+        <!-- Optional project link — shown only when project.link is set -->
+        <a class="vw_lightbox__project-link" id="vwLightboxLink" href="#" target="_blank">
+          View Full Project
+        </a>
+        
+        <p class="vw_lightbox__form-heading">Express Interest</p>
+
+        <form class="vw_lightbox__form" id="vwLightboxForm" novalidate>
+          <!-- Hidden context fields — populated by JS -->
+          <input type="hidden" name="projectTitle"    id="lbProjectTitle" />
+          <input type="hidden" name="projectCategory" id="lbProjectCategory" />
+
+          <input type="text"  name="name"    placeholder="Your Name"           required />
+          <input type="email" name="email"   placeholder="Email Address"        required />
+          <input type="tel"   name="phone"   placeholder="Phone (optional)" />
+          <textarea           name="message" placeholder="Tell us about your project idea…"></textarea>
+
+          <button class="vw_lightbox__submit" type="submit" id="vwLightboxSubmit">Send Inquiry</button>
+          <p class="vw_lightbox__status" id="vwLightboxStatus"></p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="js/bootstrap.js"></script>
+
+  <script>
+    // ====================================================
+    // ★  GOOGLE APPS SCRIPT ENDPOINT
+    //    Replace with your deployed Web App URL.
+    //    See: vw-portfolio-script.gs for the server code.
+    //    Deploy steps are in that file's header comment.
+    // ====================================================
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2dS8D_CcqyokJPnVHoIlnJjrF3usuGKiRZFC1EHV9RqCD_w1knEng87UIYsTB-0wy3A/exec';
+
+    // ====================================================
+    // PROJECT DATA
+    // Each project:
+    //   title       — display name
+    //   category    — matches a filter button's data-filter
+    //   image       — path, or "" for placeholder
+    //   description — short line shown in the lightbox
+    //   link --- optional URL for "View Project" button in lightbox
+    // ====================================================
+    const projects = [
+      {
+        title: "The Executive's Suite",
+        category: "furniture",
+        image: "images/Portfolio/TheExecSuite.jpeg",
+        description: "A commanding workspace built for presence — solid walnut, intentional proportion, zero compromise.",
+        // link: "project-presentation.html"
+      },
+      {
+        title: "The Puzzle Table",
+        category: "furniture",
+        image: "images/Portfolio/Puzzle Table.jpeg",
+        description: "A custom puzzle table designed for both functionality and aesthetic appeal."
+      },
+      {
+        title: "Custom Desk Design",
+        category: "furniture",
+        image: "images/Portfolio/Showcase Desk.png",
+        description: ""
+      },
+      // {
+      //   title: "Bar",
+      //   category: "cabinetry",
+      //   image: "",
+      //   description: ""
+      // },
+      // {
+      //   title: "Custom Built-in Closet",
+      //   category: "cabinetry",
+      //   image: "",
+      //   description: ""
+      // },
+      {
+        title: "Hardwood Pen Kits",
+        category: "gifts",
+        image: "images/Portfolio/AJ Trays.jpeg",
+        description: "Drink & snack trays for entertaining your crew."
+      },
+      {
+        title: "Walnut Privacy Wall",
+        category: "millwork",
+        image: "images/Portfolio/Walnut Privacy Wall.jpeg",
+        description: "Floor-to-ceiling walnut slat millwork delivering privacy, warmth, and architectural weight."
+      },
+      {
+        title: "Bathroom",
+        image: "images/Portfolio/ShadowBath.png",
+        category: "",
+        description: "Floor-to-ceiling walnut slat millwork delivering privacy, warmth, and architectural weight."
+      },
+      {
+        title: "Local Business Signage",
+        category: "signs",
+        image: "images/Portfolio/LWM Sign.jpeg",
+        description: "Custom signage for local businesses, crafted with attention to detail and brand identity."
+      },
+      {
+        title: "Hardwood Pen Kits",
+        category: "gifts",
+        image: "images/Portfolio/Hand Turned Pens.jpeg",
+        description: "Hand-turned from premium hardwoods — each pen is a tactile object of permanence."
+      },
+      {
+        title: "Coasters",
+        category: "gifts",
+        image: "images/Portfolio/Coasters.jpeg",
+        description: ""
+      },
+      {
+        title: "The Pasta Kit",
+        category: "gifts",
+        image: "images/Portfolio/Pasta Kit.jpeg",
+        description: "A custom pasta kit designed for culinary enthusiasts."
+      },
+      {
+        title: "Rolling Pins",
+        category: "gifts",
+        image: "images/Portfolio/Rolling Pins.jpeg",
+        description: "Custom rolling pins crafted from premium hardwoods for your favorite baker."
+      }
+    ];
+
+    // ====================================================
+    // UTILITY
+    // ====================================================
+    const categoryLabels = {
+      'furniture':    'Furniture',
+      'kitchen-bath': 'Kitchen & Bath',
+      'gifts':        'Gifts',
+      'millwork':     'Millwork'
+    };
+
+    function formatCategory(cat) {
+      return categoryLabels[cat] || cat;
+    }
+
+    // ====================================================
+    // GRID RENDER
+    // ====================================================
+    const grid = document.getElementById('portfolioGrid');
+
+    function renderGrid(filter) {
+      const visible = filter === 'all'
+        ? projects
+        : projects.filter(p => p.category === filter);
+
+      grid.innerHTML = '';
+
+      visible.forEach((project, i) => {
+        const card = document.createElement('div');
+        card.className       = 'portfolio_card';
+        card.dataset.category = project.category;
+        card.style.cursor    = 'pointer';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', 'View ' + project.title);
+
+        const hasImage = project.image && project.image.trim() !== '';
+
+        card.innerHTML = hasImage
+          ? `<img class="portfolio_card-image" src="${project.image}" alt="${project.title}" loading="lazy" />
+             <div class="portfolio_card-overlay">
+               <h3 class="portfolio_card-title">${project.title}</h3>
+               <span class="portfolio_card-category">${formatCategory(project.category)}</span>
+             </div>
+             <span class="portfolio_card-cta">View Project</span>`
+          : `<div class="portfolio_card-placeholder">
+               <div class="portfolio_card-placeholder-icon">+</div>
+               <span class="portfolio_card-placeholder-label">Add Image</span>
+             </div>
+             <div class="portfolio_card-overlay portfolio_card-overlay--empty">
+               <h3 class="portfolio_card-title">${project.title}</h3>
+               <span class="portfolio_card-category">${formatCategory(project.category)}</span>
+             </div>`;
+
+        card.addEventListener('click', ()  => openLightbox(project));
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') openLightbox(project);
+        });
+
+        grid.appendChild(card);
+        setTimeout(() => card.classList.add('visible'), 60 * i);
+      });
+
+      setTimeout(observeCards, 100);
+    }
+
+    renderGrid('all');
+
+    // ====================================================
+    // FILTERS
+    // ====================================================
+    document.querySelectorAll('.portfolio_filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.portfolio_filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGrid(btn.dataset.filter);
+      });
+    });
+
+    // ====================================================
+    // SCROLL OBSERVER
+    // ====================================================
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          scrollObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
+
+    function observeCards() {
+      document.querySelectorAll('.portfolio_card:not(.visible)').forEach(c => scrollObserver.observe(c));
+    }
+
+    // ====================================================
+    // LIGHTBOX
+    // ====================================================
+    const lightbox    = document.getElementById('vwLightbox');
+    const lbImagePane = document.getElementById('vwLightboxImagePane');
+    const lbTitle     = document.getElementById('vwLightboxTitle');
+    const lbProjTitle = document.getElementById('lbProjectTitle');
+    const lbProjCat   = document.getElementById('lbProjectCategory');
+    const lbCloseBtn  = document.getElementById('vwLightboxClose');
+    const lbForm      = document.getElementById('vwLightboxForm');
+    const lbSubmit    = document.getElementById('vwLightboxSubmit');
+    const lbStatus    = document.getElementById('vwLightboxStatus');
+
+    let lastFocused = null;
+
+    function openLightbox(project) {
+      lastFocused = document.activeElement;
+
+      const hasImage = project.image && project.image.trim() !== '';
+
+      lbImagePane.innerHTML = hasImage
+        ? `<img src="${project.image}" alt="${project.title}" />
+           <span class="vw_lightbox__badge">${formatCategory(project.category)}</span>`
+        : `<div class="vw_lightbox__no-image">Image Coming Soon</div>
+           <span class="vw_lightbox__badge">${formatCategory(project.category)}</span>`;
+
+      lbTitle.textContent = project.title;
+      const lbDescription = document.getElementById('vwLightboxDescription');
+      lbDescription.textContent  = project.description || '';
+      lbDescription.style.display = project.description ? 'block' : 'none';
+      const lbLink = document.getElementById('vwLightboxLink');
+      if (project.link && project.link.trim() !== '') {
+        lbLink.href         = project.link;
+        lbLink.style.display = 'inline-block';
+      } else {
+        lbLink.style.display = 'none';
+      }
+      lbProjTitle.value   = project.title;
+      lbProjCat.value     = formatCategory(project.category);
+
+      // Reset form
+      lbForm.reset();
+      lbStatus.textContent = '';
+      lbStatus.className   = 'vw_lightbox__status';
+      lbSubmit.disabled    = false;
+      lbSubmit.textContent = 'Send Inquiry';
+
+      // Restore hidden values after reset
+      lbProjTitle.value = project.title;
+      lbProjCat.value   = formatCategory(project.category);
+
+      lightbox.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      lbCloseBtn.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    }
+
+    lbCloseBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+    });
+
+    // ====================================================
+    // FORM SUBMIT → Google Apps Script → Google Sheet
+    // ====================================================
+    lbForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name  = lbForm.querySelector('[name="name"]').value.trim();
+      const email = lbForm.querySelector('[name="email"]').value.trim();
+
+      if (!name || !email) {
+        lbStatus.textContent = 'Name and email are required.';
+        lbStatus.className   = 'vw_lightbox__status error';
+        return;
+      }
+
+      lbSubmit.disabled    = true;
+      lbSubmit.textContent = 'Sending…';
+      lbStatus.textContent = '';
+      lbStatus.className   = 'vw_lightbox__status';
+
+      const payload = {
+        timestamp:       new Date().toISOString(),
+        projectTitle:    lbProjTitle.value,
+        projectCategory: lbProjCat.value,
+        name,
+        email,
+        phone:   lbForm.querySelector('[name="phone"]').value.trim(),
+        message: lbForm.querySelector('[name="message"]').value.trim()
+      };
+
+      try {
+        // Apps Script requires no-cors → response is opaque.
+        // A missing APPS_SCRIPT_URL means we fall back to email.
+        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.startsWith('YOUR_')) {
+          throw new Error('Apps Script URL not configured');
+        }
+
+        await fetch(APPS_SCRIPT_URL, {
+          method:  'POST',
+          mode:    'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload)
+        });
+
+        lbStatus.textContent = "Message received — we'll be in touch.";
+        lbStatus.className   = 'vw_lightbox__status success';
+        lbSubmit.textContent = 'Sent ✓';
+
+      } catch (err) {
+        // Graceful fallback: open mailto with pre-filled body
+        const subject = encodeURIComponent('Portfolio Inquiry — ' + payload.projectTitle);
+        const body    = encodeURIComponent(
+          `Name: ${payload.name}\nEmail: ${payload.email}\nPhone: ${payload.phone || '—'}\n\nProject Interest: ${payload.projectTitle} (${payload.projectCategory})\n\nMessage:\n${payload.message || '—'}`
+        );
+        lbStatus.innerHTML = `Couldn't connect to our form. <a href="mailto:village.woodwrking@gmail.com?subject=${subject}&body=${body}" style="color:#B7999C;text-decoration:underline;">Send via email instead</a>.`;
+        lbStatus.className = 'vw_lightbox__status error';
+        lbSubmit.disabled  = false;
+        lbSubmit.textContent = 'Send Inquiry';
+      }
+    });
+
+    // ====================================================
+    // DISPLAY YEAR
+    // ====================================================
+    const yearEl = document.getElementById('displayYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

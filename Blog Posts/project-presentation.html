@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <link rel="icon" href="images/VWfavicon.png" type="image/gif" />
+  <meta name="keywords" content="custom woodworking, Village Woodworking, project showcase" />
+  <meta name="description" content="An in-depth look at a Village Woodworking project — process, materials, and story." />
+  <meta name="author" content="Village Woodworking" />
+
+  <title>Project Name | Village Woodworking</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- VW fonts style -->
+  <link rel="stylesheet" href="css/vw-fonts.css" type="text/css" charset="utf-8" />
+  <!-- Custom styles -->
+  <link href="css/style.css" rel="stylesheet" />
+
+  <!-- ============================================
+       PROJECT PAGE + NEW FOOTER STYLES
+       
+       Project page: warm off-white background,
+       softened contrast for extended reading.
+       
+       Footer: dark treatment adapted from the
+       presentation template — drop into any page 
+       by replacing the info_section + footer_section
+       with the vw_footer HTML block.
+       ============================================ -->
+  <style>
+    /* ── Page background — warm off-white ── */
+    .project_page-wrap {
+      background-color: #F7F5F0;
+    }
+
+    /* ── Page Header ── */
+    .project_header {
+      padding: 50px 0 10px;
+      text-align: center;
+    }
+
+    .project_eyebrow {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 10px;
+    }
+
+    .project_title {
+      font-family: "Calder_dark", serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #2A2A2A;
+      margin-bottom: 0;
+    }
+
+    .project_rule {
+      width: 48px;
+      height: 3px;
+      background: #B7999C;
+      margin: 20px auto;
+    }
+
+    .project_meta {
+      display: flex;
+      justify-content: center;
+      gap: clamp(20px, 4vw, 48px);
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .project_meta-item {
+      text-align: center;
+    }
+
+    .project_meta-label {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #B7999C;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .project_meta-value {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #555;
+    }
+
+    /* ── Content Grid ── */
+    .project_content {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: clamp(24px, 3vw, 48px);
+      padding: 40px 0 20px;
+    }
+
+    /* ── Primary Carousel ── */
+    .project_carousel {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #E8E4DD;
+      cursor: pointer;
+    }
+
+    .project_carousel__track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .project_carousel__slide {
+      min-width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .project_carousel__slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+
+    .project_carousel:hover .project_carousel__slide img {
+      transform: scale(1.02);
+    }
+
+    .project_carousel__counter {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #ffffff;
+      background: rgba(47, 37, 25, 0.55);
+      padding: 5px 12px;
+      z-index: 5;
+    }
+
+    .project_carousel__expand {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 5;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(47, 37, 25, 0.55);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.85rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .project_carousel:hover .project_carousel__expand { opacity: 1; }
+
+    .project_carousel__controls {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      display: flex;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .project_carousel__btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: rgba(47, 37, 25, 0.55);
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+    }
+
+    .project_carousel__btn:hover {
+      background: #B7999C;
+    }
+
+    /* ── Description Panel ── */
+    .project_desc {
+      padding: 4px 0;
+    }
+
+    .project_desc__section {
+      margin-bottom: 28px;
+    }
+
+    .project_desc__label {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #B7999C;
+      display: inline-block;
+    }
+
+    .project_desc h3 {
+      font-family: "Calder_dark", serif;
+      font-size: 1.15rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #2A2A2A;
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+
+    .project_desc p {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #4A4A4A;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+
+    .project_desc p:last-child { margin-bottom: 0; }
+
+    /* Specs grid */
+    .project_specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid #DDD8CE;
+      margin-top: 16px;
+    }
+
+    .project_spec {
+      padding: 12px 14px;
+      background: #EDEAE3;
+      border-bottom: 1px solid #DDD8CE;
+    }
+
+    .project_spec:nth-child(odd) {
+      border-right: 1px solid #DDD8CE;
+    }
+
+    .project_spec:nth-last-child(-n+2) {
+      border-bottom: none;
+    }
+
+    .project_spec__label {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #998F82;
+      margin-bottom: 2px;
+    }
+
+    .project_spec__value {
+      font-family: "Calder_dark", serif;
+      font-size: 0.9rem;
+      color: #2A2A2A;
+    }
+
+    .project_desc__divider {
+      width: 100%;
+      height: 1px;
+      background: #DDD8CE;
+      margin: 28px 0;
+    }
+
+    /* ── Secondary Carousel — Thumbnail Strip ── */
+    .project_gallery {
+      padding: 10px 0 50px;
+    }
+
+    .project_gallery__label {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #998F82;
+      margin-bottom: 14px;
+    }
+
+    .project_gallery__track {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .project_gallery__track::-webkit-scrollbar { display: none; }
+
+    .project_gallery__thumb {
+      flex: 0 0 auto;
+      width: clamp(140px, 16vw, 210px);
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    .project_gallery__thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.12);
+      transition: background 0.25s ease;
+      pointer-events: none;
+    }
+
+    .project_gallery__thumb:hover::after { background: transparent; }
+    .project_gallery__thumb:hover { border-color: #B7999C; }
+
+    .project_gallery__thumb.active {
+      border-color: #6F4685;
+    }
+
+    .project_gallery__thumb.active::after { background: transparent; }
+
+    .project_gallery__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .project_gallery__thumb:hover img { transform: scale(1.06); }
+
+    .project_gallery__nav {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      justify-content: flex-end;
+    }
+
+    .project_gallery__nav-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid #DDD8CE;
+      background: #EDEAE3;
+      color: #998F82;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .project_gallery__nav-btn:hover {
+      border-color: #B7999C;
+      color: #6F4685;
+      background: #E4E0D8;
+    }
+
+    /* ── CTA Band ── */
+    .project_cta {
+      background-color: #6F4685;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .project_cta-eyebrow {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 12px;
+    }
+
+    .project_cta-title {
+      font-family: "Calder_dark", serif;
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .project_cta-text {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 520px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+
+    .project_cta-btn {
+      display: inline-block;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 14px 44px;
+      background-color: #B7999C;
+      color: #ffffff;
+      border: 2px solid #B7999C;
+      transition: all 0.2s ease;
+    }
+
+    .project_cta-btn:hover {
+      background-color: transparent;
+      color: #B7999C;
+    }
+
+    /* ── Back Link ── */
+    .project_back {
+      padding: 20px 0 30px;
+    }
+
+    .project_back a {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #B7999C;
+      transition: color 0.2s ease;
+    }
+
+    .project_back a:hover {
+      color: #6F4685;
+    }
+
+    .project_back a i {
+      margin-right: 6px;
+    }
+
+    /* ── Lightbox ── */
+    .project_lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      background: rgba(0, 0, 0, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      cursor: zoom-out;
+    }
+
+    .project_lightbox.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .project_lightbox__img-wrap {
+      max-width: 90vw;
+      max-height: 88vh;
+      position: relative;
+      transform: scale(0.92);
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .project_lightbox.active .project_lightbox__img-wrap {
+      transform: scale(1);
+    }
+
+    .project_lightbox__img-wrap img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      cursor: default;
+    }
+
+    .project_lightbox__close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: rgba(47, 37, 25, 0.6);
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      z-index: 100001;
+      transition: background 0.2s ease;
+    }
+
+    .project_lightbox__close:hover { background: #B7999C; }
+
+    .project_lightbox__nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: rgba(47, 37, 25, 0.6);
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      z-index: 100001;
+      transition: background 0.2s ease;
+    }
+
+    .project_lightbox__nav:hover { background: #B7999C; }
+
+    .project_lightbox__nav--prev { left: 20px; }
+    .project_lightbox__nav--next { right: 20px; }
+
+    .project_lightbox__counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "Poppins", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.5);
+      z-index: 100001;
+    }
+
+
+    /* ============================================
+       NEW SITE-WIDE FOOTER — vw_footer
+       
+       Dark treatment. Drop into ANY page by 
+       replacing info_section + footer_section 
+       with the vw_footer HTML block below.
+       
+       Uses Calder_dark + Poppins to match the 
+       live site. Structurally mirrors the footer 
+       from the uploaded presentation file.
+       ============================================ */
+    .vw_footer {
+      background-color: #1C1C1C;
+      color: #F0E8DA;
+      padding: 0;
+    }
+
+    .vw_footer__main {
+      max-width: 1170px;
+      margin: 0 auto;
+      padding: 56px 15px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 48px;
+      border-bottom: 1px solid rgba(240, 232, 218, 0.08);
+    }
+
+    .vw_footer__brand-name {
+      font-family: "Calder_dark", serif;
+      font-size: 1.2rem;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #F0E8DA;
+      margin-bottom: 12px;
+    }
+
+    .vw_footer__brand-name span {
+      color: #B7999C;
+    }
+
+    .vw_footer__tagline {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: #A89F91;
+      max-width: 300px;
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .vw_footer__social {
+      display: flex;
+      gap: 10px;
+    }
+
+    .vw_footer__social a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 100%;
+      border: 1px solid rgba(240, 232, 218, 0.15);
+      color: #A89F91;
+      font-size: 15px;
+      transition: all 0.2s ease;
+    }
+
+    .vw_footer__social a:hover {
+      color: #F0E8DA;
+      border-color: #B7999C;
+      background: rgba(183, 153, 156, 0.15);
+    }
+
+    .vw_footer__nav {
+      display: flex;
+      gap: 56px;
+    }
+
+    .vw_footer__nav-group h4 {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 16px;
+    }
+
+    .vw_footer__nav-group ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .vw_footer__nav-group li {
+      margin-bottom: 10px;
+    }
+
+    .vw_footer__nav-group a {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.78rem;
+      color: #A89F91;
+      transition: color 0.2s ease;
+    }
+
+    .vw_footer__nav-group a:hover {
+      color: #F0E8DA;
+    }
+
+    .vw_footer__newsletter {
+      max-width: 260px;
+    }
+
+    .vw_footer__newsletter h4 {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 16px;
+    }
+
+    .vw_footer__newsletter input {
+      width: 100%;
+      border: 1px solid rgba(240, 232, 218, 0.12);
+      background: rgba(240, 232, 218, 0.06);
+      height: 40px;
+      padding: 0 14px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.78rem;
+      color: #F0E8DA;
+      outline: none;
+      margin-bottom: 10px;
+      transition: border-color 0.2s ease;
+    }
+
+    .vw_footer__newsletter input::placeholder {
+      color: #706B62;
+    }
+
+    .vw_footer__newsletter input:focus {
+      border-color: #B7999C;
+    }
+
+    .vw_footer__newsletter button {
+      display: inline-block;
+      padding: 9px 28px;
+      background-color: #B7999C;
+      color: #ffffff;
+      border: 1px solid #B7999C;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .vw_footer__newsletter button:hover {
+      background-color: transparent;
+      color: #B7999C;
+    }
+
+    .vw_footer__bottom {
+      max-width: 1170px;
+      margin: 0 auto;
+      padding: 24px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .vw_footer__copyright {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      color: rgba(240, 232, 218, 0.25);
+      letter-spacing: 0.06em;
+    }
+
+    .vw_footer__email a {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(240, 232, 218, 0.3);
+      transition: color 0.2s ease;
+    }
+
+    .vw_footer__email a:hover {
+      color: #B7999C;
+    }
+
+    /* ── Footer Responsive ── */
+    @media (max-width: 991px) {
+      .vw_footer__main {
+        flex-direction: column;
+        gap: 36px;
+        text-align: center;
+        align-items: center;
+      }
+
+      .vw_footer__tagline {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .vw_footer__social {
+        justify-content: center;
+      }
+
+      .vw_footer__nav {
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .vw_footer__newsletter {
+        max-width: 320px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .vw_footer__bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+    }
+
+    /* ── Project Page Responsive ── */
+    @media (max-width: 1024px) {
+      .project_content {
+        grid-template-columns: 1fr 340px;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .project_content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .project_carousel__controls { bottom: 10px; right: 10px; }
+      .project_carousel__btn { width: 36px; height: 36px; }
+      .project_specs { grid-template-columns: 1fr; }
+      .project_spec { border-right: none !important; }
+      .project_spec:last-child { border-bottom: none; }
+      .project_lightbox__nav--prev { left: 10px; }
+      .project_lightbox__nav--next { right: 10px; }
+      .project_lightbox__nav,
+      .project_lightbox__close { width: 38px; height: 38px; }
+      .project_cta { padding: 50px 24px; }
+    }
+  </style>
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <!-- header section — identical to about.html / intake.html -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html">
+            <span>Village Woodworking</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about.html">How We Do It</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="intake.html">Contact Us</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="portfolio.html">Portfolio <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/about.html#the_fine_print">FAQs</a>
+                </li>
+              </ul>
+            </div>
+            <div class="social_box">
+              <a href="https://www.instagram.com/villagewoodworking/">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+
+  <!-- ==========================================
+       WARM BACKGROUND WRAPPER
+       ========================================== -->
+  <div class="project_page-wrap">
+
+    <!-- PAGE HEADER -->
+    <section class="project_header">
+      <div class="container">
+        <p class="project_eyebrow">Project Showcase</p>
+        <h1 class="project_title">The Executive's Suite</h1>
+        <div class="project_rule"></div>
+        <div class="project_meta">
+          <div class="project_meta-item">
+            <span class="project_meta-label">Client</span>
+            <span class="project_meta-value">Hannah Steen</span>
+          </div>
+          <div class="project_meta-item">
+            <span class="project_meta-label">Location</span>
+            <span class="project_meta-value">Enterprise Center, Omaha</span>
+          </div>
+          <div class="project_meta-item">
+            <span class="project_meta-label">Year</span>
+            <span class="project_meta-value">2025</span>
+          </div>
+          <div class="project_meta-item">
+            <span class="project_meta-label">Materials</span>
+            <span class="project_meta-value">Walnut, Steel, Stone</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- CONTENT — CAROUSEL + DESCRIPTION -->
+    <section class="layout_padding2-bottom">
+      <div class="container">
+
+        <!-- Back link -->
+        <div class="project_back">
+          <a href="portfolio.html"><i class="fa fa-long-arrow-left"></i> Back to Portfolio</a>
+        </div>
+
+        <div class="project_content">
+
+          <!-- PRIMARY CAROUSEL -->
+          <div class="project_carousel" id="primaryCarousel">
+            <div class="project_carousel__counter">
+              <span id="primaryCurrent">01</span> / <span id="primaryTotal">06</span>
+            </div>
+            <div class="project_carousel__expand">⤢</div>
+            <div class="project_carousel__track" id="primaryTrack">
+              <div class="project_carousel__slide" data-index="0">
+                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&h=900&fit=crop" alt="Project hero — main view" loading="eager">
+              </div>
+              <div class="project_carousel__slide" data-index="1">
+                <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=1200&h=900&fit=crop" alt="Joinery detail" loading="lazy">
+              </div>
+              <div class="project_carousel__slide" data-index="2">
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&h=900&fit=crop" alt="Material close-up" loading="lazy">
+              </div>
+              <div class="project_carousel__slide" data-index="3">
+                <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&h=900&fit=crop" alt="In-situ installation" loading="lazy">
+              </div>
+              <div class="project_carousel__slide" data-index="4">
+                <img src="https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=1200&h=900&fit=crop" alt="Process shot — workshop" loading="lazy">
+              </div>
+              <div class="project_carousel__slide" data-index="5">
+                <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=1200&h=900&fit=crop" alt="Profile angle" loading="lazy">
+              </div>
+            </div>
+            <div class="project_carousel__controls">
+              <button class="project_carousel__btn" id="primaryPrev" aria-label="Previous image">‹</button>
+              <button class="project_carousel__btn" id="primaryNext" aria-label="Next image">›</button>
+            </div>
+          </div>
+
+          <!-- DESCRIPTION PANEL -->
+          <aside class="project_desc">
+            <div class="project_desc__section">
+              <div class="project_desc__label">Overview</div>
+              <h3>A desk that carries the weight of decisions — and the warmth of intention.</h3>
+              <p>
+                The Executive's Suite was commissioned as a statement piece for a private office at the Enterprise Center of Omaha. The brief demanded an object that could hold the gravity of high-level meetings while maintaining an intimate, approachable presence — a tension that drove every design choice from joinery to finish.
+              </p>
+              <p>
+                The desk's cantilevered walnut surface appears to defy its own mass, supported by an asymmetric steel substructure that disappears at certain viewing angles. This is deliberate: the piece was designed to shift its visual weight depending on where you stand, rewarding sustained attention.
+              </p>
+            </div>
+
+            <div class="project_desc__section">
+              <div class="project_desc__label">Design Intent</div>
+              <p>
+                Every element was selected for both its physical properties and its narrative resonance. The American black walnut was sourced from a single fallen tree in eastern Nebraska — its grain patterns, irregular and unrepeatable, anchor the piece in a specific geography and moment in time.
+              </p>
+              <p>
+                The steel base references industrial fabrication traditions, but its proportions have been refined past utility into something closer to sculpture. The credenza, its companion piece, echoes this language at a lower register — providing continuity without repetition.
+              </p>
+            </div>
+
+            <div class="project_desc__divider"></div>
+
+            <div class="project_desc__section">
+              <div class="project_desc__label">Specifications</div>
+              <div class="project_specs">
+                <div class="project_spec">
+                  <div class="project_spec__label">Dimensions</div>
+                  <div class="project_spec__value">72" × 36" × 30"</div>
+                </div>
+                <div class="project_spec">
+                  <div class="project_spec__label">Primary Wood</div>
+                  <div class="project_spec__value">Black Walnut</div>
+                </div>
+                <div class="project_spec">
+                  <div class="project_spec__label">Joinery</div>
+                  <div class="project_spec__value">Mortise & Tenon</div>
+                </div>
+                <div class="project_spec">
+                  <div class="project_spec__label">Finish</div>
+                  <div class="project_spec__value">Hand-Rubbed Oil</div>
+                </div>
+                <div class="project_spec">
+                  <div class="project_spec__label">Base</div>
+                  <div class="project_spec__value">Blackened Steel</div>
+                </div>
+                <div class="project_spec">
+                  <div class="project_spec__label">Lead Time</div>
+                  <div class="project_spec__value">12 Weeks</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project_desc__divider"></div>
+
+            <div class="project_desc__section">
+              <div class="project_desc__label">Process Notes</div>
+              <p>
+                Construction followed Village Woodworking's standard pipeline: concept framing through hand sketches, vector CAD modeling for structural validation, CNC rough-milling followed by extensive hand-finishing. The cantilever logic was prototyped at quarter-scale before committing to full fabrication — a non-negotiable step when structural ambition meets material reality.
+              </p>
+            </div>
+          </aside>
+
+        </div>
+
+        <!-- SECONDARY CAROUSEL — Thumbnail Strip -->
+        <section class="project_gallery">
+          <div class="project_gallery__label">Project Gallery</div>
+          <div class="project_gallery__track" id="secondaryTrack">
+            <div class="project_gallery__thumb active" data-index="0">
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop" alt="Thumbnail 1">
+            </div>
+            <div class="project_gallery__thumb" data-index="1">
+              <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=600&h=400&fit=crop" alt="Thumbnail 2">
+            </div>
+            <div class="project_gallery__thumb" data-index="2">
+              <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&h=400&fit=crop" alt="Thumbnail 3">
+            </div>
+            <div class="project_gallery__thumb" data-index="3">
+              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop" alt="Thumbnail 4">
+            </div>
+            <div class="project_gallery__thumb" data-index="4">
+              <img src="https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=600&h=400&fit=crop" alt="Thumbnail 5">
+            </div>
+            <div class="project_gallery__thumb" data-index="5">
+              <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600&h=400&fit=crop" alt="Thumbnail 6">
+            </div>
+          </div>
+          <div class="project_gallery__nav">
+            <button class="project_gallery__nav-btn" id="secPrev" aria-label="Scroll left">‹</button>
+            <button class="project_gallery__nav-btn" id="secNext" aria-label="Scroll right">›</button>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+  </div>
+  <!-- end project_page-wrap -->
+
+
+  <!-- ==========================================
+       CTA BAND
+       ========================================== -->
+  <section class="project_cta">
+    <div class="container">
+      <p class="project_cta-eyebrow">Start a Conversation</p>
+      <h2 class="project_cta-title">Have a Project in Mind?</h2>
+      <p class="project_cta-text">
+        Every piece begins with a conversation. Tell us your story and we'll bring it to life in wood, stone, and intention.
+      </p>
+      <a href="intake.html" class="project_cta-btn">Contact the Village</a>
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       NEW FOOTER — vw_footer
+       
+       Drop-in replacement for info_section + 
+       footer_section on any page. Copy the 
+       HTML below and the .vw_footer CSS above.
+       ========================================== -->
+  <footer class="vw_footer">
+    <div class="vw_footer__main">
+
+      <!-- Brand column -->
+      <div>
+        <div class="vw_footer__brand-name">Village <span>Woodworking</span></div>
+        <p class="vw_footer__tagline">Crafted with Vision, Rooted in Story.<br>From our village to yours.</p>
+        <div class="vw_footer__social">
+          <a href="https://www.instagram.com/villagewoodworking/" target="_blank" aria-label="Instagram">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigate column -->
+      <div class="vw_footer__nav">
+        <div class="vw_footer__nav-group">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">How We Do It</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="/about.html#the_fine_print">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="vw_footer__nav-group">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="intake.html">Start a Project</a></li>
+            <li><a href="https://www.instagram.com/villagewoodworking/" target="_blank">Instagram</a></li>
+            <li><a href="mailto:village.woodwrking@gmail.com">Email Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Newsletter column -->
+      <div class="vw_footer__newsletter">
+        <h4>Newsletter</h4>
+        <form action="https://formspree.io/f/xwpvjrqq" method="POST">
+          <input name="email" type="email" placeholder="Enter Your Email" />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="vw_footer__bottom">
+      <span class="vw_footer__copyright">&copy; <span id="displayYear"></span> Village Woodworking &mdash; Lincoln &amp; Omaha, NE</span>
+      <span class="vw_footer__email"><a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a></span>
+    </div>
+  </footer>
+
+
+  <!-- ==========================================
+       LIGHTBOX
+       ========================================== -->
+  <div class="project_lightbox" id="lightbox">
+    <button class="project_lightbox__close" id="lightboxClose" aria-label="Close lightbox">✕</button>
+    <button class="project_lightbox__nav project_lightbox__nav--prev" id="lightboxPrev" aria-label="Previous">‹</button>
+    <button class="project_lightbox__nav project_lightbox__nav--next" id="lightboxNext" aria-label="Next">›</button>
+    <div class="project_lightbox__img-wrap">
+      <img id="lightboxImg" src="" alt="Expanded project image">
+    </div>
+    <div class="project_lightbox__counter"><span id="lbCurrent">01</span> / <span id="lbTotal">06</span></div>
+  </div>
+
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="js/bootstrap.js"></script>
+  <!-- custom js -->
+  <script src="js/custom.js"></script>
+
+  <script>
+    // Display year
+    var yearEl = document.getElementById('displayYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // ══════════════════════════════════════════
+    // IMAGE DATA — Replace with your project images
+    // ══════════════════════════════════════════
+    var fullResImages = [
+      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1800&q=90',
+      'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=1800&q=90',
+      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1800&q=90',
+      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1800&q=90',
+      'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=1800&q=90',
+      'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=1800&q=90',
+    ];
+
+    (function() {
+      var total = fullResImages.length;
+      var currentPrimary = 0;
+      var currentLightbox = 0;
+
+      var primaryTrack = document.getElementById('primaryTrack');
+      var primaryCurrent = document.getElementById('primaryCurrent');
+      var primaryTotal = document.getElementById('primaryTotal');
+      var primaryPrev = document.getElementById('primaryPrev');
+      var primaryNext = document.getElementById('primaryNext');
+      var primaryCarousel = document.getElementById('primaryCarousel');
+
+      var secondaryTrack = document.getElementById('secondaryTrack');
+      var thumbs = secondaryTrack.querySelectorAll('.project_gallery__thumb');
+      var secPrev = document.getElementById('secPrev');
+      var secNext = document.getElementById('secNext');
+
+      var lightbox = document.getElementById('lightbox');
+      var lightboxImg = document.getElementById('lightboxImg');
+      var lightboxClose = document.getElementById('lightboxClose');
+      var lightboxPrev = document.getElementById('lightboxPrev');
+      var lightboxNext = document.getElementById('lightboxNext');
+      var lbCurrent = document.getElementById('lbCurrent');
+      var lbTotal = document.getElementById('lbTotal');
+
+      primaryTotal.textContent = String(total).padStart(2, '0');
+      lbTotal.textContent = String(total).padStart(2, '0');
+
+      function goToPrimary(index) {
+        currentPrimary = ((index % total) + total) % total;
+        primaryTrack.style.transform = 'translateX(-' + (currentPrimary * 100) + '%)';
+        primaryCurrent.textContent = String(currentPrimary + 1).padStart(2, '0');
+        thumbs.forEach(function(t, i) {
+          t.classList.toggle('active', i === currentPrimary);
+        });
+      }
+
+      primaryPrev.addEventListener('click', function(e) { e.stopPropagation(); goToPrimary(currentPrimary - 1); });
+      primaryNext.addEventListener('click', function(e) { e.stopPropagation(); goToPrimary(currentPrimary + 1); });
+
+      primaryCarousel.addEventListener('click', function(e) {
+        if (e.target.closest('.project_carousel__btn')) return;
+        openLightbox(currentPrimary);
+      });
+
+      thumbs.forEach(function(thumb) {
+        thumb.addEventListener('click', function() {
+          var idx = parseInt(thumb.dataset.index);
+          goToPrimary(idx);
+          openLightbox(idx);
+        });
+      });
+
+      secPrev.addEventListener('click', function() {
+        secondaryTrack.scrollBy({ left: -220, behavior: 'smooth' });
+      });
+      secNext.addEventListener('click', function() {
+        secondaryTrack.scrollBy({ left: 220, behavior: 'smooth' });
+      });
+
+      function openLightbox(index) {
+        currentLightbox = index;
+        lightboxImg.src = fullResImages[index];
+        lbCurrent.textContent = String(index + 1).padStart(2, '0');
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function lightboxGo(index) {
+        currentLightbox = ((index % total) + total) % total;
+        lightboxImg.src = fullResImages[currentLightbox];
+        lbCurrent.textContent = String(currentLightbox + 1).padStart(2, '0');
+        goToPrimary(currentLightbox);
+      }
+
+      lightboxClose.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+      lightboxPrev.addEventListener('click', function(e) { e.stopPropagation(); lightboxGo(currentLightbox - 1); });
+      lightboxNext.addEventListener('click', function(e) { e.stopPropagation(); lightboxGo(currentLightbox + 1); });
+      lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+
+      document.addEventListener('keydown', function(e) {
+        if (lightbox.classList.contains('active')) {
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowLeft') lightboxGo(currentLightbox - 1);
+          if (e.key === 'ArrowRight') lightboxGo(currentLightbox + 1);
+        } else {
+          if (e.key === 'ArrowLeft') goToPrimary(currentPrimary - 1);
+          if (e.key === 'ArrowRight') goToPrimary(currentPrimary + 1);
+        }
+      });
+
+      var touchStartX = 0;
+      primaryCarousel.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      primaryCarousel.addEventListener('touchend', function(e) {
+        var diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+          diff > 0 ? goToPrimary(currentPrimary + 1) : goToPrimary(currentPrimary - 1);
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+</body>
+
+</html>
