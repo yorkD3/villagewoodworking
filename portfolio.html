@@ -298,8 +298,8 @@
       }
     }
   </style>
-  <script src="https://www.google.com/recaptcha/api.js"></script>
-</head>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+  </head>
 
 <body class="sub_page">
 
@@ -465,6 +465,8 @@
           <input type="email" name="email"   placeholder="Email Address"        required />
           <input type="tel"   name="phone"   placeholder="Phone (optional)" />
           <textarea           name="message" placeholder="Tell us about your project idea…"></textarea>
+
+          <div class="g-recaptcha" data-sitekey="6LepanYsAAAAAPzcLvY67vz-OQ8ic_YFKFDmA6It"></div>
 
           <button class="vw_lightbox__submit" type="submit" id="vwLightboxSubmit">Send Inquiry</button>
           <p class="vw_lightbox__status" id="vwLightboxStatus"></p>
@@ -742,7 +744,7 @@
     });
 
     // ====================================================
-    // FORM SUBMIT → Google Apps Script → Google Sheet
+    // FORM SUBMIT → reCAPTCHA v2 → Google Apps Script → Google Sheet
     // ====================================================
     lbForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -785,18 +787,23 @@
         return;
       }
 
+      // Check if reCAPTCHA v2 was completed
+      const recaptchaToken = grecaptcha.getResponse();
+      if (!recaptchaToken) {
+        lbStatus.textContent = 'Please complete the reCAPTCHA verification.';
+        lbStatus.className   = 'vw_lightbox__status error';
+        return;
+      }
+
       // Clear error styling
       nameInput.style.borderColor = '';
       emailInput.style.borderColor = '';
       lbSubmit.disabled    = true;
-      lbSubmit.textContent = 'Verifying…';
+      lbSubmit.textContent = 'Sending…';
       lbStatus.textContent = '';
       lbStatus.className   = 'vw_lightbox__status';
 
       try {
-        // Get reCAPTCHA token
-        const token = await grecaptcha.execute('6Lc2UHYsAAAAANKX2Hq8UI_Y33oLP-SKigPIbIrn', { action: 'submit' });
-
         const payload = {
           timestamp:       new Date().toISOString(),
           projectTitle:    lbProjTitle.value,
@@ -805,25 +812,32 @@
           email,
           phone:   lbForm.querySelector('[name="phone"]').value.trim(),
           message,
-          recaptchaToken:  token
+          recaptchaToken:  recaptchaToken
         };
 
         if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.startsWith('YOUR_')) {
           throw new Error('Apps Script URL not configured');
         }
 
-        await fetch(APPS_SCRIPT_URL, {
+        console.log('Sending payload:', payload);
+        console.log('To URL:', APPS_SCRIPT_URL);
+
+        const response = await fetch(APPS_SCRIPT_URL, {
           method:  'POST',
           mode:    'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify(payload)
         });
 
+        console.log('Response received');
+
         lbStatus.textContent = "Message received — we'll be in touch.";
         lbStatus.className   = 'vw_lightbox__status success';
         lbSubmit.textContent = 'Sent ✓';
+        grecaptcha.reset();
 
       } catch (err) {
+        console.error('Form submission error:', err);
         const subject = encodeURIComponent('Portfolio Inquiry — ' + lbProjTitle.value);
         const body    = encodeURIComponent(
           `Name: ${name}\nEmail: ${email}\nPhone: ${lbForm.querySelector('[name="phone"]').value.trim() || '—'}\n\nProject Interest: ${lbProjTitle.value}\n\nMessage:\n${message}`
