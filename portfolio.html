@@ -298,6 +298,7 @@
       }
     }
   </style>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 
 <body class="sub_page">
@@ -746,33 +747,67 @@
     lbForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const name  = lbForm.querySelector('[name="name"]').value.trim();
-      const email = lbForm.querySelector('[name="email"]').value.trim();
+      const nameInput  = lbForm.querySelector('[name="name"]');
+      const emailInput = lbForm.querySelector('[name="email"]');
+      const name  = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const message = lbForm.querySelector('[name="message"]').value.trim();
 
-      if (!name || !email) {
-        lbStatus.textContent = 'Name and email are required.';
+      // Validation functions
+      function isValidName(n) {
+        return n.length >= 2 && /^[a-zA-Z\s'-]+$/.test(n);
+      }
+
+      function isValidEmail(e) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+      }
+
+      // Validate name
+      if (!isValidName(name)) {
+        lbStatus.textContent = 'Name must be at least 2 characters (letters, spaces, hyphens, apostrophes only).';
+        lbStatus.className   = 'vw_lightbox__status error';
+        nameInput.style.borderColor = '#C47A7A';
+        return;
+      }
+
+      // Validate email
+      if (!isValidEmail(email)) {
+        lbStatus.textContent = 'Please enter a valid email address.';
+        lbStatus.className   = 'vw_lightbox__status error';
+        emailInput.style.borderColor = '#C47A7A';
+        return;
+      }
+
+      // Validate message
+      if (!message) {
+        lbStatus.textContent = 'Please share details about your project.';
         lbStatus.className   = 'vw_lightbox__status error';
         return;
       }
 
+      // Clear error styling
+      nameInput.style.borderColor = '';
+      emailInput.style.borderColor = '';
       lbSubmit.disabled    = true;
-      lbSubmit.textContent = 'Sending…';
+      lbSubmit.textContent = 'Verifying…';
       lbStatus.textContent = '';
       lbStatus.className   = 'vw_lightbox__status';
 
-      const payload = {
-        timestamp:       new Date().toISOString(),
-        projectTitle:    lbProjTitle.value,
-        projectCategory: lbProjCat.value,
-        name,
-        email,
-        phone:   lbForm.querySelector('[name="phone"]').value.trim(),
-        message: lbForm.querySelector('[name="message"]').value.trim()
-      };
-
       try {
-        // Apps Script requires no-cors → response is opaque.
-        // A missing APPS_SCRIPT_URL means we fall back to email.
+        // Get reCAPTCHA token
+        const token = await grecaptcha.execute('6Lc2UHYsAAAAANKX2Hq8UI_Y33oLP-SKigPIbIrn', { action: 'submit' });
+
+        const payload = {
+          timestamp:       new Date().toISOString(),
+          projectTitle:    lbProjTitle.value,
+          projectCategory: lbProjCat.value,
+          name,
+          email,
+          phone:   lbForm.querySelector('[name="phone"]').value.trim(),
+          message,
+          recaptchaToken:  token
+        };
+
         if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.startsWith('YOUR_')) {
           throw new Error('Apps Script URL not configured');
         }
@@ -789,12 +824,11 @@
         lbSubmit.textContent = 'Sent ✓';
 
       } catch (err) {
-        // Graceful fallback: open mailto with pre-filled body
-        const subject = encodeURIComponent('Portfolio Inquiry — ' + payload.projectTitle);
+        const subject = encodeURIComponent('Portfolio Inquiry — ' + lbProjTitle.value);
         const body    = encodeURIComponent(
-          `Name: ${payload.name}\nEmail: ${payload.email}\nPhone: ${payload.phone || '—'}\n\nProject Interest: ${payload.projectTitle} (${payload.projectCategory})\n\nMessage:\n${payload.message || '—'}`
+          `Name: ${name}\nEmail: ${email}\nPhone: ${lbForm.querySelector('[name="phone"]').value.trim() || '—'}\n\nProject Interest: ${lbProjTitle.value}\n\nMessage:\n${message}`
         );
-        lbStatus.innerHTML = `Couldn't connect to our form. <a href="mailto:village.woodwrking@gmail.com?subject=${subject}&body=${body}" style="color:#B7999C;text-decoration:underline;">Send via email instead</a>.`;
+        lbStatus.innerHTML = `Couldn't verify request. <a href="mailto:village.woodwrking@gmail.com?subject=${subject}&body=${body}" style="color:#B7999C;text-decoration:underline;">Send via email instead</a>.`;
         lbStatus.className = 'vw_lightbox__status error';
         lbSubmit.disabled  = false;
         lbSubmit.textContent = 'Send Inquiry';
