@@ -26,6 +26,8 @@
   <!-- Custom styles -->
   <link href="css/style.css" rel="stylesheet" />
 
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
   <style>
     /* Budget pill — dollar tier indicator */
     .intake_pill-dollar {
@@ -212,7 +214,7 @@
                 </div>
 
                 <div class="intake_field">
-                  <label class="intake_label-small">Best Time of Day</label>
+                  <label class="intake_label-small">Best Time of Day <span class="intake_optional">(optional)</span></label>
                   <div class="intake_pills">
                     <input type="radio" id="time_morning" name="best_time" value="Morning (8am–12pm)" checked />
                     <label for="time_morning" class="intake_pill">Morning</label>
@@ -263,7 +265,7 @@
 
               <!-- SECTION: Budget -->
               <div class="intake_section">
-                <p class="intake_section-label">Budget Range <span class="intake_optional">(optional)</span></p>
+                <p class="intake_section-label">Budget Range </p>
                 <label class="intake_label-small" style="display:block; margin-bottom: 14px;">Select the range that fits — helps us scope the right solution for you.</label>
 
                 <div class="intake_pills intake_pills--wrap">
@@ -314,8 +316,9 @@
                   <label for="intake_referral">How did you hear about us?</label>
                   <input type="text" id="intake_referral" name="referral" />
                 </div>
-              </div>
+                <div class="g-recaptcha" data-sitekey="6LepanYsAAAAAPzcLvY67vz-OQ8ic_YFKFDmA6It"></div>
 
+              </div>
               <!-- SUBMIT -->
               <div class="intake_submit-area">
                 <button type="submit" class="intake_submit-btn" id="intakeSubmitBtn">
@@ -425,26 +428,99 @@
     const submitBtn    = document.getElementById('intakeSubmitBtn');
     const errorEl      = document.getElementById('intakeError');
 
-    form.addEventListener('submit', async function (e) {
+
+      form.addEventListener('submit', async function (e) {
       e.preventDefault();
+      console.log('Form submitted');
 
       // Client-side required field check
       const firstName = form.querySelector('[name="first_name"]').value.trim();
       const lastName  = form.querySelector('[name="last_name"]').value.trim();
       const email     = form.querySelector('[name="email"]').value.trim();
+      const message   = form.querySelector('[name="project_story"]').value.trim();
+      
+      console.log('firstName:', firstName);
+      console.log('lastName:', lastName);
+      console.log('email:', email);
+      console.log('message:', message);
 
-      if (!firstName || !lastName || !email) {
-        showError('Please fill in your first name, last name, and email before submitting.');
+      // Validation functions
+      function isValidName(n) {
+        return n.length >= 2 && /^[a-zA-Z\s'-]+$/.test(n);
+      }
+
+      function isValidEmail(e) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+      }
+
+      // Validate first name
+      if (!isValidName(firstName)) {
+        console.log('First name invalid');
+        showError('First name must be at least 2 characters (letters, spaces, hyphens, apostrophes only).');
+        firstNameInput.style.borderColor = '#FF0000';
+        submitBtn.textContent = 'Start the Conversation';
+        submitBtn.disabled    = false;
+        return;
+      }
+
+      // Validate last name
+      if (!isValidName(lastName)) {
+        console.log('Last name invalid');
+        showError('Last name must be at least 2 characters (letters, spaces, hyphens, apostrophes only).');
+        lastNameInput.style.borderColor = '#FF0000';
+        submitBtn.textContent = 'Start the Conversation';
+        submitBtn.disabled    = false;
+        return;
+      }
+
+      // Validate email
+      if (!isValidEmail(email)) {
+        console.log('Email invalid');
+        showError('Please enter a valid email address.');
+        emailInput.style.borderColor = '#FF0000';
+        submitBtn.textContent = 'Start the Conversation';
+        submitBtn.disabled    = false;
+        return;
+      }
+
+      // Validate budget
+      const budgetCheckboxes = Array.from(form.querySelectorAll('[name="budget"]:checked'));
+      console.log('Budget checkboxes selected:', budgetCheckboxes.length);
+      if (budgetCheckboxes.length === 0) {
+        console.log('No budget selected');
+        showError('Please select at least one budget range.');
+        submitBtn.textContent = 'Start the Conversation';
+        submitBtn.disabled    = false;
+        return;
+      }
+
+      // Validate message
+      if (!message || message.length < 10) {
+        console.log('Message too short');
+        showError('Please share more details about your project (at least 10 characters).');
+        messageInput.style.borderColor = '#FF0000';
+        submitBtn.textContent = 'Start the Conversation';
+        submitBtn.disabled    = false;
+        return;
+      }
+
+      // Check if reCAPTCHA v2 was completed
+      const recaptchaToken = grecaptcha.getResponse();
+      console.log('reCAPTCHA token:', recaptchaToken ? 'Present' : 'Missing');
+      if (!recaptchaToken) {
+        console.log('No reCAPTCHA');
+        showError('Please complete the reCAPTCHA verification.');
+        submitBtn.textContent = 'Start the Conversation';
+        submitBtn.disabled    = false;
         return;
       }
 
       // Lock UI
+      console.log('All validation passed, sending form');
       submitBtn.textContent = 'Sending…';
       submitBtn.disabled    = true;
       hideError();
 
-      // Collect all form fields into a structured payload.
-      // The "source" field tells the Apps Script which Sheet tab to write to.
       const payload = {
         source:          'Intake Form',
         timestamp:       new Date().toISOString(),
@@ -456,58 +532,39 @@
         contactMethod:   getRadioValue('contact_method'),
         bestTime:        getRadioValue('best_time'),
         projectType:     getRadioValue('project_type'),
-        budget:          Array.from(form.querySelectorAll('[name="budget"]:checked')).map(el => el.value).join(', '),
-        projectStory:    form.querySelector('[name="project_story"]').value.trim(),
-        timeline:        form.querySelector('[name="timeline"]').value.trim(),
-        referral:        form.querySelector('[name="referral"]').value.trim()
+        budget:          budgetCheckboxes.map(el => el.value).join(', '),
+        projectStory:    message,
+        timeline:        getRadioValue('timeline'),
+        referral:        form.querySelector('[name="referral"]').value.trim(),
+        recaptchaToken:  recaptchaToken
       };
 
-      try {
-        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.startsWith('YOUR_')) {
-          throw new Error('Apps Script URL not configured');
-        }
+      console.log('Payload:', payload);
+      console.log('Apps Script URL:', APPS_SCRIPT_URL);
 
-        // Apps Script Web Apps require no-cors → opaque response.
-        // Any non-throw means the request reached the server.
-        await fetch(APPS_SCRIPT_URL, {
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
           method:  'POST',
           mode:    'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify(payload)
         });
 
-        // Show confirmation, hide form
-        form.style.display            = 'none';
-        confirmation.style.display    = 'block';
-        window.scrollTo({ top: confirmation.offsetTop - 120, behavior: 'smooth' });
+        console.log('Response received');
+
+        showSuccess('Thank you! We have received your inquiry and will be in touch soon.');
+        submitBtn.textContent = 'Message Sent ✓';
+        form.reset();
+        grecaptcha.reset();
 
       } catch (err) {
-        // Graceful fallback — open mailto with pre-filled subject + body
-        const subject = encodeURIComponent('New Project Inquiry — Village Woodworking');
-        const body    = encodeURIComponent([
-          `Name: ${payload.firstName} ${payload.lastName}`,
-          `Email: ${payload.email}`,
-          `Phone: ${payload.phone      || '—'}`,
-          `Location: ${payload.location || '—'}`,
-          `Contact: ${payload.contactMethod} / ${payload.bestTime}`,
-          `Project Type: ${payload.projectType}`,
-          ``,
-          `Story: ${payload.projectStory || '—'}`,
-          `Timeline: ${payload.timeline   || '—'}`,
-          `Referral: ${payload.referral   || '—'}`
-        ].join('\n'));
-
-        showError(
-          `Our form couldn't connect. ` +
-          `<a href="mailto:village.woodwrking@gmail.com?subject=${subject}&body=${body}" ` +
-          `style="color:#B7999C;text-decoration:underline;">Send via email instead</a> ` +
-          `— your details will be pre-filled.`
-        );
-
+        console.error('Form submission error:', err);
+        showError('Could not send form. Please try emailing village.woodwrking@gmail.com');
         submitBtn.textContent = 'Start the Conversation';
         submitBtn.disabled    = false;
       }
     });
+    
 
     // ====================================================
     // HELPERS
@@ -520,6 +577,8 @@
     function showError(msg) {
       errorEl.innerHTML     = msg;
       errorEl.style.display = 'block';
+      errorEl.style.color   = '#FF0000';
+      errorEl.style.fontFamily = '"Poppins", sans-serif';
     }
 
     function hideError() {
