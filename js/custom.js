@@ -1,3 +1,28 @@
+/* ============================================
+   VW LEAD-TIME BANNER — Dismiss Logic
+   ============================================ */
+
+function dismissBanner() {
+  var banner = document.getElementById('vwLeadBanner');
+  if (banner) {
+    banner.classList.add('is-hidden');
+    try { sessionStorage.setItem('vw_banner_dismissed', '1'); } catch(e) {}
+  }
+}
+
+(function() {
+  try {
+    if (sessionStorage.getItem('vw_banner_dismissed') === '1') {
+      var banner = document.getElementById('vwLeadBanner');
+      if (banner) {
+        banner.style.transition = 'none';
+        banner.classList.add('is-hidden');
+      }
+    }
+  } catch(e) {}
+})();
+
+
 // to get current year
 function getYear() {
     var currentDate = new Date();
