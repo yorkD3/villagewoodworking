@@ -77,6 +77,9 @@
                   <a class="nav-link" href="portfolio.html"> Portfolio</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="journal.html">Journal</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="/about.html#the_fine_print">FAQs</a>
                 </li>
               </ul>
@@ -190,6 +193,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">How We Do It</a></li>
             <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="journal.html">Journal</a></li>
             <li><a href="/about.html#the_fine_print">FAQs</a></li>
           </ul>
         </div>
@@ -206,10 +210,11 @@
       <!-- Newsletter column -->
       <div class="vw_footer__newsletter">
         <h4>Newsletter</h4>
-        <form action="https://formspree.io/f/xwpvjrqq" method="POST">
-          <input name="email" type="email" placeholder="Enter Your Email" />
-          <button type="submit">Subscribe</button>
-        </form>
+        <div id="footerSubForm">
+          <input id="footerSubEmail" type="email" placeholder="Enter Your Email" />
+          <button id="footerSubBtn">Subscribe</button>
+        </div>
+        <p class="vw_footer__sub-msg" id="footerSubMsg" style="display:none;"></p>
       </div>
 
     </div>
@@ -233,6 +238,65 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
   <!-- End Google Map -->
 
+  <script>
+  // ====================================================
+  // FOOTER NEWSLETTER → Google Sheets
+  // Routes to "Journal Subscribers" tab via Apps Script
+  // ====================================================
+  (function () {
+    var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2dS8D_CcqyokJPnVHoIlnJjrF3usuGKiRZFC1EHV9RqCD_w1knEng87UIYsTB-0wy3A/exec';
 
+    var btn   = document.getElementById('footerSubBtn');
+    var input = document.getElementById('footerSubEmail');
+    var msg   = document.getElementById('footerSubMsg');
+    if (!btn || !input) return;
+
+    btn.addEventListener('click', function () {
+      var email = input.value.trim();
+
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        msg.style.display = 'block';
+        msg.style.color   = '#c97a6a';
+        msg.textContent   = 'Please enter a valid email.';
+        return;
+      }
+
+      btn.disabled    = true;
+      btn.textContent = 'Sending…';
+      msg.style.display = 'none';
+
+      fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          source:    'Journal Subscriber',
+          timestamp: new Date().toISOString(),
+          email:     email,
+          firstName: '',
+          lastName:  ''
+        })
+      })
+        .then(function () {
+          msg.style.display = 'block';
+          msg.style.color   = '#8aad7a';
+          msg.textContent   = 'Subscribed — welcome.';
+          input.value       = '';
+          btn.textContent   = 'Subscribed ✓';
+        })
+        .catch(function () {
+          msg.style.display = 'block';
+          msg.style.color   = '#c97a6a';
+          msg.textContent   = 'Something went wrong. Try again.';
+          btn.disabled      = false;
+          btn.textContent   = 'Subscribe';
+        });
+    });
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') btn.click();
+    });
+  })();
+</script>
 
 </html>
