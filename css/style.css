@@ -2842,6 +2842,838 @@ a:focus {
 
 
 /* ============================================
+       JOURNAL POST — Access Check
+       ============================================ */
+    .jrnl_locked {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 90px 15px;
+    }
+
+    .jrnl_locked__title {
+      font-family: "Calder_dark", serif;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #272727;
+      margin-bottom: 14px;
+    }
+
+    .jrnl_locked__text {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.82rem;
+      color: #A89F91;
+      margin-bottom: 28px;
+      max-width: 400px;
+    }
+
+    .jrnl_locked__btn {
+      display: inline-block;
+      padding: 11px 32px;
+      background-color: #6F4685;
+      color: #fff;
+      border: 1px solid #6F4685;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .jrnl_locked__btn:hover {
+      background: transparent;
+      color: #6F4685;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Hero / Header
+       ============================================ */
+    .post_hero {
+      background: #1C1C1C;
+      padding: 72px 0 56px;
+      border-bottom: 1px solid rgba(240, 232, 218, 0.06);
+    }
+
+    .post_hero__inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .post_hero__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #A89F91;
+      text-decoration: none;
+      margin-bottom: 36px;
+      transition: color 0.2s ease;
+    }
+
+    .post_hero__back:hover {
+      color: #F0E8DA;
+    }
+
+    .post_hero__back i {
+      font-size: 0.7rem;
+    }
+
+    .post_hero__category {
+      display: inline-block;
+      padding: 5px 14px;
+      background: rgba(111, 70, 133, 0.2);
+      border: 1px solid rgba(111, 70, 133, 0.3);
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 18px;
+    }
+
+    .post_hero__title {
+      font-family: "Calder_dark", serif;
+      font-size: 2.2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #F0E8DA;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .post_hero__meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.68rem;
+      color: #706B62;
+    }
+
+    .post_hero__meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Cover Image
+       ============================================ */
+    .post_cover {
+      width: 100%;
+      max-height: 520px;
+      overflow: hidden;
+      background: #E8E4DD;
+    }
+
+    .post_cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Content Body
+       ============================================ */
+    .post_content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 15px 90px;
+    }
+
+    /* Prose */
+    .post_content p {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: #3A3632;
+      line-height: 1.85;
+      margin-bottom: 24px;
+    }
+
+    .post_content a {
+      color: #6F4685;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .post_content a:hover {
+      color: #B7999C;
+    }
+
+    /* Section headings */
+    .post_content h2 {
+      font-family: "Calder_dark", serif;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #0c0c0c;
+      margin-top: 48px;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .post_content h3 {
+      font-family: "Calder_dark", serif;
+      font-size: 1.05rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #272727;
+      margin-top: 36px;
+      margin-bottom: 14px;
+    }
+
+    /* Pull quote */
+    .post_pullquote {
+      margin: 48px 0;
+      padding: 32px 0 32px 28px;
+      border-left: 3px solid #6F4685;
+    }
+
+    .post_pullquote p {
+      font-family: "Calder_dark", serif;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #272727;
+      line-height: 1.45;
+      margin-bottom: 0;
+    }
+
+    .post_pullquote cite {
+      display: block;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      font-style: normal;
+      color: #A89F91;
+      margin-top: 10px;
+      letter-spacing: 0.04em;
+    }
+
+
+    /* Inline images */
+    .post_img {
+      margin: 40px 0;
+    }
+
+    .post_img img {
+      width: 100%;
+      display: block;
+    }
+
+    .post_img__caption {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: #A89F91;
+      margin-top: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    /* Image grid (2-up) */
+    .post_img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 40px 0;
+    }
+
+    .post_img-grid img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+
+    /* Video embed */
+    .post_video {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      margin: 40px 0;
+      background: #0c0c0c;
+    }
+
+    .post_video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+
+    /* Divider */
+    .post_divider {
+      width: 60px;
+      height: 2px;
+      background: #B7999C;
+      margin: 48px auto;
+    }
+
+
+    /* Tags */
+    .post_tags {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .post_tag {
+      display: inline-block;
+      padding: 5px 14px;
+      background: #F0ECE5;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #706B62;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Post Navigation
+       ============================================ */
+    .post_nav {
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      background: #F0ECE5;
+    }
+
+    .post_nav__inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 36px 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .post_nav__link {
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .post_nav__link:hover {
+      opacity: 0.7;
+    }
+
+    .post_nav__link--next {
+      text-align: right;
+    }
+
+    .post_nav__dir {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 6px;
+    }
+
+    .post_nav__title {
+      font-family: "Calder_dark", serif;
+      font-size: 0.95rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #272727;
+      line-height: 1.25;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Responsive
+       ============================================ */
+    @media (max-width: 767px) {
+      .post_hero {
+        padding: 56px 0 40px;
+      }
+
+      .post_hero__title {
+        font-size: 1.6rem;
+      }
+
+      .post_content {
+        padding: 40px 15px 72px;
+      }
+
+      .post_content p {
+        font-size: 0.84rem;
+      }
+
+      .post_img-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .post_img-grid img {
+        height: 220px;
+      }
+
+      .post_nav__inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .post_nav__link--next {
+        text-align: left;
+      }
+    }
+
+    /* ============================================
+       JOURNAL GATE — Subscriber Capture
+       ============================================ */
+    .jrnl_gate {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(12, 12, 10, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    .jrnl_gate.is-unlocked {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .jrnl_gate__panel {
+      width: 90vw;
+      max-width: 440px;
+      padding: 52px 40px 44px;
+      background: #1E1C1A;
+      border: 1px solid rgba(240, 232, 218, 0.06);
+      transform: translateY(16px);
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .jrnl_gate.is-unlocked .jrnl_gate__panel {
+      transform: translateY(-8px);
+    }
+
+    .jrnl_gate__label {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 8px;
+    }
+
+    .jrnl_gate__title {
+      font-family: "Calder_dark", serif;
+      font-size: 1.6rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #F0E8DA;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .jrnl_gate__desc {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: #A89F91;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .jrnl_gate__field {
+      width: 100%;
+      border: 1px solid rgba(240, 232, 218, 0.12);
+      background: rgba(240, 232, 218, 0.06);
+      height: 42px;
+      padding: 0 14px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.78rem;
+      color: #F0E8DA;
+      outline: none;
+      margin-bottom: 12px;
+      transition: border-color 0.2s ease;
+    }
+
+    .jrnl_gate__field::placeholder {
+      color: #706B62;
+    }
+
+    .jrnl_gate__field:focus {
+      border-color: #B7999C;
+    }
+
+    .jrnl_gate__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .jrnl_gate__submit {
+      display: block;
+      width: 100%;
+      padding: 12px 28px;
+      background-color: #B7999C;
+      color: #ffffff;
+      border: 1px solid #B7999C;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .jrnl_gate__submit:hover {
+      background-color: transparent;
+      color: #B7999C;
+    }
+
+    .jrnl_gate__error {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.72rem;
+      color: #c97a6a;
+      margin-top: 10px;
+      min-height: 18px;
+      transition: color 0.2s ease;
+    }
+
+    .jrnl_gate__success {
+      color: #8aad7a;
+    }
+
+    .jrnl_gate__fine {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.62rem;
+      color: rgba(240, 232, 218, 0.2);
+      text-align: center;
+      margin-top: 24px;
+      letter-spacing: 0.04em;
+    }
+
+
+    /* ============================================
+       JOURNAL — Page Hero
+       ============================================ */
+    .jrnl_hero {
+      background: #1C1C1C;
+      padding: 80px 0 48px;
+      border-bottom: 1px solid rgba(240, 232, 218, 0.06);
+    }
+
+    .jrnl_hero__inner {
+      max-width: 1170px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .jrnl_hero__label {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 10px;
+    }
+
+    .jrnl_hero__title {
+      font-family: "Calder_dark", serif;
+      font-size: 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #F0E8DA;
+      margin-bottom: 14px;
+      line-height: 1.15;
+    }
+
+    .jrnl_hero__subtitle {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: #A89F91;
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+
+    /* ============================================
+       JOURNAL — Category Filter
+       ============================================ */
+    .jrnl_filter {
+      background: #F7F5F0;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .jrnl_filter__inner {
+      max-width: 1170px;
+      margin: 0 auto;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .jrnl_filter__btn {
+      display: inline-block;
+      padding: 8px 22px;
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #272727;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .jrnl_filter__btn:hover {
+      border-color: #6F4685;
+      color: #6F4685;
+    }
+
+    .jrnl_filter__btn.is-active {
+      background: #6F4685;
+      border-color: #6F4685;
+      color: #fff;
+    }
+
+    .jrnl_filter__count {
+      margin-left: auto;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: #A89F91;
+    }
+
+
+    /* ============================================
+       JOURNAL — Post Grid
+       ============================================ */
+    .jrnl_grid {
+      max-width: 1170px;
+      margin: 0 auto;
+      padding: 48px 15px 90px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .jrnl_card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+
+    .jrnl_card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .jrnl_card__media {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      background: #E8E4DD;
+      position: relative;
+    }
+
+    .jrnl_card__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .jrnl_card:hover .jrnl_card__media img {
+      transform: scale(1.04);
+    }
+
+    .jrnl_card__category {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 5px 12px;
+      background: rgba(28, 28, 28, 0.82);
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #B7999C;
+    }
+
+    .jrnl_card__body {
+      padding: 22px 22px 26px;
+    }
+
+    .jrnl_card__title {
+      font-family: "Calder_dark", serif;
+      font-size: 1.08rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #0c0c0c;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .jrnl_card__excerpt {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.76rem;
+      font-weight: 400;
+      color: #706B62;
+      line-height: 1.65;
+      margin-bottom: 14px;
+      /* clamp to 3 lines */
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .jrnl_card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: #A89F91;
+      letter-spacing: 0.04em;
+    }
+
+    .jrnl_card__date {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .jrnl_card__read {
+      font-weight: 600;
+      color: #6F4685;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      transition: color 0.2s ease;
+    }
+
+    .jrnl_card:hover .jrnl_card__read {
+      color: #B7999C;
+    }
+
+    /* Empty state */
+    .jrnl_empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 90px 0;
+    }
+
+    .jrnl_empty__title {
+      font-family: "Calder_dark", serif;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      color: #272727;
+      margin-bottom: 10px;
+    }
+
+    .jrnl_empty__text {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.78rem;
+      color: #A89F91;
+    }
+
+
+    /* ============================================
+       JOURNAL — Responsive
+       ============================================ */
+    @media (max-width: 1024px) {
+      .jrnl_grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 767px) {
+      .jrnl_hero {
+        padding: 60px 0 36px;
+      }
+
+      .jrnl_hero__title {
+        font-size: 1.5rem;
+      }
+
+      .jrnl_grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .jrnl_card__media {
+        height: 200px;
+      }
+
+      .jrnl_filter__inner {
+        gap: 6px;
+      }
+
+      .jrnl_filter__btn {
+        padding: 7px 16px;
+        font-size: 0.6rem;
+      }
+
+      .jrnl_filter__count {
+        display: none;
+      }
+
+      .jrnl_gate__panel {
+        padding: 40px 28px 36px;
+      }
+
+      .jrnl_gate__row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .jrnl_gate__title {
+        font-size: 1.3rem;
+      }
+    }
+
+
+/* ============================================
    NEW SITE-WIDE FOOTER — vw_footer
 
    Drop-in replacement for info_section +
