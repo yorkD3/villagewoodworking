@@ -96,13 +96,13 @@
                   <a class="nav-link" href="about.html">How We Do It</a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link" href="intake.html">Contact Us</a>
+                  <a class="nav-link" href="intake.html">Contact Us<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="portfolio.html">Portfolio</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="journal.html">Journal</a>
+                  <a class="nav-link" href="journal.html">Journal</a> 
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/about.html#the_fine_print">FAQs</a>
@@ -393,7 +393,7 @@
           <ul>
             <li><a href="intake.html">Start a Project</a></li>
             <li><a href="https://www.instagram.com/villagewoodworking/" target="_blank">Instagram</a></li>
-            <li><a href="/cdn-cgi/l/email-protection#6f190603030e080a411800000b181d040601082f08020e0603410c0002">Email Us</a></li>
+            <li><a href="mailto:village.woodwrking@gmail.com">Email Us</a></li>
           </ul>
         </div>
       </div>
@@ -427,7 +427,7 @@
     // ★  GOOGLE APPS SCRIPT ENDPOINT — same URL as portfolio
     //    Replace with your deployed Web App URL.
     // ====================================================
-    const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_DEPLOYMENT_URL_HERE';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweFDn91Bd5TkdiPpEEUWS7MiVzUEBBMdGoQdVqFaw-LQRWWM3VgBJguVaInnQsGARVmg/exec';
 
     // ====================================================
     // DISPLAY YEAR
@@ -561,7 +561,7 @@
         const response = await fetch(APPS_SCRIPT_URL, {
           method:  'POST',
           mode:    'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' }, //text/plain 
           body:    JSON.stringify(payload)
         });
 
@@ -599,6 +599,11 @@
     function hideError() {
       errorEl.innerHTML     = '';
       errorEl.style.display = 'none';
+    }
+
+    function showSuccess(msg) {
+      form.style.display        = 'none';
+      confirmation.style.display = 'block';
     }
   </script>
 
