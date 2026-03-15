@@ -446,18 +446,13 @@
 
       form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      console.log('Form submitted');
 
       // Client-side required field check
       const firstName = form.querySelector('[name="first_name"]').value.trim();
       const lastName  = form.querySelector('[name="last_name"]').value.trim();
       const email     = form.querySelector('[name="email"]').value.trim();
       const message   = form.querySelector('[name="project_story"]').value.trim();
-      
-      console.log('firstName:', firstName);
-      console.log('lastName:', lastName);
-      console.log('email:', email);
-      console.log('message:', message);
+    
 
       // Validation functions
       function isValidName(n) {
@@ -470,7 +465,6 @@
 
       // Validate first name
       if (!isValidName(firstName)) {
-        console.log('First name invalid');
         showError('First name must be at least 2 characters (letters, spaces, hyphens, apostrophes only).');
         firstNameInput.style.borderColor = '#FF0000';
         submitBtn.textContent = 'Start the Conversation';
@@ -480,7 +474,6 @@
 
       // Validate last name
       if (!isValidName(lastName)) {
-        console.log('Last name invalid');
         showError('Last name must be at least 2 characters (letters, spaces, hyphens, apostrophes only).');
         lastNameInput.style.borderColor = '#FF0000';
         submitBtn.textContent = 'Start the Conversation';
@@ -490,7 +483,6 @@
 
       // Validate email
       if (!isValidEmail(email)) {
-        console.log('Email invalid');
         showError('Please enter a valid email address.');
         emailInput.style.borderColor = '#FF0000';
         submitBtn.textContent = 'Start the Conversation';
@@ -500,9 +492,7 @@
 
       // Validate budget
       const budgetCheckboxes = Array.from(form.querySelectorAll('[name="budget"]:checked'));
-      console.log('Budget checkboxes selected:', budgetCheckboxes.length);
       if (budgetCheckboxes.length === 0) {
-        console.log('No budget selected');
         showError('Please select at least one budget range.');
         submitBtn.textContent = 'Start the Conversation';
         submitBtn.disabled    = false;
@@ -511,7 +501,6 @@
 
       // Validate message
       if (!message || message.length < 10) {
-        console.log('Message too short');
         showError('Please share more details about your project (at least 10 characters).');
         messageInput.style.borderColor = '#FF0000';
         submitBtn.textContent = 'Start the Conversation';
@@ -521,9 +510,7 @@
 
       // Check if reCAPTCHA v2 was completed
       const recaptchaToken = grecaptcha.getResponse();
-      console.log('reCAPTCHA token:', recaptchaToken ? 'Present' : 'Missing');
       if (!recaptchaToken) {
-        console.log('No reCAPTCHA');
         showError('Please complete the reCAPTCHA verification.');
         submitBtn.textContent = 'Start the Conversation';
         submitBtn.disabled    = false;
@@ -531,7 +518,6 @@
       }
 
       // Lock UI
-      console.log('All validation passed, sending form');
       submitBtn.textContent = 'Sending…';
       submitBtn.disabled    = true;
       hideError();
@@ -554,30 +540,25 @@
         recaptchaToken:  recaptchaToken
       };
 
-      console.log('Payload:', payload);
-      console.log('Apps Script URL:', APPS_SCRIPT_URL);
 
       try {
-        const response = await fetch(APPS_SCRIPT_URL, {
-          method:  'POST',
-          mode:    'no-cors',
-          headers: { 'Content-Type': 'application/json' }, //text/plain 
-          body:    JSON.stringify(payload)
-        });
+      const result = await response.json();
 
-        console.log('Response received');
-
-        showSuccess('Thank you! We have received your inquiry and will be in touch soon.');
+      if (result.status === 'ok') {
+        showSuccess();
         submitBtn.textContent = 'Message Sent ✓';
         form.reset();
         grecaptcha.reset();
-
-      } catch (err) {
-        console.error('Form submission error:', err);
-        showError('Could not send form. Please try emailing village.woodwrking@gmail.com');
-        submitBtn.textContent = 'Start the Conversation';
-        submitBtn.disabled    = false;
+      } else {
+        throw new Error(result.message || 'Server rejected submission');
       }
+
+    } catch (err) {
+      console.error('Form submission error:', err);
+      showError('Could not send form. Please try emailing village.woodwrking@gmail.com');
+      submitBtn.textContent = 'Start the Conversation';
+      submitBtn.disabled = false;
+    }
     });
     
 
