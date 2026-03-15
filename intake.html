@@ -26,7 +26,7 @@
   <!-- Custom styles -->
   <link href="css/style.css" rel="stylesheet" />
 
-  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
   <style>
     /* Budget pill — dollar tier indicator */
@@ -427,7 +427,7 @@
     // ★  GOOGLE APPS SCRIPT ENDPOINT — same URL as portfolio
     //    Replace with your deployed Web App URL.
     // ====================================================
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweFDn91Bd5TkdiPpEEUWS7MiVzUEBBMdGoQdVqFaw-LQRWWM3VgBJguVaInnQsGARVmg/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzw9VwxW9kYypn8hhw2z-GKVpWE3-3d3T0ap8rOmRZZFRvsTlTS3moGW1gUh4NLGRLSkA/exec';
 
     // ====================================================
     // DISPLAY YEAR
@@ -540,25 +540,38 @@
         recaptchaToken:  recaptchaToken
       };
 
-
       try {
-      const result = await response.json();
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method:  'POST',
+          mode:    'no-cors',
+          // headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
+          
+          body:    JSON.stringify(payload)
+        });
 
-      if (result.status === 'ok') {
+        // const result = await response.json();
+
+        // if (result.status === 'ok') {
+        //   showSuccess();
+        //   submitBtn.textContent = 'Message Sent ✓';
+        //   form.reset();
+        //   grecaptcha.reset();
+        // } else {
+        //   throw new Error(result.message || 'Server rejected submission');
+        // }
+
         showSuccess();
         submitBtn.textContent = 'Message Sent ✓';
         form.reset();
         grecaptcha.reset();
-      } else {
-        throw new Error(result.message || 'Server rejected submission');
-      }
 
-    } catch (err) {
-      console.error('Form submission error:', err);
-      showError('Could not send form. Please try emailing village.woodwrking@gmail.com');
-      submitBtn.textContent = 'Start the Conversation';
-      submitBtn.disabled = false;
-    }
+      } catch (err) {
+        console.error('Form submission error:', err);
+        showError('Could not send form. Please try emailing village.woodwrking@gmail.com');
+        submitBtn.textContent = 'Start the Conversation';
+        submitBtn.disabled = false;
+      }
     });
     
 
