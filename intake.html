@@ -26,7 +26,6 @@
   <!-- Custom styles -->
   <link href="css/style.css" rel="stylesheet" />
 
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
   <style>
     /* Budget pill — dollar tier indicator */
@@ -329,7 +328,6 @@
                   <label for="intake_referral">How did you hear about us?</label>
                   <input type="text" id="intake_referral" name="referral" />
                 </div>
-                <div class="g-recaptcha" data-sitekey="6LepanYsAAAAAPzcLvY67vz-OQ8ic_YFKFDmA6It"></div>
 
               </div>
               <!-- SUBMIT -->
@@ -344,6 +342,13 @@
                 <p class="intake_submit-error" id="intakeError" style="display:none;"></p>
               </div>
 
+
+
+              <!-- Honeypot — hidden from humans, bots will fill it -->
+              <div style="display:none;" aria-hidden="true">
+                <label for="vw_confirm">Leave this blank</label>
+                <input type="text" id="vw_confirm" name="vw_confirm" tabindex="-1" autocomplete="off" />
+              </div>
             </form>
 
             <!-- Confirmation message (hidden by default) -->
@@ -427,7 +432,7 @@
     // ★  GOOGLE APPS SCRIPT ENDPOINT — same URL as portfolio
     //    Replace with your deployed Web App URL.
     // ====================================================
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzw9VwxW9kYypn8hhw2z-GKVpWE3-3d3T0ap8rOmRZZFRvsTlTS3moGW1gUh4NLGRLSkA/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0xYX4Z05nmvAfSObbbuBN1QxWk6GcZ14Id9LdBgk75a7c_uLmT6NRiWCntj3oLYUVug/exec';
 
     // ====================================================
     // DISPLAY YEAR
@@ -508,14 +513,6 @@
         return;
       }
 
-      // Check if reCAPTCHA v2 was completed
-      const recaptchaToken = grecaptcha.getResponse();
-      if (!recaptchaToken) {
-        showError('Please complete the reCAPTCHA verification.');
-        submitBtn.textContent = 'Start the Conversation';
-        submitBtn.disabled    = false;
-        return;
-      }
 
       // Lock UI
       submitBtn.textContent = 'Sending…';
@@ -537,7 +534,7 @@
         projectStory:    message,
         timeline:        getRadioValue('timeline'),
         referral:        form.querySelector('[name="referral"]').value.trim(),
-        recaptchaToken:  recaptchaToken
+        honeypot:        form.querySelector('[name="vw_confirm"]').value,
       };
 
       try {
@@ -550,21 +547,9 @@
           body:    JSON.stringify(payload)
         });
 
-        // const result = await response.json();
-
-        // if (result.status === 'ok') {
-        //   showSuccess();
-        //   submitBtn.textContent = 'Message Sent ✓';
-        //   form.reset();
-        //   grecaptcha.reset();
-        // } else {
-        //   throw new Error(result.message || 'Server rejected submission');
-        // }
-
         showSuccess();
         submitBtn.textContent = 'Message Sent ✓';
         form.reset();
-        grecaptcha.reset();
 
       } catch (err) {
         console.error('Form submission error:', err);

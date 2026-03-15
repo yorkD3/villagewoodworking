@@ -298,8 +298,7 @@
       }
     }
   </style>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-  </head>
+</head>
 
 <body class="sub_page">
 
@@ -318,7 +317,7 @@
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container">
           <a class="navbar-brand" href="index.html">
-            <span>Village Woodworking</span>
+            <span>Village Woodworking</span> 
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -332,8 +331,8 @@
                 <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="about.html">How We Do It</a></li>
                 <li class="nav-item"><a class="nav-link" href="intake.html">Contact Us</a></li>
+                <li class="nav-item active"><a class="nav-link" href="portfolio.html">Portfolio<span class="sr-only">(current)</span></a></li>
                 <li class="nav-item"><a class="nav-link" href="journal.html">Journal</a></li>
-                <li class="nav-item active"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
                 <li class="nav-item"><a class="nav-link" href="/about.html#the_fine_print">FAQs</a></li>
               </ul>
             </div>
@@ -470,7 +469,7 @@
     // Routes to "Journal Subscribers" tab via Apps Script
     // ====================================================
     (function () {
-      var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2dS8D_CcqyokJPnVHoIlnJjrF3usuGKiRZFC1EHV9RqCD_w1knEng87UIYsTB-0wy3A/exec';
+      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwa3uBNxxXYF2_y2vH9P77nGUI5vzNOo311gTafoM6tptg1oIlArBazlUGPJrnebLx_/exec';
 
       var btn   = document.getElementById('footerSubBtn');
       var input = document.getElementById('footerSubEmail');
@@ -494,7 +493,7 @@
         fetch(APPS_SCRIPT_URL, {
           method:  'POST',
           mode:    'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
           body:    JSON.stringify({
             source:    'Journal Subscriber',
             timestamp: new Date().toISOString(),
@@ -565,7 +564,11 @@
           <input type="tel"   name="phone"   placeholder="Phone (optional)" />
           <textarea           name="message" placeholder="Tell us about your project idea…"></textarea>
 
-          <div class="g-recaptcha" data-sitekey="6LepanYsAAAAAPzcLvY67vz-OQ8ic_YFKFDmA6It"></div>
+          <!-- Honeypot — hidden from humans, bots will fill it -->
+          <div style="display:none;" aria-hidden="true">
+            <label for="vw_confirm">Leave this blank</label>
+            <input type="text" id="vw_confirm" name="vw_confirm" tabindex="-1" autocomplete="off" />
+          </div>
 
           <button class="vw_lightbox__submit" type="submit" id="vwLightboxSubmit">Send Inquiry</button>
           <p class="vw_lightbox__status" id="vwLightboxStatus"></p>
@@ -587,7 +590,7 @@
     //    See: vw-portfolio-script.gs for the server code.
     //    Deploy steps are in that file's header comment.
     // ====================================================
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2dS8D_CcqyokJPnVHoIlnJjrF3usuGKiRZFC1EHV9RqCD_w1knEng87UIYsTB-0wy3A/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0xYX4Z05nmvAfSObbbuBN1QxWk6GcZ14Id9LdBgk75a7c_uLmT6NRiWCntj3oLYUVug/exec';
 
     // ====================================================
     // PROJECT DATA
@@ -886,14 +889,6 @@
         return;
       }
 
-      // Check if reCAPTCHA v2 was completed
-      const recaptchaToken = grecaptcha.getResponse();
-      if (!recaptchaToken) {
-        lbStatus.textContent = 'Please complete the reCAPTCHA verification.';
-        lbStatus.className   = 'vw_lightbox__status error';
-        return;
-      }
-
       // Clear error styling
       nameInput.style.borderColor = '';
       emailInput.style.borderColor = '';
@@ -904,14 +899,15 @@
 
       try {
         const payload = {
+          source:          'Portfolio Inquiry',
           timestamp:       new Date().toISOString(),
           projectTitle:    lbProjTitle.value,
           projectCategory: lbProjCat.value,
           name,
           email,
-          phone:   lbForm.querySelector('[name="phone"]').value.trim(),
+          phone:           lbForm.querySelector('[name="phone"]').value.trim(),
           message,
-          recaptchaToken:  recaptchaToken
+          honeypot:        lbForm.querySelector('[name="vw_confirm"]').value
         };
 
         if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.startsWith('YOUR_')) {
@@ -921,29 +917,41 @@
         console.log('Sending payload:', payload);
         console.log('To URL:', APPS_SCRIPT_URL);
 
-        const response = await fetch(APPS_SCRIPT_URL, {
+        await fetch(APPS_SCRIPT_URL, {
           method:  'POST',
           mode:    'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
           body:    JSON.stringify(payload)
         });
-
-        console.log('Response received');
 
         lbStatus.textContent = "Message received — we'll be in touch.";
         lbStatus.className   = 'vw_lightbox__status success';
         lbSubmit.textContent = 'Sent ✓';
-        grecaptcha.reset();
 
       } catch (err) {
         console.error('Form submission error:', err);
-        const subject = encodeURIComponent('Portfolio Inquiry — ' + lbProjTitle.value);
-        const body    = encodeURIComponent(
-          `Name: ${name}\nEmail: ${email}\nPhone: ${lbForm.querySelector('[name="phone"]').value.trim() || '—'}\n\nProject Interest: ${lbProjTitle.value}\n\nMessage:\n${message}`
+
+        const subject = encodeURIComponent(
+          'Portfolio Inquiry — ' + lbProjTitle.value
         );
-        lbStatus.innerHTML = `Couldn't verify request. <a href="mailto:village.woodwrking@gmail.com?subject=${subject}&body=${body}" style="color:#B7999C;text-decoration:underline;">Send via email instead</a>.`;
-        lbStatus.className = 'vw_lightbox__status error';
-        lbSubmit.disabled  = false;
+        const body = encodeURIComponent(
+          'Name: ' + name
+          + '\nEmail: ' + email
+          + '\nPhone: ' + (lbForm.querySelector('[name="phone"]').value.trim() || '—')
+          + '\nProject Interest: ' + lbProjTitle.value
+          + '\nCategory: ' + lbProjCat.value
+          + '\n\nMessage:\n' + message
+        );
+
+        lbStatus.innerHTML =
+          'Submission failed. '
+          + '<a href="mailto:village.woodwrking@gmail.com'
+          + '?subject=' + subject
+          + '&body=' + body
+          + '" style="color:#B7999C;text-decoration:underline;">'
+          + 'Click here to send via email instead</a>.';
+        lbStatus.className   = 'vw_lightbox__status error';
+        lbSubmit.disabled    = false;
         lbSubmit.textContent = 'Send Inquiry';
       }
     });
