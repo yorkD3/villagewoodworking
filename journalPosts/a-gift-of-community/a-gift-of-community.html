@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <link rel="icon" href="../images/VWfavicon.png" type="image/gif" />
+  <!--
+    INSTRUCTIONS: Update these per-post.
+    - <title>: "Post Title | Journal | Village Woodworking"
+    - og:image, description for social sharing
+  -->
+  <meta name="keywords" content="Village Woodworking, Union for Contemporary Art, fellowship, Omaha woodworking, Darryl York" />
+  <meta name="description" content="Village Woodworking joins The Union for Contemporary Art as a 2026 Inside/Outside Fellow. A new chapter for community, craft, and creative practice in North Omaha." />
+  <meta name="author" content="Village Woodworking" />
+
+  <title>A Gift of Community | Journal | Village Woodworking</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <!-- font awesome style -->
+  <link href="../../css/font-awesome.min.css" rel="stylesheet" />
+  <!-- VW fonts style -->
+  <link rel="stylesheet" href="../../css/vw-fonts.css" type="text/css" charset="utf-8" />
+  <!-- Custom styles -->
+  <link href="../../css/style.css" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       JOURNAL POST — Access Check
+       ============================================ */
+    .jrnl_locked {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 90px 15px;
+    }
+
+    .jrnl_locked__title {
+      font-family: "Calder_dark", serif;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #272727;
+      margin-bottom: 14px;
+    }
+
+    .jrnl_locked__text {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.82rem;
+      color: #A89F91;
+      margin-bottom: 28px;
+      max-width: 400px;
+    }
+
+    .jrnl_locked__btn {
+      display: inline-block;
+      padding: 11px 32px;
+      background-color: #6F4685;
+      color: #fff;
+      border: 1px solid #6F4685;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .jrnl_locked__btn:hover {
+      background: transparent;
+      color: #6F4685;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Hero / Header
+       ============================================ */
+    .post_hero {
+      background: #1C1C1C;
+      padding: 72px 0 56px;
+      border-bottom: 1px solid rgba(240, 232, 218, 0.06);
+    }
+
+    .post_hero__inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .post_hero__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #A89F91;
+      text-decoration: none;
+      margin-bottom: 36px;
+      transition: color 0.2s ease;
+    }
+
+    .post_hero__back:hover {
+      color: #F0E8DA;
+    }
+
+    .post_hero__back i {
+      font-size: 0.7rem;
+    }
+
+    .post_hero__category {
+      display: inline-block;
+      padding: 5px 14px;
+      background: rgba(111, 70, 133, 0.2);
+      border: 1px solid rgba(111, 70, 133, 0.3);
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 18px;
+    }
+
+    .post_hero__title {
+      font-family: "Calder_dark", serif;
+      font-size: 2.2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #F0E8DA;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .post_hero__meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.68rem;
+      color: #706B62;
+    }
+
+    .post_hero__meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Cover Image
+       ============================================ */
+    .post_cover {
+      width: 100%;
+      max-height: 520px;
+      overflow: hidden;
+      background: #E8E4DD;
+    }
+
+    .post_cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Content Body
+       ============================================ */
+    .post_content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 15px 90px;
+    }
+
+    /* Prose */
+    .post_content p {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: #3A3632;
+      line-height: 1.85;
+      margin-bottom: 24px;
+    }
+
+    .post_content a {
+      color: #6F4685;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .post_content a:hover {
+      color: #B7999C;
+    }
+
+    /* Section headings */
+    .post_content h2 {
+      font-family: "Calder_dark", serif;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #0c0c0c;
+      margin-top: 48px;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .post_content h3 {
+      font-family: "Calder_dark", serif;
+      font-size: 1.05rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #272727;
+      margin-top: 36px;
+      margin-bottom: 14px;
+    }
+
+    /* Pull quote */
+    .post_pullquote {
+      margin: 48px 0;
+      padding: 32px 0 32px 28px;
+      border-left: 3px solid #6F4685;
+    }
+
+    .post_pullquote p {
+      font-family: "Calder_dark", serif;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #272727;
+      line-height: 1.45;
+      margin-bottom: 0;
+    }
+
+    .post_pullquote cite {
+      display: block;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      font-style: normal;
+      color: #A89F91;
+      margin-top: 10px;
+      letter-spacing: 0.04em;
+    }
+
+
+    /* Inline images */
+    .post_img {
+      margin: 40px 0;
+    }
+
+    .post_img img {
+      width: 100%;
+      display: block;
+    }
+
+    .post_img__caption {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: #A89F91;
+      margin-top: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    /* Image grid (2-up) */
+    .post_img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 40px 0;
+    }
+
+    .post_img-grid img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+
+    /* Video embed */
+    .post_video {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      margin: 40px 0;
+      background: #0c0c0c;
+    }
+
+    .post_video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+
+    /* Divider */
+    .post_divider {
+      width: 60px;
+      height: 2px;
+      background: #B7999C;
+      margin: 48px auto;
+    }
+
+
+    /* Tags */
+    .post_tags {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .post_tag {
+      display: inline-block;
+      padding: 5px 14px;
+      background: #F0ECE5;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #706B62;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Post Navigation
+       ============================================ */
+    .post_nav {
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      background: #F0ECE5;
+    }
+
+    .post_nav__inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 36px 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .post_nav__link {
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .post_nav__link:hover {
+      opacity: 0.7;
+    }
+
+    .post_nav__link--next {
+      text-align: right;
+    }
+
+    .post_nav__dir {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #B7999C;
+      margin-bottom: 6px;
+    }
+
+    .post_nav__title {
+      font-family: "Calder_dark", serif;
+      font-size: 0.95rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #272727;
+      line-height: 1.25;
+    }
+
+
+    /* ============================================
+       JOURNAL POST — Responsive
+       ============================================ */
+    @media (max-width: 767px) {
+      .post_hero {
+        padding: 56px 0 40px;
+      }
+
+      .post_hero__title {
+        font-size: 1.6rem;
+      }
+
+      .post_content {
+        padding: 40px 15px 72px;
+      }
+
+      .post_content p {
+        font-size: 0.84rem;
+      }
+
+      .post_img-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .post_img-grid img {
+        height: 220px;
+      }
+
+      .post_nav__inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .post_nav__link--next {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <!-- header section -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html">
+            <span>Village Woodworking</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../about.html">How We Do It</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../intake.html">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../portfolio.html">Portfolio</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="../journal.html">Journal <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../about.html#the_fine_print">FAQs</a>
+                </li>
+              </ul>
+            </div>
+            <div class="social_box">
+              <a href="https://www.instagram.com/villagewoodworking/">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+
+  <!-- ==========================================
+       LOCKED STATE — shown if no session access
+       ========================================== -->
+  <div class="jrnl_locked" id="lockedState" style="display: none;">
+    <div class="jrnl_locked__title">Access Required</div>
+    <p class="jrnl_locked__text">
+      Journal posts are available to subscribers. Enter your access code on the Journal page to continue.
+    </p>
+    <a class="jrnl_locked__btn" href="../journal.html">Go to Journal</a>
+  </div>
+
+
+  <!-- ==========================================
+       POST CONTENT — shown if session is valid
+       ========================================== -->
+  <div id="postContent">
+
+    <!-- POST HERO -->
+    <section class="post_hero">
+      <div class="post_hero__inner">
+        <a class="post_hero__back" href="../journal.html">
+          <i class="fa fa-long-arrow-left"></i> Back to Journal
+        </a>
+
+        <div class="post_hero__category">In the Shop</div>
+
+        <h1 class="post_hero__title">A Gift of Community</h1>
+
+        <div class="post_hero__meta">
+          <span><i class="fa fa-calendar-o"></i> March 9, 2026</span>
+          <span><i class="fa fa-clock-o"></i> 8 min read</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- COVER IMAGE -->
+    <!-- Replace src with a photo of the Union studio or the fellowship cohort -->
+    <div class="post_cover">
+      <img src="images/Studio.jpg" alt="Village Woodworking studio at The Union for Contemporary Art" />
+    </div>
+
+
+    <!-- POST BODY -->
+    <article class="post_content">
+
+      <!--
+        =============================================
+        CONTENT GUIDE — Available components:
+
+        TEXT:
+          <p>Paragraph text</p>
+          <h2>Section Heading</h2>
+          <h3>Sub-Heading</h3>
+
+        PULL QUOTE:
+          <div class="post_pullquote">
+            <p>Quote text here.</p>
+            <cite>— Attribution</cite>
+          </div>
+
+        SINGLE IMAGE:
+          <div class="post_img">
+            <img src="images/example.jpg" alt="Description" />
+            <div class="post_img__caption">Caption text</div>
+          </div>
+
+        SIDE-BY-SIDE IMAGES:
+          <div class="post_img-grid">
+            <img src="images/left.jpg" alt="Left" />
+            <img src="images/right.jpg" alt="Right" />
+          </div>
+
+        VIDEO EMBED (YouTube/Vimeo):
+          <div class="post_video">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID"
+              allowfullscreen></iframe>
+          </div>
+
+        DIVIDER:
+          <div class="post_divider"></div>
+
+        =============================================
+      -->
+
+      <p>
+        A lot of hours in the studio focused on turning raw material into something solid and useful. The work is mostly independent, but anyone who knows something knows that growth does not come without community. 
+      </p>
+
+      <!-- Image: working in the shop -->
+      <div class="post_img">
+        <img src="images/WoodworkingMe.png" height="600" alt="Darryl York working in the Village Woodworking studio" />
+        <div class="post_img__caption">This piece shot across the room...</div>
+      </div>
+
+      <p>
+        Recently, becoming part of <a href="https://www.u-ca.org/" target="_blank">The Union for Contemporary Art</a> has been a beyond a blessing for myself and Village Woodworking. With a private studio space on North 24th Street, community connections, and a network of fellow artists and creatives, this fellowship opportunity offers something I have yearned for since leaving Carleton back in 2023. I've missed being around artists. People with an electricity for creating and expressing themselves. This is a space where my work can be challenged, where I'm not the artsy-est guy in the room, and our influences cross-pollinate.
+      </p>
+
+      <div class="post_pullquote">
+        <p><u>Intellectual Electricity</u> : Seek those spaces where individuals are charged with passion for the things they do.</p>
+        <cite>— Stephen Mohring</cite>
+      </div>
+
+      <p>
+        It’s more than just working right here in my home town on the same block I grew up on. I find deeper meaning, within the institution. VW has a dedicated space inside a building that pulses with creative energy from five different disciplines changes the texture of the work day. You hear a photographer setting up across the hall. You catch a conversation about marketing and better understand how to present a brand to the community. You sit at a table with artists whose practices look nothing like yours and realize the questions you are wrestling with are the same. 
+      </p>
+
+      <h2>The 2026 Fellows</h2>
+
+      <p>
+        The Inside/Outside Fellowship at The Union for Contemporary Art is a 10-month program that pairs studio practice with community engagement. Five artists are selected each year. This year's cohort spans woodworking, photography, writing, painting, and sound — five disciplines under one roof, each pushing different material toward the same fundamental questions about craft, identity, and place.
+      </p>
+
+      <!-- Image: community / cohort photo -->
+      <div class="post_img">
+        <img src="images/2026-Fellows-Group-Thumb.jpg" alt="The 2026 Inside/Outside Fellows at The Union for Contemporary Art" />
+        <div class="post_img__caption">The 2026 Inside/Outside Fellowship cohort at The Union for Contemporary Art.</div>
+      </div>
+
+      <h2>Darryl York III
+      </h2>
+
+      <p>
+        Darryl York III is the artist and craftsman behind Village Woodworking. Born and raised in North Omaha, Darryl represents the living spirit of a simple idea: it takes a village to raise a child.
+      </p>
+
+      <!-- Image: portrait of Darryl -->
+      <div class="post_img">
+        <img src="images/DarrylYork_0382.jpg" alt="Darryl York III — artist and craftsman behind Village Woodworking" />
+        <div class="post_img__caption">Darryl York III — fourth-generation Omahan, craftsman, technologist.</div>
+      </div>
+
+      <p>
+        As a fourth-generation Omahan, he carries forward a legacy shaped by resilience, family, and a deep sense of belonging to the community that raised him. That inheritance continues to influence both the philosophy and the physical work produced in his craft.
+      </p>
+
+      <p>
+        Darryl is an alumnus of Jesuit Academy and Creighton Preparatory School, institutions that instilled values that remain central to his life and practice: <em>cura personalis</em>, the care for the whole person, and <em>magis</em>, the call to be more in one's self.
+      </p>
+
+      <p>
+        While studying Computer Science at Carleton College in Northfield, Minnesota, he unexpectedly discovered a profound connection to fine woodworking. In the quiet discipline of the craft — the patience and honesty required by the material — he found something deeply spiritual.
+      </p>
+
+      <p>
+        Today, Darryl brings together technological fluency and time-honored woodworking techniques to create one-of-a-kind furniture and objects from locally sourced hardwoods. His work is rooted not only in craftsmanship but also in place — often created on the very same streets where his family and community have long called home.
+      </p>
+
+      <p>
+        Through Village Woodworking, Darryl continues to tell a story larger than himself. A story of community, heritage, and the enduring power of making something meaningful with one's hands.
+      </p>
+
+      <h3>Alice Swartz</h3>
+      <p>
+        Alice is a painter working in acrylic and watercolor. Heavily inspired by her multicultural family and her faith, her practice centers on advocacy for human rights and the humanness found in cross-cultural connections. She takes seriously the artist's role of observing, documenting, and commenting on history as it is being made. <br>
+        <a href="https://www.instagram.com/amswartz27/" target="_blank">@amswartz27</a> 
+      </p>
+
+      <h3>Kevin Kabore</h3>
+      <p>
+        Kevin is a photographer and filmmaker whose work lives at the intersection of culture, storytelling, and community. Rooted in intention rather than trend, his practice explores identity, movement, and everyday beauty — creating images that feel deeply personal yet universally resonant. Access and visibility are central to his process, and his aim is to expand who gets to be seen, heard, and remembered. <br>
+        <a href="https://www.kabuckets.com/" target="_blank">kabuckets.com</a> · <a href="https://www.instagram.com/_kabuckets/" target="_blank">@_kabuckets</a>
+      </p>
+
+      <h3>Rio Chantel O'Reilly</h3>
+      <p>
+        Rio is a writer and multimedia artist exploring the generational threads between the women in her family — the womb as a keeper of memory, migration, and becoming. Her Mexican, German, and Scottish heritage shapes how she understands lineage and loss. Her work blends magical realism with moments pulled from everyday life, searching for emotional truth in the space between memory and imagination. <br>
+        <a href="https://riochantel.com" target="_blank">riochantel.com</a> · <a href="https://www.instagram.com/riochantel/" target="_blank">@riochantel</a>
+      </p>
+
+      <h3>Birdie Bijoux</h3>
+      <p>
+        Birdie is a multihyphenate artist — DJ, fiber artist, sculptor, photographer, and illustrator — whose practice is rooted in Black diasporic sounds, movements, and patterns, as well as the Black female form. Working from a Black, lesbian, immigrant perspective, Birdie's work continually returns to the inherent political nature of existence: why is Black hair controversial? How can music convey feeling? How can art bring community together? <br>
+        <a href="https://www.instagram.com/birdiebijoux/" target="_blank">@birdiebijoux</a> · <a href="mailto:birdiebijouxbookings@gmail.com">birdiebijouxbookings@gmail.com</a>
+      </p>
+
+      <p>
+        Learn more about the fellowship program and all five fellows on <a href="https://www.u-ca.org/fellowship" target="_blank">The Union's website</a>.
+      </p>
+
+
+      <h2>Looking Ahead</h2>
+
+      <p>
+        Becoming a fellow at The Union for Contemporary Art opens a door to new conversations, collaborations, and creative possibilities. As Village Woodworking continues to grow, the studio will explore new projects and directions that build on both tradition and community.
+      </p>
+
+      <p>
+        The studio will host its first open house later this spring — a chance to walk through the space, see work in progress, and talk about what is being built and why. A second open house is planned for October.
+      </p>
+
+      <p>
+        Through this Journal, you can expect to follow along as the fellowship unfolds. Here is what is on the horizon:
+      </p>
+
+      <p>
+        <strong>Workshops with VW</strong> — Hands-on sessions in the studio, open to the community. Details coming soon.
+      </p>
+
+      <p>
+        <strong>Community exhibitions and showcases</strong> — Opportunities to see finished work alongside the process behind it, including the Fellows Group Exhibition at the end of the program.
+      </p>
+
+      <p>
+        <strong>Opportunities to collaborate</strong> — If you are a maker, a designer, or someone with a project idea that intersects with craft, reach out. The door is open.
+      </p>
+
+      <p>
+        <strong>Chances to win VW projects</strong> — Giveaways and community offerings for Journal subscribers. Stay subscribed.
+      </p>
+
+      <div class="post_pullquote">
+        <p>As you believe, so shall it be done onto you.</p>
+        <cite>— Earl Nightengale</cite>
+      </div>
+
+
+      <!-- Divider -->
+      <div class="post_divider"></div>
+
+      <!-- Tags -->
+      <div class="post_tags">
+        <span class="post_tag">Community</span>
+        <span class="post_tag">The Union</span>
+        <span class="post_tag">Fellowship</span>
+        <span class="post_tag">North Omaha</span>
+        <span class="post_tag">Studio</span>
+      </div>
+
+    </article>
+
+
+    <!-- ==========================================
+         POST NAVIGATION — First post, no prev
+         ========================================== -->
+    <nav class="post_nav">
+      <div class="post_nav__inner">
+
+        <!-- No previous post — this is the first entry -->
+        <div></div>
+
+        <!-- Link to next post when published -->
+        <!--
+        <a class="post_nav__link post_nav__link--next" href="#">
+          <div class="post_nav__dir">Next &rarr;</div>
+          <div class="post_nav__title">Next Post Title</div>
+        </a>
+        -->
+        <div></div>
+
+      </div>
+    </nav>
+
+  </div><!-- /postContent -->
+
+
+  <!-- ==========================================
+       FOOTER — vw_footer (site-wide)
+       ========================================== -->
+  <footer class="vw_footer">
+    <div class="vw_footer__main">
+
+      <!-- Brand column -->
+      <div>
+        <div class="vw_footer__brand-name">Village <span>Woodworking</span></div>
+        <p class="vw_footer__tagline">Crafted with Vision, Rooted in Story.<br>From our village to yours.</p>
+        <div class="vw_footer__social">
+          <a href="https://www.instagram.com/villagewoodworking/" target="_blank" aria-label="Instagram">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigate column -->
+      <div class="vw_footer__nav">
+        <div class="vw_footer__nav-group">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../about.html">How We Do It</a></li>
+            <li><a href="../portfolio.html">Portfolio</a></li>
+            <li><a href="../journal.html">Journal</a></li>
+            <li><a href="../about.html#the_fine_print">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="vw_footer__nav-group">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="../intake.html">Start a Project</a></li>
+            <li><a href="https://www.instagram.com/villagewoodworking/" target="_blank">Instagram</a></li>
+            <li><a href="mailto:village.woodwrking@gmail.com">Email Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Newsletter column -->
+      <div class="vw_footer__newsletter">
+        <h4>Newsletter</h4>
+        <div id="footerSubForm">
+          <input id="footerSubEmail" type="email" placeholder="Enter Your Email" />
+          <button id="footerSubBtn">Subscribe</button>
+        </div>
+        <p class="vw_footer__sub-msg" id="footerSubMsg" style="display:none;"></p>
+      </div>
+
+    </div>
+
+    <div class="vw_footer__bottom">
+      <span class="vw_footer__copyright">&copy; <span id="displayYear"></span> Village Woodworking &mdash; Lincoln &amp; Omaha, NE</span>
+      <span class="vw_footer__email"><a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a></span>
+    </div>
+  </footer>
+
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="js/bootstrap.js"></script>
+  <!-- custom js -->
+  <script src="js/custom.js"></script>
+
+  <script>
+    /* ============================================
+       ACCESS CHECK
+       
+       If the visitor has not authenticated through
+       the journal gate, hide the post content and 
+       show the redirect prompt instead.
+       ============================================ */
+    (function () {
+      var hasAccess = sessionStorage.getItem("vw_journal_access") === "true";
+      var postContent = document.getElementById("postContent");
+      var lockedState = document.getElementById("lockedState");
+
+      if (!hasAccess) {
+        postContent.style.display = "none";
+        lockedState.style.display = "";
+      } else {
+        postContent.style.display = "";
+        lockedState.style.display = "none";
+      }
+    })();
+
+    /* Footer year */
+    var yearEl = document.getElementById("displayYear");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+
+    /* ============================================
+       FOOTER NEWSLETTER → Google Sheets
+       Routes to "Journal Subscribers" tab
+       ============================================ */
+    (function () {
+      var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2dS8D_CcqyokJPnVHoIlnJjrF3usuGKiRZFC1EHV9RqCD_w1knEng87UIYsTB-0wy3A/exec';
+      var btn   = document.getElementById('footerSubBtn');
+      var input = document.getElementById('footerSubEmail');
+      var msg   = document.getElementById('footerSubMsg');
+      if (!btn || !input) return;
+
+      btn.addEventListener('click', function () {
+        var email = input.value.trim();
+
+        if (!email || !email.includes('@') || !email.includes('.')) {
+          msg.style.display = 'block';
+          msg.style.color   = '#c97a6a';
+          msg.textContent   = 'Please enter a valid email.';
+          return;
+        }
+
+        btn.disabled    = true;
+        btn.textContent = 'Sending…';
+        msg.style.display = 'none';
+
+        fetch(APPS_SCRIPT_URL, {
+          method:  'POST',
+          mode:    'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({
+            source:    'Journal Subscriber',
+            timestamp: new Date().toISOString(),
+            email:     email,
+            firstName: '',
+            lastName:  ''
+          })
+        })
+          .then(function () {
+            msg.style.display = 'block';
+            msg.style.color   = '#8aad7a';
+            msg.textContent   = 'Subscribed — welcome.';
+            input.value       = '';
+            btn.textContent   = 'Subscribed ✓';
+          })
+          .catch(function () {
+            msg.style.display = 'block';
+            msg.style.color   = '#c97a6a';
+            msg.textContent   = 'Something went wrong. Try again.';
+            btn.disabled      = false;
+            btn.textContent   = 'Subscribe';
+          });
+      });
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') btn.click();
+      });
+    })();
+  </script>
+
+</body>
+
+</html>
