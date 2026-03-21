@@ -75,9 +75,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="portfolio.html"> Portfolio</a>
                 </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="journal.html">Journal</a>
-                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="journal.html">Journal</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/about.html#the_fine_print">FAQs</a>
                 </li>
@@ -429,13 +429,19 @@
           <img src="images/PRO Member Logo.png" alt="PRO Remodeling Omaha Member">
         </a>
       </div>
+      <div class="vw_footer__affiliation">
+        <span class="vw_footer__affiliation-label">Proud Member of</span>
+        <a href="https://www.u-ca.org/fellowship/darryl-york" target="_blank">
+          <img src="images/PRO Member Logo.png" alt="PRO Remodeling Omaha Member">
+        </a>
+      </div>
 
       <!-- Navigate column -->
       <div class="vw_footer__nav">
         <div class="vw_footer__nav-group">
           <h4>Navigate</h4>
           <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html">Home <span class="sr-only">(current)</span></a></li>
             <li><a href="about.html">How We Do It</a></li>
             <li><a href="portfolio.html">Portfolio</a></li>
             <li><a href="journal.html">Journal</a></li>
@@ -489,7 +495,7 @@
   // Routes to "Journal Subscribers" tab via Apps Script
   // ====================================================
   (function () {
-    var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2dS8D_CcqyokJPnVHoIlnJjrF3usuGKiRZFC1EHV9RqCD_w1knEng87UIYsTB-0wy3A/exec';
+    var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweFDn91Bd5TkdiPpEEUWS7MiVzUEBBMdGoQdVqFaw-LQRWWM3VgBJguVaInnQsGARVmg/exec';
 
     var btn   = document.getElementById('footerSubBtn');
     var input = document.getElementById('footerSubEmail');

@@ -32,56 +32,44 @@ function getYear() {
 
 getYear();
 
-//  course section owl carousel
-
-$(".work_owl-carousel").owlCarousel({
-    autoplay: true,
-    loop: true,
-    margin: 10,
-    autoHeight: true,
-    nav: true,
-    navText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>', '<i class="fa fa-angle-right" aria-hidden="true"></i>'],
-    responsive: {
-        0: {
-            items: 1
-        },
-        576: {
-            items: 2
-        },
-        768: {
-            items: 3
-        },
-        1000: {
-            items: 4
+//  course section owl carousel — only runs if plugin and element are present
+if (typeof $.fn.owlCarousel === 'function' && $(".work_owl-carousel").length) {
+    $(".work_owl-carousel").owlCarousel({
+        autoplay: true,
+        loop: true,
+        margin: 10,
+        autoHeight: true,
+        nav: true,
+        navText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>', '<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+        responsive: {
+            0:    { items: 1 },
+            576:  { items: 2 },
+            768:  { items: 3 },
+            1000: { items: 4 }
         }
-    }
-});
+    });
+}
 
-// client section owl carousel
-$(".client_owl-carousel").owlCarousel({
-    loop: true,
-    margin: 0,
-    dots: false,
-    nav: true,
-    navText: [],
-    autoplay: true,
-    autoplayHoverPause: true,
-    navText: [
-        '<i class="fa fa-angle-left" aria-hidden="true"></i>',
-        '<i class="fa fa-angle-right" aria-hidden="true"></i>'
-    ],
-    responsive: {
-        0: {
-            items: 1
-        },
-        768: {
-            items: 2
-        },
-        1000: {
-            items: 2
+// client section owl carousel — only runs if plugin and element are present
+if (typeof $.fn.owlCarousel === 'function' && $(".client_owl-carousel").length) {
+    $(".client_owl-carousel").owlCarousel({
+        loop: true,
+        margin: 0,
+        dots: false,
+        nav: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        navText: [
+            '<i class="fa fa-angle-left" aria-hidden="true"></i>',
+            '<i class="fa fa-angle-right" aria-hidden="true"></i>'
+        ],
+        responsive: {
+            0:    { items: 1 },
+            768:  { items: 2 },
+            1000: { items: 2 }
         }
-    }
-});
+    });
+}
 
 /** google_map js **/
 
