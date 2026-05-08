@@ -581,14 +581,14 @@
     }
 
     function showError(msg) {
-      errorEl.innerHTML     = msg;
+      errorEl.textContent   = msg;
       errorEl.style.display = 'block';
       errorEl.style.color   = '#FF0000';
       errorEl.style.fontFamily = '"Poppins", sans-serif';
     }
 
     function hideError() {
-      errorEl.innerHTML     = '';
+      errorEl.textContent   = '';
       errorEl.style.display = 'none';
     }
 
