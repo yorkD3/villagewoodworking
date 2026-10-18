@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <title>Congratulations — Village Woodworking</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- font awesome -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- VW fonts -->
+  <link rel="stylesheet" href="css/vw-fonts.css" type="text/css" charset="utf-8" />
+  <!-- Site styles -->
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       CONFIRMATION PAGE — SCOPED STYLES
+       ============================================ */
+
+    :root {
+      --vw-purple:   #6F4685;
+      --vw-rose:     #B7999C;
+      --vw-cream:    #F7F5F0;
+      --vw-ink:      #0c0c0c;
+      --vw-ink-soft: #3a3530;
+      --vw-rule:     rgba(111, 70, 133, 0.15);
+    }
+
+    /* ── Page Shell ─────────────────────────────── */
+    body {
+      background-color: var(--vw-cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .conf-page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Minimal Header ─────────────────────────── */
+    .conf-header {
+      border-bottom: 1px solid var(--vw-rule);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .conf-header__brand {
+      font-family: 'Calder_dark', 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.06em;
+      color: var(--vw-ink);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .conf-header__brand:hover {
+      color: var(--vw-purple);
+      text-decoration: none;
+    }
+
+    .conf-header__nav-link {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--vw-purple);
+      text-decoration: none;
+      border-bottom: 1px solid var(--vw-rose);
+      padding-bottom: 2px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .conf-header__nav-link:hover {
+      color: var(--vw-ink);
+      border-color: var(--vw-ink);
+      text-decoration: none;
+    }
+
+    /* ── Hero Band ──────────────────────────────── */
+    .conf-hero {
+      background-color: var(--vw-purple);
+      padding: 64px 48px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative grain texture overlay */
+    .conf-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* Decorative rule above mark */
+    .conf-hero::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: rgba(247, 245, 240, 0.25);
+      margin: 0 auto;
+      position: absolute;
+      top: 0;
+      left: 50%;
+    }
+
+    /* ── Confirmation Mark ──────────────────────── */
+    .conf-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      border: 1.5px solid rgba(183, 153, 156, 0.6);
+      border-radius: 50%;
+      margin-bottom: 32px;
+      position: relative;
+      animation: conf-mark-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .conf-mark::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      border: 1px solid rgba(247, 245, 240, 0.12);
+    }
+
+    .conf-mark svg {
+      width: 28px;
+      height: 28px;
+      animation: conf-mark-icon 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    }
+
+    @keyframes conf-mark-in {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes conf-mark-icon {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .conf-hero__eyebrow {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vw-rose);
+      margin-bottom: 16px;
+      animation: conf-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+    }
+
+    .conf-hero__headline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--vw-cream);
+      margin: 0 0 20px;
+      letter-spacing: 0.01em;
+      animation: conf-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    }
+
+    .conf-hero__subhead {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(247, 245, 240, 0.75);
+      max-width: 520px;
+      margin: 0 auto;
+      animation: conf-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
+    }
+
+    @keyframes conf-slide-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Body Content ───────────────────────────── */
+    .conf-body {
+      padding: 80px 48px 80px;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── What's Next ────────────────────────────── */
+    .conf-section-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--vw-rose);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .conf-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--vw-rule);
+    }
+
+    /* ── Document Signing Cards ─────────────────── */
+    .conf-docs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .conf-doc-card {
+      background: var(--vw-cream);
+      border: 1px solid rgba(111, 70, 133, 0.2);
+      padding: 40px 36px 36px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      animation: conf-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .conf-doc-card:nth-child(1) { animation-delay: 0.1s; }
+    .conf-doc-card:nth-child(2) { animation-delay: 0.22s; }
+
+    .conf-doc-card--active {
+      border-color: var(--vw-purple);
+      border-width: 1.5px;
+    }
+
+    .conf-doc-card--active::before {
+      content: 'Action Required';
+      position: absolute;
+      top: 0; left: 0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--vw-cream);
+      background: var(--vw-purple);
+      padding: 5px 12px;
+    }
+
+    .conf-doc-card--pending::before {
+      content: 'Sent to Your Email';
+      position: absolute;
+      top: 0; left: 0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--vw-ink-soft);
+      background: rgba(183, 153, 156, 0.22);
+      padding: 5px 12px;
+    }
+
+    .conf-doc-card__num {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      line-height: 1;
+      color: rgba(111, 70, 133, 0.1);
+      margin-bottom: 20px;
+      margin-top: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .conf-doc-card__title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 500;
+      color: var(--vw-ink);
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+
+    .conf-doc-card__meta {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--vw-rose);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .conf-doc-card__body {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--vw-ink-soft);
+      flex: 1;
+      margin-bottom: 28px;
+    }
+
+    .conf-doc-card__btn {
+      display: block;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 13px 24px;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+      box-sizing: border-box;
+    }
+
+    .conf-doc-card__btn--fill {
+      background: var(--vw-purple);
+      color: var(--vw-cream);
+      border: 1.5px solid var(--vw-purple);
+    }
+
+    .conf-doc-card__btn--fill:hover {
+      background: transparent;
+      color: var(--vw-purple);
+      text-decoration: none;
+    }
+
+    .conf-doc-card__btn--outline {
+      background: transparent;
+      color: var(--vw-ink-soft);
+      border: 1.5px solid rgba(58, 53, 48, 0.25);
+    }
+
+    .conf-doc-card__btn--outline:hover {
+      border-color: var(--vw-purple);
+      color: var(--vw-purple);
+      text-decoration: none;
+    }
+
+    /* ── Step 03 — closing line ─────────────────── */
+    .conf-step-close {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 24px 0;
+      border-top: 1px solid var(--vw-rule);
+      margin-bottom: 56px;
+      animation: conf-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.34s both;
+    }
+
+    .conf-step-close__num {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: rgba(111, 70, 133, 0.18);
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .conf-step-close__title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--vw-ink);
+      letter-spacing: 0.01em;
+      margin-bottom: 4px;
+    }
+
+    .conf-step-close__body {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.73rem;
+      font-weight: 300;
+      color: var(--vw-ink-soft);
+      line-height: 1.65;
+    }
+
+    /* ── Note Block ─────────────────────────────── */
+    .conf-note {
+      border-left: 2px solid var(--vw-rose);
+      padding: 24px 28px;
+      background: rgba(183, 153, 156, 0.06);
+      margin-bottom: 64px;
+      animation: conf-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+    }
+
+    .conf-note p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--vw-ink-soft);
+      margin: 0;
+    }
+
+    .conf-note p + p {
+      margin-top: 10px;
+    }
+
+    .conf-note a {
+      color: var(--vw-purple);
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(111, 70, 133, 0.3);
+      transition: border-color 0.2s ease;
+    }
+
+    .conf-note a:hover {
+      border-color: var(--vw-purple);
+    }
+
+    /* ── CTA Row ────────────────────────────────── */
+    .conf-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      animation: conf-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+    }
+
+    .conf-btn-primary {
+      display: inline-block;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--vw-cream);
+      background: var(--vw-purple);
+      padding: 14px 28px;
+      text-decoration: none;
+      border: 1.5px solid var(--vw-purple);
+      transition: background 0.22s ease, color 0.22s ease;
+    }
+
+    .conf-btn-primary:hover {
+      background: transparent;
+      color: var(--vw-purple);
+      text-decoration: none;
+    }
+
+    .conf-btn-ghost {
+      display: inline-block;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vw-ink-soft);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(58, 53, 48, 0.3);
+      padding-bottom: 2px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .conf-btn-ghost:hover {
+      color: var(--vw-purple);
+      border-color: var(--vw-purple);
+      text-decoration: none;
+    }
+
+    /* ── Divider ────────────────────────────────── */
+    .conf-divider {
+      height: 1px;
+      background: var(--vw-rule);
+      margin: 64px 0;
+    }
+
+    /* ── Footer ─────────────────────────────────── */
+    .conf-footer {
+      border-top: 1px solid var(--vw-rule);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .conf-footer__copy {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: rgba(58, 53, 48, 0.55);
+      letter-spacing: 0.04em;
+    }
+
+    .conf-footer__links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .conf-footer__links a {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: rgba(58, 53, 48, 0.55);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .conf-footer__links a:hover {
+      color: var(--vw-purple);
+    }
+
+    /* ── Responsive ─────────────────────────────── */
+    @media (max-width: 768px) {
+      .conf-header {
+        padding: 20px 24px;
+      }
+
+      .conf-hero {
+        padding: 48px 24px 40px;
+      }
+
+      .conf-body {
+        padding: 48px 24px 56px;
+      }
+
+      .conf-docs {
+        grid-template-columns: 1fr;
+      }
+
+      .conf-footer {
+        padding: 20px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="conf-page">
+
+  <!-- ── Header ──────────────────────────────────── -->
+  <header class="conf-header">
+    <a class="conf-header__brand" href="index.html">Village Woodworking</a>
+    <a class="conf-header__nav-link" href="index.html">← Back to site</a>
+  </header>
+
+  <!-- ── Hero Band ────────────────────────────────── -->
+  <section class="conf-hero">
+
+    <!-- Confirmation mark — a geometric diamond, not a generic check -->
+    <div class="conf-mark">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon
+          points="14,3 25,14 14,25 3,14"
+          stroke="#B7999C"
+          stroke-width="1.2"
+          fill="none"
+        />
+        <polygon
+          points="14,8 20,14 14,20 8,14"
+          fill="#B7999C"
+          opacity="0.35"
+        />
+        <line x1="14" y1="11" x2="14" y2="17" stroke="#F7F5F0" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="11" y1="14" x2="17" y2="14" stroke="#F7F5F0" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <p class="conf-hero__eyebrow">Payment Received</p>
+    <h1 class="conf-hero__headline">Congratulations on your investment.</h1>
+    <p class="conf-hero__subhead">
+      Your payment is confirmed. Before build begins, two documents require your signature —
+      complete both below to formally open your commission.
+    </p>
+
+  </section>
+
+  <!-- ── Body ─────────────────────────────────────── -->
+  <main class="conf-body">
+
+    <!-- What Happens Next -->
+    <p class="conf-section-label">What happens next</p>
+
+    <div class="conf-docs">
+
+      <!-- Card 01 — General Terms (client acts now) -->
+      <div class="conf-doc-card conf-doc-card--active">
+        <span class="conf-doc-card__num">01</span>
+        <div class="conf-doc-card__title">General Terms &amp; Conditions</div>
+        <p class="conf-doc-card__meta">Village Woodworking · Standard Client Agreement</p>
+        <p class="conf-doc-card__body">
+          Covers project scope expectations, revision policy, material ownership,
+          delivery terms, and liability. Applies to all commissions and was approved in your payment of the deposit.
+          This is a copy of those terms and conditions for your records. 
+        </p>
+        <a class="conf-doc-card__btn conf-doc-card__btn--fill"
+           href="YOUR_PANDADOC_GENERAL_TERMS_LINK"
+           target="_blank" rel="noopener">
+          Review &amp; Download Now →
+        </a>
+      </div>
+
+      <!-- Card 02 — Work Order (sent via HubSpot email) -->
+      <div class="conf-doc-card conf-doc-card--pending">
+        <span class="conf-doc-card__num">02</span>
+        <div class="conf-doc-card__title">Project Work Order</div>
+        <p class="conf-doc-card__meta">Commission-Specific · Scope, Materials &amp; Timeline</p>
+        <p class="conf-doc-card__body">
+          Your project-specific work order — detailing agreed scope, material
+          specifications, dimensions, and delivery schedule — has been sent to
+          your email. Check your inbox for a signing link from PandaDoc. If it
+          hasn't arrived within one hour, contact us below.
+        </p>
+        <a class="conf-doc-card__btn conf-doc-card__btn--outline"
+           href="mailto:village.woodwrking@gmail.com?subject=Work Order Signing Link — Commission Request"
+           target="_blank" rel="noopener">
+          Didn't Receive It? Contact Us
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Step 03 — Build Begins -->
+    <div class="conf-step-close">
+      <span class="conf-step-close__num">03</span>
+      <div>
+        <div class="conf-step-close__title">Build Begins</div>
+        <p class="conf-step-close__body">
+          Once both documents carry your signature, your commission enters active production.
+          We'll confirm your place in the build schedule and reach out at every meaningful milestone.
+        </p>
+      </div>
+    </div>
+
+    <!-- Note -->
+    <div class="conf-note">
+      <p>
+        Both documents are required before build begins. If you have not received your work order
+        signing link via email, reach us at
+        <a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a>
+        with your name and project reference and we'll send it immediately.
+      </p>
+      <p>
+        If you believe this page was reached in error or did not intend to submit a payment,
+        contact us right away — we will resolve it promptly.
+      </p>
+    </div>
+
+    <!-- CTA Row -->
+    <div class="conf-cta-row">
+      <a class="conf-btn-primary" href="portfolio.html">View Our Work</a>
+      <a class="conf-btn-ghost" href="index.html">Return Home</a>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ───────────────────────────────────── -->
+  <footer class="conf-footer">
+    <span class="conf-footer__copy">
+      &copy; <span id="confYear"></span> Village Woodworking &mdash; Lincoln &amp; Omaha, NE
+    </span>
+    <nav class="conf-footer__links">
+      <a href="index.html">Home</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="intake.html">Start a Commission</a>
+      <a href="mailto:village.woodwrking@gmail.com">Email Us</a>
+    </nav>
+  </footer>
+
+</div><!-- /.conf-page -->
+
+<script>
+  document.getElementById('confYear').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
