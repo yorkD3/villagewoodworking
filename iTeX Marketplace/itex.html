@@ -1,0 +1,465 @@
+<!doctype html>
+<!--
+=====================================================================
+ITEX ORDER DESK · Village Woodworking            (unlisted page)
+=====================================================================
+HIDDEN: this page tells search engines not to index it (robots meta below).
+Keep it hidden by NOT linking it from the nav, footer, sitemap.xml or any post.
+Anyone holding the link can still open it. Share the link only inside ITEX.
+
+CONNECT: paste your Apps Script Web app URL into ORDER_ENDPOINT (search for it,
+near the bottom). Until then the page runs in preview mode with sample items.
+
+UPDATE: edit the "Products" tab of the Google Sheet. One row = one card.
+Photos: a file name in the sheet's image column loads from /images/ on the site.
+=====================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>ITEX Order Desk | Village Woodworking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f2ea; --paper-deep: #efe6d8; --ink: #2a211b; --ink-soft: #5c4e42;
+    --walnut: #6b4423; --walnut-deep: #4a2e17; --rule: #ded1bf; --alert: #8a2f1d;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 var(--sans); }
+  a { color: var(--walnut); text-underline-offset: 3px; }
+  img { max-width: 100%; display: block; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.12; margin: 0; }
+  [hidden] { display: none !important; }
+
+  .notice { background: var(--ink); color: var(--paper); font-size: .9rem; text-align: center; padding: .55rem 1rem; }
+
+  .site-header { border-bottom: 1px solid var(--rule); padding: 1rem; background: var(--paper); position: sticky; top: 0; z-index: 5; }
+  .site-header .inner { max-width: 1080px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; }
+  .brand { font: 600 1.5rem/1 var(--serif); color: var(--ink); text-decoration: none; }
+  .site-nav { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; font-size: .95rem; }
+  .site-nav a { color: var(--ink-soft); text-decoration: none; }
+  .site-nav a:hover { color: var(--walnut); }
+  @media (max-width: 720px) { .site-nav { display: none; } }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .7rem 1.2rem; border-radius: 3px;
+    font-weight: 600; font-size: .98rem; text-decoration: none; border: 1px solid var(--walnut); cursor: pointer; background: none; color: var(--walnut); }
+  .btn-primary { background: var(--walnut); color: var(--paper); }
+  .btn-primary:hover { background: var(--walnut-deep); border-color: var(--walnut-deep); }
+  .btn:disabled { opacity: .55; cursor: default; }
+  .btn:focus-visible, .chip:focus-visible, .qty button:focus-visible, .icon-btn:focus-visible { outline: 3px solid var(--walnut); outline-offset: 2px; }
+  .cart-btn .count { background: var(--paper); color: var(--walnut); border-radius: 99px; min-width: 1.5rem; padding: 0 .4rem; font-size: .85rem; line-height: 1.5rem; text-align: center; }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 0 16px 5rem; }
+  .intro { max-width: 720px; padding: 3rem 0 1.5rem; }
+  .eyebrow { margin: 0 0 .75rem; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--walnut); font-weight: 600; }
+  h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); margin-bottom: 1rem; letter-spacing: -.01em; }
+  .dek { font: italic 500 1.35rem/1.45 var(--serif); color: var(--ink-soft); margin: 0 0 1.5rem; }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; counter-reset: s; }
+  @media (min-width: 760px) { .steps { grid-template-columns: repeat(3, 1fr); max-width: none; } .intro { max-width: none; } .intro > :not(.steps) { max-width: 720px; } }
+  .steps li { counter-increment: s; border: 1px solid var(--rule); border-radius: 4px; padding: .8rem 1rem; font-size: .95rem; line-height: 1.4; }
+  .steps li::before { content: counter(s, decimal-leading-zero); display: block; font: 600 1.15rem/1.2 var(--serif); color: var(--walnut); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.5rem 0; }
+  .chip { border: 1px solid var(--rule); background: none; border-radius: 99px; padding: .35rem 1rem; font-size: .92rem; color: var(--ink-soft); cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+  .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .card { display: flex; flex-direction: column; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: var(--paper); }
+  .card .photo { aspect-ratio: 4 / 3; background: var(--paper-deep); position: relative; }
+  .card .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .card .photo.empty { background: repeating-linear-gradient(135deg, var(--paper-deep) 0 12px, var(--paper) 12px 24px); }
+  .card .photo.empty::after { content: attr(data-label); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font: 600 1.5rem/1.1 var(--serif); color: var(--ink-soft); text-align: center; padding: 1rem; }
+  .card .body { padding: 1rem 1rem 1.1rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+  .card .cat { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--walnut); font-weight: 600; }
+  .card h3 { font-size: 1.5rem; }
+  .card p { margin: 0; font-size: .95rem; color: var(--ink-soft); }
+  .card .lead { font-size: .85rem; }
+  .card .foot { margin-top: auto; padding-top: .75rem; display: flex; align-items: flex-end; justify-content: space-between; gap: .75rem; }
+  .price { font: 600 1.35rem/1.1 var(--serif); }
+  .price small { display: block; font: 400 .8rem/1.3 var(--sans); color: var(--ink-soft); }
+  .card .btn { padding: .55rem .9rem; font-size: .92rem; white-space: nowrap; }
+  .card .btn.in { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .state { padding: 3rem 0; color: var(--ink-soft); text-align: center; }
+
+  /* Cart drawer */
+  dialog.cart { border: 0; padding: 0; margin: 0 0 0 auto; width: min(480px, 100vw); max-width: 100vw; height: 100dvh; max-height: 100dvh;
+    background: var(--paper); color: var(--ink); box-shadow: -8px 0 40px rgba(20, 15, 11, .25); }
+  dialog.cart::backdrop { background: rgba(20, 15, 11, .55); }
+  .cart-wrap { display: flex; flex-direction: column; height: 100%; }
+  .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid var(--rule); }
+  .cart-head h2 { font-size: 1.7rem; }
+  .icon-btn { border: 0; background: none; font-size: 1.6rem; line-height: 1; width: 44px; height: 44px; cursor: pointer; border-radius: 99px; }
+  .icon-btn:hover { background: var(--paper-deep); }
+  .cart-scroll { flex: 1; overflow-y: auto; padding: 0 1.25rem 1.5rem; }
+  .line { display: grid; grid-template-columns: 1fr auto; gap: .35rem 1rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+  .line .name { font: 600 1.2rem/1.2 var(--serif); }
+  .line .each { font-size: .85rem; color: var(--ink-soft); }
+  .line .amt { text-align: right; font-weight: 600; white-space: nowrap; }
+  .line .remove { border: 0; background: none; padding: 0; color: var(--ink-soft); font-size: .85rem; text-decoration: underline; cursor: pointer; justify-self: end; }
+  .qty { display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: 3px; }
+  .qty button { border: 0; background: none; width: 36px; height: 36px; font-size: 1.1rem; cursor: pointer; }
+  .qty span { min-width: 2rem; text-align: center; font-weight: 600; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; padding: 1rem 0 .25rem; font: 600 1.5rem/1.2 var(--serif); }
+  .fine { font-size: .88rem; color: var(--ink-soft); margin: .25rem 0 0; }
+  .callout { background: var(--paper-deep); border-radius: 4px; padding: .85rem 1rem; font-size: .92rem; margin: 1rem 0; }
+
+  form.details { display: grid; gap: .9rem; margin-top: 1.25rem; }
+  form.details h3 { font-size: 1.4rem; margin-top: .5rem; }
+  .field { display: grid; gap: .3rem; }
+  .field label { font-size: .88rem; font-weight: 600; }
+  .field label span { font-weight: 400; color: var(--ink-soft); }
+  .field input, .field select, .field textarea { width: 100%; padding: .65rem .75rem; border: 1px solid var(--rule); border-radius: 3px; background: #fffdf9; font-size: 1rem; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--walnut); outline-offset: 1px; }
+  .two { display: grid; gap: .9rem; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 420px) { .two { grid-template-columns: 1fr; } }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .error { color: var(--alert); font-size: .92rem; margin: 0; }
+  .done { padding: 2rem 0; }
+  .done h3 { font-size: 2rem; margin-bottom: .5rem; }
+  .done .order-no { font: 600 1.3rem/1 var(--serif); color: var(--walnut); }
+
+  .site-footer { background: var(--ink); color: var(--paper-deep); padding: 2.5rem 16px; font-size: .92rem; }
+  .site-footer .inner { max-width: 1080px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; }
+  .site-footer a { color: var(--paper-deep); }
+  .site-footer .brand { color: var(--paper); }
+  .site-footer p { margin: .4rem 0 0; }
+  @media (prefers-reduced-motion: no-preference) { .card .photo img { transition: transform .4s ease; } .card:hover .photo img { transform: scale(1.02); } }
+</style>
+</head>
+<body>
+
+<div class="notice" id="notice" hidden></div>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="https://villagewoodwork.com/index.html">Village Woodworking</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="https://villagewoodwork.com/index.html">Home</a>
+      <a href="https://villagewoodwork.com/about.html">How We Do It</a>
+      <a href="https://villagewoodwork.com/portfolio.html">Portfolio</a>
+      <a href="https://villagewoodwork.com/journal.html">Journal</a>
+      <a href="https://villagewoodwork.com/intake.html">Contact Us</a>
+    </nav>
+    <button class="btn btn-primary cart-btn" type="button" id="open-cart" aria-haspopup="dialog">Cart <span class="count" id="cart-count">0</span></button>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <p class="eyebrow">For ITEX members</p>
+    <h1>The ITEX Order Desk</h1>
+    <p class="dek">Heirloom work and studio services from Village Woodworking, priced in ITEX dollars.</p>
+    <ol class="steps" aria-label="How ordering works">
+      <li>Build a cart from the pieces and services below.</li>
+      <li>Place the order with your ITEX member number. You and the studio each get the details by email.</li>
+      <li>No payment is taken here. The studio requests the funds through the ITEX marketplace.</li>
+    </ol>
+  </section>
+
+  <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+  <div class="grid" id="grid" aria-live="polite"></div>
+  <p class="state" id="state">Loading the catalog…</p>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div>
+      <a class="brand" href="https://villagewoodwork.com/index.html">Village Woodworking</a>
+      <p>Crafted with Vision, Rooted in Story.</p>
+    </div>
+    <div>
+      <p>Looking for something not listed? <a href="https://villagewoodwork.com/intake.html">Start a project</a></p>
+      <p><a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a> · <a href="https://www.instagram.com/villagewoodworking/">Instagram</a></p>
+    </div>
+  </div>
+</footer>
+
+<dialog class="cart" id="cart" aria-labelledby="cart-title">
+  <div class="cart-wrap">
+    <div class="cart-head">
+      <h2 id="cart-title">Your cart</h2>
+      <button class="icon-btn" type="button" id="close-cart" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="cart-scroll">
+      <div id="cart-view">
+        <div id="lines"></div>
+        <p class="state" id="cart-empty">Your cart is empty.</p>
+        <div id="cart-summary" hidden>
+          <div class="total"><span>Total</span><span id="cart-total"></span></div>
+          <p class="fine" id="quoted-note" hidden>Quoted items are priced with you before any funds are requested.</p>
+          <div class="callout"><strong>No payment is taken on this page.</strong> Village Woodworking requests the funds from your account through the ITEX marketplace. <span id="checkout-note"></span></div>
+
+          <form class="details" id="order-form" novalidate>
+            <h3>Your details</h3>
+            <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" maxlength="120" required></div>
+            <div class="two">
+              <div class="field"><label for="f-business">Business <span>(optional)</span></label><input id="f-business" name="business" autocomplete="organization" maxlength="160"></div>
+              <div class="field"><label for="f-member">ITEX member number</label><input id="f-member" name="member" maxlength="60" required></div>
+            </div>
+            <div class="two">
+              <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" maxlength="160" required></div>
+              <div class="field"><label for="f-phone">Phone <span>(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>
+            </div>
+            <div class="field"><label for="f-fulfillment">How you'll receive it</label>
+              <select id="f-fulfillment" name="fulfillment">
+                <option>Studio pickup</option><option>Local delivery</option><option>Shipping</option>
+              </select>
+            </div>
+            <div class="field" id="address-field" hidden><label for="f-address">Delivery address</label><textarea id="f-address" name="address" rows="2" autocomplete="street-address" maxlength="400"></textarea></div>
+            <div class="field"><label for="f-notes">Notes for the studio <span>(optional)</span></label><textarea id="f-notes" name="notes" rows="3" maxlength="2000" placeholder="Wood preference, engraving, dates, the story behind the piece"></textarea></div>
+            <div class="hp" aria-hidden="true"><label for="f-website">Leave this blank</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+            <p class="error" id="form-error" role="alert" hidden></p>
+            <button class="btn btn-primary" type="submit" id="place-order">Place order</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="done" id="done-view" hidden tabindex="-1">
+        <p class="eyebrow">Order received</p>
+        <h3>Thank you.</h3>
+        <p class="order-no" id="done-no"></p>
+        <p id="done-msg"></p>
+        <div class="callout"><strong>No payment has been taken.</strong> Village Woodworking will confirm the details and request the funds through the ITEX marketplace.</div>
+        <button class="btn" type="button" id="done-close">Back to the catalog</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================== CONFIG ============================== */
+  // Paste the Apps Script Web app URL (ends in /exec) between the quotes.
+  var ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzwL9WdVORh0SjVw-Lr6-F6ZjEycz5_n-e-Kw7UjxjuO7Mw4j3snuef1CpSb6M0s5ntFg/exec';
+  // Sheet image names load from this folder. Full https:// URLs in the sheet are used as-is.
+  var IMAGE_BASE = 'https://villagewoodwork.com/images/';
+  /* ==================================================================== */
+
+  var LIVE = /^https:\/\/script\.google\.com\//.test(ORDER_ENDPOINT);
+  var SAMPLE = [
+    { id: 'sample-1', category: 'Gifts', name: 'End Grain Cutting Board', description: 'Sample item. Connect the Google Sheet to show your real catalog.', price: 300, price_note: 'each', image: '', lead_time: '2-3 weeks', max_qty: 10 },
+    { id: 'sample-2', category: 'Services', name: 'Design Consultation', description: 'Sample item. Story framing, measurements and a concept direction.', price: 150, price_note: 'per session', image: '', lead_time: '', max_qty: 1 },
+    { id: 'sample-3', category: 'Furniture', name: 'Custom Furniture Commission', description: 'Sample item. A blank price in the sheet shows as quoted.', price: null, price_note: 'quoted per project', image: '', lead_time: '', max_qty: 1 }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var el = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+  var store = {
+    get: function (k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var money = function (n) { return 'ITEX $' + Number(n).toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); };
+
+  var products = [], byId = {}, filter = 'All';
+  var cart = store.get('vw_itex_cart') || {};   // { productId: qty }
+
+  /* ---------- catalog ---------- */
+  function setProducts(list) {
+    products = (list || []).filter(function (p) { return p && p.id && p.name; });
+    byId = {};
+    products.forEach(function (p) { byId[p.id] = p; });
+    renderFilters(); renderGrid(); renderCart();
+  }
+
+  function imageUrl(v) {
+    if (!v) return '';
+    if (/^https:\/\//i.test(v)) return v;
+    if (/^[\w\-./ %()]+\.(jpe?g|png|webp|gif|avif)$/i.test(v) && v.indexOf('..') === -1) return IMAGE_BASE + encodeURI(v.replace(/^\/+/, ''));
+    return '';
+  }
+
+  function renderFilters() {
+    var box = $('filters'); box.textContent = '';
+    var cats = [];
+    products.forEach(function (p) { if (cats.indexOf(p.category) === -1) cats.push(p.category); });
+    if (cats.length < 2) return;
+    if (cats.indexOf(filter) === -1) filter = 'All';
+    ['All'].concat(cats).forEach(function (c) {
+      var b = el('button', 'chip', c); b.type = 'button';
+      b.setAttribute('aria-pressed', String(c === filter));
+      b.addEventListener('click', function () { filter = c; renderFilters(); renderGrid(); });
+      box.appendChild(b);
+    });
+  }
+
+  function renderGrid() {
+    var grid = $('grid'); grid.textContent = '';
+    var shown = products.filter(function (p) { return filter === 'All' || p.category === filter; });
+    $('state').hidden = shown.length > 0;
+    if (!shown.length) $('state').textContent = 'Nothing is listed right now. Check back soon.';
+    shown.forEach(function (p) {
+      var card = el('article', 'card');
+      var photo = el('div', 'photo');
+      var src = imageUrl(p.image);
+      var noPhoto = function () { photo.textContent = ''; photo.classList.add('empty'); photo.setAttribute('data-label', p.name); };
+      if (src) {
+        var img = el('img'); img.alt = p.name; img.loading = 'lazy'; img.addEventListener('error', noPhoto); img.src = src;
+        photo.appendChild(img);
+      } else noPhoto();
+      card.appendChild(photo);
+
+      var body = el('div', 'body');
+      body.appendChild(el('span', 'cat', p.category));
+      body.appendChild(el('h3', '', p.name));
+      if (p.description) body.appendChild(el('p', '', p.description));
+      if (p.lead_time) body.appendChild(el('p', 'lead', 'Lead time: ' + p.lead_time));
+
+      var foot = el('div', 'foot');
+      var price = el('div', 'price', p.price === null ? 'Quoted' : money(p.price));
+      if (p.price_note && !(p.price === null && /quote/i.test(p.price_note) && p.price_note.length < 8)) price.appendChild(el('small', '', p.price_note));
+      foot.appendChild(price);
+      var inCart = cart[p.id] > 0;
+      var add = el('button', 'btn' + (inCart ? ' in' : ' btn-primary'), inCart ? 'In cart · ' + cart[p.id] : 'Add to cart');
+      add.type = 'button';
+      add.addEventListener('click', function () { if (cart[p.id] > 0) openCart(); else setQty(p.id, 1); });
+      foot.appendChild(add);
+      body.appendChild(foot);
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+  }
+
+  /* ---------- cart ---------- */
+  function setQty(id, qty) {
+    var p = byId[id];
+    if (!p || qty <= 0) delete cart[id]; else cart[id] = Math.min(qty, p.max_qty || 20);
+    store.set('vw_itex_cart', cart);
+    renderGrid(); renderCart();
+  }
+
+  function cartLines() {
+    return Object.keys(cart).filter(function (id) { return byId[id]; }).map(function (id) { return { p: byId[id], qty: cart[id] }; });
+  }
+
+  function renderCart() {
+    var lines = cartLines(), box = $('lines'), total = 0, quoted = false, count = 0;
+    box.textContent = '';
+    lines.forEach(function (l) {
+      count += l.qty;
+      var row = el('div', 'line');
+      var left = el('div');
+      left.appendChild(el('div', 'name', l.p.name));
+      left.appendChild(el('div', 'each', l.p.price === null ? 'Quoted' : money(l.p.price) + (l.p.price_note ? ' ' + l.p.price_note : '')));
+      row.appendChild(left);
+      if (l.p.price === null) quoted = true; else total += l.p.price * l.qty;
+      row.appendChild(el('div', 'amt', l.p.price === null ? 'Quoted' : money(l.p.price * l.qty)));
+
+      var q = el('div', 'qty');
+      var minus = el('button', '', '−'); minus.type = 'button'; minus.setAttribute('aria-label', 'One fewer ' + l.p.name);
+      var plus = el('button', '', '+'); plus.type = 'button'; plus.setAttribute('aria-label', 'One more ' + l.p.name);
+      plus.disabled = l.qty >= (l.p.max_qty || 20);
+      minus.addEventListener('click', function () { setQty(l.p.id, l.qty - 1); });
+      plus.addEventListener('click', function () { setQty(l.p.id, l.qty + 1); });
+      q.appendChild(minus); q.appendChild(el('span', '', String(l.qty))); q.appendChild(plus);
+      row.appendChild(q);
+      var rm = el('button', 'remove', 'Remove'); rm.type = 'button';
+      rm.addEventListener('click', function () { setQty(l.p.id, 0); });
+      row.appendChild(rm);
+      box.appendChild(row);
+    });
+    $('cart-count').textContent = String(count);
+    $('cart-empty').hidden = lines.length > 0;
+    $('cart-summary').hidden = lines.length === 0;
+    $('cart-total').textContent = money(total) + (quoted ? ' + quoted' : '');
+    $('quoted-note').hidden = !quoted;
+  }
+
+  var dialog = $('cart');
+  function openCart() {
+    $('cart-view').hidden = false; $('done-view').hidden = true;
+    if (typeof dialog.showModal === 'function') { if (!dialog.open) dialog.showModal(); } else dialog.setAttribute('open', '');
+  }
+  function closeCart() { if (dialog.open && dialog.close) dialog.close(); else dialog.removeAttribute('open'); }
+  $('open-cart').addEventListener('click', openCart);
+  $('close-cart').addEventListener('click', closeCart);
+  $('done-close').addEventListener('click', closeCart);
+  dialog.addEventListener('click', function (e) { if (e.target === dialog) closeCart(); });
+
+  /* ---------- order form ---------- */
+  var form = $('order-form');
+  var saved = store.get('vw_itex_contact') || {};
+  ['name', 'business', 'member', 'email', 'phone'].forEach(function (k) { if (saved[k]) form.elements[k].value = saved[k]; });
+  form.elements.fulfillment.addEventListener('change', function () { $('address-field').hidden = this.value === 'Studio pickup'; });
+
+  function fail(msg, field) {
+    var e = $('form-error'); e.textContent = msg; e.hidden = false;
+    if (field) field.focus();
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    $('form-error').hidden = true;
+    var f = form.elements, lines = cartLines();
+    var val = function (k) { return f[k].value.trim(); };
+    if (!lines.length) return fail('Your cart is empty.');
+    if (!val('name')) return fail('Please add your name.', f.name);
+    if (!val('member')) return fail('Please add your ITEX member number so the studio can request funds.', f.member);
+    if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/.test(val('email'))) return fail('Please add a valid email. Your order details are sent there.', f.email);
+    if (val('fulfillment') !== 'Studio pickup' && !val('address')) return fail('Please add a delivery address.', f.address);
+    if (!LIVE) return fail('Preview mode: this page is not connected to the order sheet yet, so nothing was sent.');
+
+    var payload = {
+      name: val('name'), business: val('business'), member: val('member'), email: val('email'), phone: val('phone'),
+      fulfillment: val('fulfillment'), address: val('fulfillment') === 'Studio pickup' ? '' : val('address'), notes: val('notes'),
+      website: f.website.value,
+      items: lines.map(function (l) { return { id: l.p.id, qty: l.qty }; })
+    };
+    var btn = $('place-order'); btn.disabled = true; btn.textContent = 'Placing order…';
+    var reset = function () { btn.disabled = false; btn.textContent = 'Place order'; };
+
+    // text/plain keeps this a "simple" request, which Apps Script web apps require.
+    fetch(ORDER_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), redirect: 'follow' })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        reset();
+        if (!res || !res.ok) return fail((res && res.error) || 'The order did not go through. Please try again.');
+        store.set('vw_itex_contact', { name: payload.name, business: payload.business, member: payload.member, email: payload.email, phone: payload.phone });
+        $('done-no').textContent = 'Order ' + res.order;
+        $('done-msg').textContent = res.emailed === false
+          ? 'Your order is saved. The confirmation email could not be sent, so please note your order number.'
+          : 'A copy of your order is on its way to ' + payload.email + '.';
+        cart = {}; store.set('vw_itex_cart', cart);
+        f.notes.value = '';
+        renderGrid(); renderCart();
+        $('cart-view').hidden = true; $('done-view').hidden = false; $('done-view').focus();
+      })
+      .catch(function () { reset(); fail('We could not reach the order desk. Check your connection and try again. Your cart is saved.'); });
+  });
+
+  /* ---------- load ---------- */
+  function showNotice(text) { var n = $('notice'); n.textContent = text; n.hidden = !text; }
+
+  if (!LIVE) {
+    showNotice('Preview mode: showing sample items. Connect the Google Sheet to go live.');
+    setProducts(SAMPLE);
+  } else {
+    var cached = store.get('vw_itex_catalog');
+    if (cached && cached.length) setProducts(cached);   // instant paint, then refresh
+    fetch(ORDER_ENDPOINT, { redirect: 'follow' })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res || !res.ok) throw new Error('bad');
+        setProducts(res.products);
+        store.set('vw_itex_catalog', res.products);
+        showNotice(res.announcement || '');
+        $('checkout-note').textContent = res.checkout_note || '';
+      })
+      .catch(function () {
+        if (!products.length) { $('state').hidden = false; $('state').textContent = 'The catalog could not be loaded. Please refresh, or email the studio.'; }
+      });
+  }
+})();
+</script>
+</body>
+</html>
