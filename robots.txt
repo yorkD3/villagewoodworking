@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://villagewoodwork.com/sitemap.xml
+
+# AI assistants and search tools can use this site overview:
+# https://villagewoodwork.com/llms.txt
