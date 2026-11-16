@@ -1,0 +1,977 @@
+<!doctype html>
+<!--
+=====================================================================
+THE SHOP · Village Woodworking
+=====================================================================
+CONNECT: paste your Apps Script Web app URL into SHOP_ENDPOINT (search for it,
+near the bottom). Until then the page runs in preview mode with sample pieces
+and no payment buttons.
+
+UPDATE: edit the "Products" tab of the Google Sheet. One row = one piece.
+Stock in the sheet lowers by itself when an order is paid.
+Photos: file names in the sheet's images column load from /images/ on the site.
+
+PAYMENTS: cards and Apple Pay run through your Stripe account. The buyer pays
+on Stripe's own secure page and is sent back here, so card numbers never touch
+this page, the sheet, or your email. Venmo is optional and appears only if
+PayPal keys are added to the backend. Full steps are in SETUP.md.
+=====================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Shop Handmade Wood Gifts and Studio Pieces | Village Woodworking, Omaha</title>
+<meta name="description" content="Heirloom-grade cutting boards, gifts and studio pieces from Village Woodworking in Omaha. Hand-selected local lumber, built one at a time. Free Omaha pickup, shipping nationwide.">
+<link rel="canonical" href="https://villagewoodwork.com/shop.html">
+<meta property="og:title" content="The Shop | Village Woodworking">
+<meta property="og:description" content="Small pieces, built like the large ones. Gifts and studio pieces made in Omaha from hand-selected local lumber.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://villagewoodwork.com/shop.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f2ea; --paper-deep: #efe6d8; --ink: #2a211b; --ink-soft: #5c4e42;
+    --walnut: #6b4423; --walnut-deep: #4a2e17; --rule: #ded1bf; --alert: #8a2f1d; --field: #fffdf9;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 var(--sans); }
+  a { color: var(--walnut); text-underline-offset: 3px; }
+  img { max-width: 100%; display: block; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.12; margin: 0; }
+  [hidden] { display: none !important; }
+
+  .notice { background: var(--ink); color: var(--paper); font-size: .9rem; text-align: center; padding: .55rem 1rem; }
+
+  .site-header { border-bottom: 1px solid var(--rule); padding: 1rem; background: var(--paper); position: sticky; top: 0; z-index: 5; }
+  .site-header .inner { max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; }
+  .brand { font: 600 1.5rem/1 var(--serif); color: var(--ink); text-decoration: none; }
+  .site-menu { display: flex; }
+  .menu-toggle { display: none; }
+  .site-nav { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; font-size: .95rem; }
+  .site-nav a { color: var(--ink-soft); text-decoration: none; }
+  .site-nav a:hover, .site-nav a[aria-current] { color: var(--walnut); }
+  @media (max-width: 760px) {
+    .site-menu { position: relative; }
+    .menu-toggle { display: inline-flex; cursor: pointer; color: var(--walnut); font-weight: 600; }
+    .site-nav { display: none; position: absolute; top: calc(100% + .75rem); right: 0; z-index: 6; min-width: 12rem; flex-direction: column; padding: .8rem 1rem; background: var(--paper); border: 1px solid var(--rule); box-shadow: 0 8px 20px rgba(42, 33, 27, .12); }
+    .site-menu[open] .site-nav { display: flex; }
+  }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .7rem 1.2rem; border-radius: 3px;
+    font-weight: 600; font-size: .98rem; text-decoration: none; border: 1px solid var(--walnut); cursor: pointer; background: none; color: var(--walnut); }
+  .btn-primary { background: var(--walnut); color: var(--paper); }
+  .btn-primary:hover { background: var(--walnut-deep); border-color: var(--walnut-deep); }
+  .btn-block { width: 100%; min-height: 48px; }
+  .btn:disabled { opacity: .55; cursor: default; }
+  .btn:focus-visible, .chip:focus-visible, .qty button:focus-visible, .icon-btn:focus-visible, .card-link:focus-visible, .thumbs button:focus-visible { outline: 3px solid var(--walnut); outline-offset: 2px; }
+  .cart-btn .count { background: var(--paper); color: var(--walnut); border-radius: 99px; min-width: 1.5rem; padding: 0 .4rem; font-size: .85rem; line-height: 1.5rem; text-align: center; }
+  .link-btn { border: 0; background: none; padding: 0; color: var(--walnut); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+  main { max-width: 1120px; margin: 0 auto; padding: 0 16px 5rem; }
+  .eyebrow { margin: 0 0 .75rem; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--walnut); font-weight: 600; }
+  .intro { padding: 3.25rem 0 1.25rem; }
+  .intro > :not(.assure) { max-width: 760px; }
+  h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); margin-bottom: 1rem; letter-spacing: -.01em; }
+  .dek { font: italic 500 1.35rem/1.45 var(--serif); color: var(--ink-soft); margin: 0 0 1.75rem; }
+  .assure { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+  @media (min-width: 760px) { .assure { grid-template-columns: repeat(3, 1fr); } }
+  .assure li { border: 1px solid var(--rule); border-radius: 4px; padding: .8rem 1rem; font-size: .95rem; line-height: 1.4; color: var(--ink-soft); }
+  .assure strong { display: block; font: 600 1.15rem/1.25 var(--serif); color: var(--ink); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.75rem 0 1.25rem; }
+  .chip { border: 1px solid var(--rule); background: none; border-radius: 99px; padding: .35rem 1rem; font-size: .92rem; color: var(--ink-soft); cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+  .grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
+  .card { display: flex; flex-direction: column; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: var(--paper); position: relative; }
+  .photo { aspect-ratio: 4 / 5; background: var(--paper-deep); position: relative; overflow: hidden; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .photo.empty { background: repeating-linear-gradient(135deg, var(--paper-deep) 0 12px, var(--paper) 12px 24px); }
+  .photo.empty::after { content: attr(data-label); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font: 600 1.5rem/1.1 var(--serif); color: var(--ink-soft); text-align: center; padding: 1rem; }
+  .badge { position: absolute; left: .75rem; top: .75rem; z-index: 1; background: var(--ink); color: var(--paper); font-size: .75rem; letter-spacing: .08em;
+    text-transform: uppercase; font-weight: 600; padding: .25rem .6rem; border-radius: 2px; }
+  .badge.sold { background: var(--paper); color: var(--ink-soft); border: 1px solid var(--rule); }
+  .card .body { padding: 1rem 1rem 1.1rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; }
+  .cat { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--walnut); font-weight: 600; }
+  .card h3 { font-size: 1.55rem; }
+  .card-link { color: inherit; text-decoration: none; }
+  .card-link::after { content: ""; position: absolute; inset: 0; }
+  .card p { margin: 0; font-size: .95rem; color: var(--ink-soft); }
+  .card .foot { margin-top: auto; padding-top: .8rem; display: flex; align-items: flex-end; justify-content: space-between; gap: .75rem; }
+  .price { font: 600 1.4rem/1.1 var(--serif); }
+  .price small { display: block; font: 400 .8rem/1.3 var(--sans); color: var(--ink-soft); }
+  .card .btn { padding: .55rem .9rem; font-size: .92rem; white-space: nowrap; position: relative; z-index: 1; }
+  .card .btn.in { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .card.is-sold .photo img { filter: grayscale(.6); opacity: .8; }
+  .state { padding: 3rem 0; color: var(--ink-soft); text-align: center; }
+
+  .band { margin-top: 4.5rem; padding-top: 3rem; border-top: 1px solid var(--rule); }
+  .band h2 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); margin-bottom: 1.5rem; max-width: 720px; }
+  .made { display: grid; gap: 1.5rem; }
+  @media (min-width: 760px) { .made { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  .made h3 { font-size: 1.45rem; margin-bottom: .4rem; }
+  .made p { margin: 0; color: var(--ink-soft); font-size: .98rem; }
+  .faq { max-width: 760px; }
+  .faq details { border-bottom: 1px solid var(--rule); padding: .9rem 0; }
+  .faq summary { font: 600 1.3rem/1.25 var(--serif); cursor: pointer; }
+  .faq p { margin: .6rem 0 0; color: var(--ink-soft); white-space: pre-line; }
+  .commission { background: var(--paper-deep); border-radius: 4px; padding: 2rem 1.5rem; margin-top: 4.5rem; display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; }
+  .commission h2 { font-size: 1.9rem; }
+  .commission p { margin: .35rem 0 0; color: var(--ink-soft); max-width: 560px; }
+
+  /* Product detail */
+  dialog { color: var(--ink); background: var(--paper); border: 0; padding: 0; }
+  dialog::backdrop { background: rgba(20, 15, 11, .55); }
+  dialog.product { width: min(980px, 100vw); max-width: 100vw; max-height: 100dvh; border-radius: 4px; }
+  @media (max-width: 760px) { dialog.product { margin: 0; height: 100dvh; border-radius: 0; } }
+  .pd { display: grid; }
+  @media (min-width: 761px) { .pd { grid-template-columns: 1.05fr 1fr; } }
+  .pd .gallery { background: var(--paper-deep); }
+  .pd .photo { aspect-ratio: 1 / 1; }
+  .thumbs { display: flex; gap: 6px; padding: 6px; overflow-x: auto; }
+  .thumbs button { border: 2px solid transparent; padding: 0; background: none; width: 64px; height: 64px; flex: none; cursor: pointer; border-radius: 2px; overflow: hidden; }
+  .thumbs button[aria-current="true"] { border-color: var(--walnut); }
+  .thumbs img { width: 100%; height: 100%; object-fit: cover; }
+  .pd .info { padding: 1.5rem 1.5rem 1.75rem; display: flex; flex-direction: column; gap: .75rem; position: relative; }
+  .pd h2 { font-size: 2.2rem; padding-right: 2.5rem; }
+  .pd .tagline { font: italic 500 1.2rem/1.4 var(--serif); color: var(--ink-soft); margin: 0; }
+  .pd .desc { margin: 0; white-space: pre-line; }
+  .pd .price { font-size: 1.9rem; }
+  .pd .close { position: absolute; right: .5rem; top: .5rem; }
+  .specs { margin: .25rem 0; border-top: 1px solid var(--rule); }
+  .specs div { display: grid; grid-template-columns: 8.5rem 1fr; gap: .75rem; padding: .5rem 0; border-bottom: 1px solid var(--rule); font-size: .95rem; }
+  .specs dt { color: var(--ink-soft); }
+  .specs dd { margin: 0; white-space: pre-line; }
+  .stockline { font-size: .92rem; font-weight: 600; color: var(--walnut); margin: 0; }
+  .buyrow { display: flex; gap: .75rem; align-items: stretch; margin-top: .25rem; }
+  .buyrow .btn { flex: 1; min-height: 48px; }
+
+  .icon-btn { border: 0; background: none; font-size: 1.6rem; line-height: 1; width: 44px; height: 44px; cursor: pointer; border-radius: 99px; }
+  .icon-btn:hover { background: var(--paper-deep); }
+  .qty { display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); }
+  .qty button { border: 0; background: none; width: 40px; height: 100%; min-height: 40px; font-size: 1.1rem; cursor: pointer; }
+  .qty button:disabled { opacity: .35; cursor: default; }
+  .qty span { min-width: 2rem; text-align: center; font-weight: 600; }
+
+  /* Cart drawer */
+  dialog.cart { margin: 0 0 0 auto; width: min(460px, 100vw); max-width: 100vw; height: 100dvh; max-height: 100dvh; box-shadow: -8px 0 40px rgba(20, 15, 11, .25); }
+  .cart-wrap { display: flex; flex-direction: column; height: 100%; }
+  .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid var(--rule); }
+  .cart-head h2 { font-size: 1.7rem; }
+  .cart-scroll { flex: 1; overflow-y: auto; padding: 0 1.25rem 1rem; }
+  .cart-foot { border-top: 1px solid var(--rule); padding: 1rem 1.25rem 1.25rem; }
+  .line { display: grid; grid-template-columns: 1fr auto; gap: .35rem 1rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+  .line .name { font: 600 1.2rem/1.2 var(--serif); }
+  .line .each { font-size: .85rem; color: var(--ink-soft); }
+  .line .amt { text-align: right; font-weight: 600; white-space: nowrap; }
+  .line .remove { border: 0; background: none; padding: 0; color: var(--ink-soft); font-size: .85rem; text-decoration: underline; cursor: pointer; justify-self: end; align-self: center; }
+  .sumrow { display: flex; justify-content: space-between; gap: 1rem; padding: .3rem 0; }
+  .sumrow.total { font: 600 1.5rem/1.2 var(--serif); padding-top: .75rem; margin-top: .5rem; border-top: 1px solid var(--rule); }
+  .fine { font-size: .88rem; color: var(--ink-soft); margin: .25rem 0 0; }
+  .callout { background: var(--paper-deep); border-radius: 4px; padding: .85rem 1rem; font-size: .92rem; margin: 1rem 0; }
+
+  /* Checkout */
+  .checkout { padding-top: 2rem; display: grid; gap: 2rem; }
+  @media (min-width: 900px) { .checkout { grid-template-columns: 1.25fr 1fr; gap: 3rem; align-items: start; } .summary { position: sticky; top: 5.5rem; } }
+  .checkout h1 { font-size: clamp(2rem, 5vw, 2.8rem); margin-bottom: .5rem; }
+  .checkout h2 { font-size: 1.6rem; margin: 2rem 0 .9rem; }
+  .summary { border: 1px solid var(--rule); border-radius: 4px; padding: 1.25rem; }
+  .summary h2 { margin-top: 0; }
+  .sline { display: flex; justify-content: space-between; gap: 1rem; padding: .45rem 0; border-bottom: 1px solid var(--rule); font-size: .97rem; }
+  .sline small { display: block; color: var(--ink-soft); }
+  .fields { display: grid; gap: .9rem; }
+  .field { display: grid; gap: .3rem; }
+  .field label, .choice legend { font-size: .88rem; font-weight: 600; }
+  .field label span { font-weight: 400; color: var(--ink-soft); }
+  .field input, .field select, .field textarea, .pp-field { width: 100%; padding: .65rem .75rem; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); font-size: 1rem; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--walnut); outline-offset: 1px; }
+  .two { display: grid; gap: .9rem; grid-template-columns: 1fr 1fr; }
+  .three { display: grid; gap: .9rem; grid-template-columns: 1.4fr .8fr 1fr; }
+  @media (max-width: 480px) { .two, .three { grid-template-columns: 1fr; } }
+  .choice { border: 0; padding: 0; margin: 0; display: grid; gap: .5rem; }
+  .choice label { display: flex; gap: .7rem; align-items: flex-start; border: 1px solid var(--rule); border-radius: 4px; padding: .75rem .9rem; cursor: pointer; font-weight: 400; font-size: 1rem; }
+  .choice label:has(input:checked) { border-color: var(--walnut); background: var(--field); }
+  .choice input { margin-top: .3rem; accent-color: var(--walnut); }
+  .choice small { display: block; color: var(--ink-soft); }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .error { color: var(--alert); font-size: .95rem; margin: .75rem 0 0; font-weight: 600; }
+  .pay { display: grid; gap: .6rem; max-width: 480px; }
+  .pay.is-waiting { opacity: .5; pointer-events: none; }
+  .or { display: flex; align-items: center; gap: .75rem; color: var(--ink-soft); font-size: .88rem; margin: .5rem 0; }
+  .or::before, .or::after { content: ""; flex: 1; border-top: 1px solid var(--rule); }
+  .pp-field { padding: 0; height: 48px; overflow: hidden; }
+  apple-pay-button { --apple-pay-button-width: 100%; --apple-pay-button-height: 48px; --apple-pay-button-border-radius: 4px; display: block; cursor: pointer; }
+  .secure { font-size: .88rem; color: var(--ink-soft); margin: .75rem 0 0; max-width: 480px; }
+  .done { max-width: 640px; padding: 4rem 0; }
+  .done h1 { margin-bottom: .5rem; }
+  .done .order-no { font: 600 1.4rem/1 var(--serif); color: var(--walnut); }
+
+  .site-footer { background: var(--ink); color: var(--paper-deep); padding: 2.5rem 16px; font-size: .92rem; }
+  .site-footer .inner { max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; }
+  .site-footer a { color: var(--paper-deep); }
+  .site-footer .brand { color: var(--paper); }
+  .site-footer p { margin: .4rem 0 0; }
+  @media (prefers-reduced-motion: no-preference) { .card .photo img { transition: transform .5s ease; } .card:hover .photo img { transform: scale(1.03); } }
+</style>
+</head>
+<body>
+
+<div class="notice" id="notice" hidden></div>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="https://villagewoodwork.com/index.html">Village Woodworking</a>
+    <details class="site-menu">
+      <summary class="menu-toggle">Menu</summary>
+      <nav class="site-nav" aria-label="Main">
+        <a href="https://villagewoodwork.com/index.html">Home</a>
+        <a href="https://villagewoodwork.com/about.html">How We Do It</a>
+        <a href="https://villagewoodwork.com/portfolio.html">Portfolio</a>
+        <a href="https://villagewoodwork.com/shop.html" aria-current="page">Shop</a>
+        <a href="https://villagewoodwork.com/journal.html">Journal</a>
+        <a href="https://villagewoodwork.com/intake.html">Contact Us</a>
+      </nav>
+    </details>
+    <button class="btn btn-primary cart-btn" type="button" id="open-cart" aria-haspopup="dialog">Cart <span class="count" id="cart-count">0</span></button>
+  </div>
+</header>
+
+<main>
+  <!-- ============================ SHOP ============================ -->
+  <div id="shop-view">
+    <section class="intro">
+      <p class="eyebrow">The Shop</p>
+      <h1>Small pieces, built like the large ones.</h1>
+      <p class="dek">Gifts and studio pieces from Village Woodworking. The same hand-selected lumber and the same standard as our commissioned furniture, ready to own.</p>
+      <ul class="assure">
+        <li><strong>Made in Omaha, one at a time</strong>Every piece is built in our studio. What you see photographed is the standard you receive.</li>
+        <li><strong>No surprise costs</strong>Free pickup and local delivery in Omaha. Shipping and tax are shown before you pay.</li>
+        <li><strong>Protected checkout</strong>Pay by card or digital wallet. Payment is processed by Stripe; we never see your card number.</li>
+      </ul>
+    </section>
+
+    <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+    <p class="state" id="state">Loading the shop…</p>
+
+    <section class="band" aria-labelledby="made-title">
+      <p class="eyebrow">How it is made</p>
+      <h2 id="made-title">The material story matters as much as the shape.</h2>
+      <div class="made">
+        <div><h3>Lumber from local sawmills</h3><p>Our wood is felled, milled and dried by small sawmills close to home, not pulled from a distributor's rack. We know where each board came from.</p></div>
+        <div><h3>Every board chosen by hand</h3><p>Boards are selected one at a time and matched for grain and color, often from the same tree. Character in the wood is used with intent, not cut away.</p></div>
+        <div><h3>Built to be kept</h3><p>Solid wood, deliberate construction and finishes that can be renewed instead of replaced. Each piece lists its own finish and care.</p></div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="faq-title">
+      <p class="eyebrow">Before you order</p>
+      <h2 id="faq-title">Questions, answered plainly.</h2>
+      <div class="faq" id="faq">
+        <details><summary>How do I receive my order?</summary><p id="faq-receive">Omaha orders are picked up at the studio or delivered locally at no charge. Everywhere else in the United States, we ship. The shipping cost is shown on each piece and again before you pay.</p></details>
+        <details><summary>Is my payment secure?</summary><p>Yes. Card and Apple Pay payments are completed on a secure page hosted by Stripe, then you are returned here. Where Venmo is offered, it is handled by PayPal. Village Woodworking never sees, receives or stores your card number.</p></details>
+        <details><summary>Can a piece be personalized?</summary><p>Pieces that accept engraving or other personalization show a text box when you open them. For anything beyond that, tell us in the order notes or start a commission.</p></details>
+      </div>
+    </section>
+
+    <section class="commission">
+      <div><h2>Looking for something made only for you?</h2><p>The shop holds our smaller work. Tables, built-ins and one-of-one furniture begin with a conversation.</p></div>
+      <a class="btn btn-primary" href="https://villagewoodwork.com/intake.html">Start a commission</a>
+    </section>
+  </div>
+
+  <!-- ========================== CHECKOUT ========================== -->
+  <div id="checkout-view" hidden>
+    <div class="checkout">
+      <div>
+        <p class="eyebrow"><button class="link-btn" type="button" id="back-to-shop">&larr; Back to the shop</button></p>
+        <h1 id="checkout-title" tabindex="-1">Checkout</h1>
+        <p class="fine">No account needed.</p>
+
+        <form id="checkout-form" novalidate>
+          <h2>1. Your details</h2>
+          <div class="fields">
+            <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" maxlength="120" required></div>
+            <div class="two">
+              <div class="field"><label for="f-email">Email <span>(for your receipt)</span></label><input id="f-email" name="email" type="email" autocomplete="email" maxlength="160" required></div>
+              <div class="field"><label for="f-phone">Phone <span>(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>
+            </div>
+          </div>
+
+          <h2>2. How you'll receive it</h2>
+          <fieldset class="choice">
+            <legend class="hp">Receiving method</legend>
+            <label><input type="radio" name="fulfillment" value="pickup" checked><span>Studio pickup in Omaha<small>Free. <span id="pickup-note"></span></small></span></label>
+            <label><input type="radio" name="fulfillment" value="local"><span>Local delivery<small id="local-note">Free within Omaha.</small></span></label>
+            <label><input type="radio" name="fulfillment" value="ship"><span>Ship to me<small>Anywhere outside Omaha, within the United States.</small></span></label>
+          </fieldset>
+          <div class="fields" id="address-block" hidden style="margin-top:.9rem">
+            <div class="field"><label for="f-line1">Street address</label><input id="f-line1" name="line1" autocomplete="address-line1" maxlength="200"></div>
+            <div class="field"><label for="f-line2">Apartment, suite <span>(optional)</span></label><input id="f-line2" name="line2" autocomplete="address-line2" maxlength="200"></div>
+            <div class="three">
+              <div class="field"><label for="f-city">City</label><input id="f-city" name="city" autocomplete="address-level2" maxlength="100"></div>
+              <div class="field"><label for="f-state">State</label><select id="f-state" name="state" autocomplete="address-level1"></select></div>
+              <div class="field"><label for="f-zip">ZIP</label><input id="f-zip" name="zip" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
+            </div>
+          </div>
+          <div class="field" style="margin-top:.9rem"><label for="f-notes">Notes for the studio <span>(optional)</span></label><textarea id="f-notes" name="notes" rows="2" maxlength="1500" placeholder="Gift message, timing, anything we should know"></textarea></div>
+          <div class="hp" aria-hidden="true"><label for="f-website">Leave this blank</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+        </form>
+
+        <h2>3. Payment</h2>
+        <p class="error" id="pay-error" role="alert" hidden></p>
+        <p class="callout" id="pay-preview" hidden>Preview mode: the payment button appears here once the shop is connected to Stripe.</p>
+        <div class="pay" id="pay">
+          <div id="stripe-block" hidden>
+            <button class="btn btn-primary btn-block" type="button" id="stripe-pay">Pay by card or Apple Pay</button>
+            <p class="fine">You will finish on Stripe's secure payment page, then return here.</p>
+          </div>
+          <div class="or" id="alt-or" hidden>or</div>
+          <div id="venmo-button"></div>
+          <div id="paypal-button"></div>
+        </div>
+        <p class="secure">Card payments are processed by Stripe. Your card number goes directly to Stripe and is never seen or stored by Village Woodworking.</p>
+      </div>
+
+      <aside class="summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Your order</h2>
+        <div id="summary-lines"></div>
+        <div style="margin-top:.75rem">
+          <div class="sumrow"><span>Subtotal</span><span id="s-subtotal"></span></div>
+          <div class="sumrow"><span id="s-ship-label">Shipping</span><span id="s-shipping"></span></div>
+          <div class="sumrow"><span id="s-tax-label">Sales tax</span><span id="s-tax"></span></div>
+          <div class="sumrow total"><span id="s-total-label">Total</span><span id="s-total"></span></div>
+        </div>
+        <p class="fine" id="s-note"></p>
+        <p class="fine"><button class="link-btn" type="button" id="edit-cart">Edit cart</button></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ========================= CONFIRMING ========================= -->
+  <div class="done" id="confirming-view" hidden>
+    <p class="eyebrow">Payment</p>
+    <h1 id="confirm-title">Confirming your payment…</h1>
+    <p id="confirm-msg"></p>
+    <p id="confirm-actions" hidden><button class="btn btn-primary" type="button" id="confirm-retry">Check again</button> <button class="btn" type="button" id="confirm-back">Back to the shop</button></p>
+  </div>
+
+  <!-- ============================ DONE ============================ -->
+  <div class="done" id="done-view" hidden>
+    <p class="eyebrow">Order received</p>
+    <h1 id="done-title" tabindex="-1">Thank you.</h1>
+    <p class="order-no" id="done-no"></p>
+    <p id="done-msg"></p>
+    <p id="done-next"></p>
+    <button class="btn" type="button" id="done-back">Back to the shop</button>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div>
+      <a class="brand" href="https://villagewoodwork.com/index.html">Village Woodworking</a>
+      <p>Crafted with Vision, Rooted in Story.</p>
+    </div>
+    <div>
+      <p>Questions about an order? <a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a></p>
+      <p><a href="https://villagewoodwork.com/intake.html">Start a commission</a> · <a href="https://www.instagram.com/villagewoodworking/">Instagram</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Product detail -->
+<dialog class="product" id="product" aria-labelledby="pd-name">
+  <div class="pd">
+    <div class="gallery">
+      <div class="photo" id="pd-photo"></div>
+      <div class="thumbs" id="pd-thumbs"></div>
+    </div>
+    <div class="info">
+      <button class="icon-btn close" type="button" id="pd-close" aria-label="Close">&times;</button>
+      <span class="cat" id="pd-cat"></span>
+      <h2 id="pd-name"></h2>
+      <p class="tagline" id="pd-tagline"></p>
+      <div class="price" id="pd-price"></div>
+      <p class="stockline" id="pd-stock"></p>
+      <p class="desc" id="pd-desc"></p>
+      <dl class="specs" id="pd-specs"></dl>
+      <div class="field" id="pd-personal" hidden><label for="pd-note" id="pd-note-label"></label><textarea id="pd-note" rows="2" maxlength="300"></textarea></div>
+      <div class="buyrow">
+        <div class="qty" id="pd-qty"><button type="button" id="pd-minus" aria-label="One fewer">−</button><span id="pd-qty-n">1</span><button type="button" id="pd-plus" aria-label="One more">+</button></div>
+        <button class="btn btn-primary" type="button" id="pd-add">Add to cart</button>
+      </div>
+      <p class="fine" id="pd-shipnote"></p>
+    </div>
+  </div>
+</dialog>
+
+<!-- Cart drawer -->
+<dialog class="cart" id="cart" aria-labelledby="cart-title">
+  <div class="cart-wrap">
+    <div class="cart-head">
+      <h2 id="cart-title">Your cart</h2>
+      <button class="icon-btn" type="button" id="close-cart" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="cart-scroll">
+      <div id="lines"></div>
+      <p class="state" id="cart-empty">Your cart is empty.</p>
+    </div>
+    <div class="cart-foot" id="cart-foot" hidden>
+      <div class="sumrow total" style="border:0;margin:0;padding-top:0"><span>Subtotal</span><span id="cart-subtotal"></span></div>
+      <p class="fine" style="margin-bottom:.9rem">Free pickup and local delivery in Omaha. Shipping and sales tax are shown at checkout, before you pay.</p>
+      <button class="btn btn-primary btn-block" type="button" id="go-checkout">Checkout</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============================== CONFIG ============================== */
+  // Paste the Apps Script Web app URL (ends in /exec) between the quotes.
+  var SHOP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyWUkjaw8XF4bpW3rS28RTov-J1S5CrU1FD0AvCqKimvibWeQ_14fxQ1ZK6dv_26377xQ/exec';
+  // Sheet image names load from this folder. Full https:// URLs in the sheet are used as-is.
+  var IMAGE_BASE = 'https://villagewoodwork.com/images/';
+  /* ==================================================================== */
+
+  var LIVE = /^https:\/\/script\.google\.com\//.test(SHOP_ENDPOINT);
+  var SAMPLE = [
+    { id: 'sample-1', category: 'Kitchen', name: 'End Grain Cutting Board', tagline: 'Sample piece. Connect the Google Sheet to show your real work.', description: 'This is preview content. Each row of the Products tab becomes one piece here, with its own photos, story, dimensions and care.', price: 300, stock: 3, images: [], wood: 'Walnut', dimensions: '18 x 12 x 1.75 in', finish_care: 'Sample finish and care line.', lead_time: 'Ships in 3-5 days', personalize_prompt: 'Engraving text (optional, up to 30 characters)', ship_cost: 18, max_qty: 3 },
+    { id: 'sample-2', category: 'Gifts', name: 'Coaster Set of Four', tagline: 'Sample piece.', description: 'Leave stock blank in the sheet for made-to-order pieces.', price: 60, stock: null, images: [], wood: 'White oak', dimensions: '4 x 4 in each', finish_care: '', lead_time: 'Made to order, 1-2 weeks', personalize_prompt: '', ship_cost: 8, max_qty: 5 },
+    { id: 'sample-3', category: 'Studio pieces', name: 'One of One Studio Piece', tagline: 'Sample piece.', description: 'A stock of 1 shows as the only one available and sells out after a single order.', price: 450, stock: 1, images: [], wood: 'Cherry', dimensions: '', finish_care: '', lead_time: 'Ready now', personalize_prompt: '', ship_cost: 25, max_qty: 1 },
+    { id: 'sample-4', category: 'Gifts', name: 'Sold Example', tagline: 'Sample piece.', description: 'A stock of 0 keeps the piece on the page, marked as sold.', price: 120, stock: 0, images: [], wood: 'Maple', dimensions: '', finish_care: '', lead_time: '', personalize_prompt: '', ship_cost: 10, max_qty: 1 }
+  ];
+  var STATES = 'AL,AK,AZ,AR,CA,CO,CT,DE,DC,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY'.split(',');
+
+  var $ = function (id) { return document.getElementById(id); };
+  var el = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+  var store = {
+    get: function (k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var money = function (n, cents) {
+    return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: (cents || n % 1) ? 2 : 0, maximumFractionDigits: 2 });
+  };
+
+  var products = [], byId = {}, filter = 'All';
+  var shop = { local_cities: ['Omaha'], no_ship_states: [], pickup_note: '', free_shipping_over: null };
+  var paypalCfg = null, stripeCfg = null;
+  var cart = store.get('vw_shop_cart') || {};   // { productId: { qty, note } }
+  var form = $('checkout-form');
+
+  function api(payload) {
+    // text/plain keeps this a "simple" request, which Apps Script web apps require.
+    return fetch(SHOP_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), redirect: 'follow' })
+      .then(function (r) { return r.json(); });
+  }
+
+  /* ---------- catalog ---------- */
+  function setProducts(list) {
+    products = (list || []).filter(function (p) { return p && p.id && p.name && p.price > 0; });
+    byId = {};
+    products.forEach(function (p) { byId[p.id] = p; });
+    Object.keys(cart).forEach(function (id) {            // keep the cart honest against the sheet
+      var p = byId[id];
+      if (!p || p.stock === 0) { delete cart[id]; return; }
+      cart[id].qty = Math.min(cart[id].qty, limit(p));
+    });
+    store.set('vw_shop_cart', cart);
+    renderFilters(); renderGrid(); renderCart(); structuredData();
+  }
+  function limit(p) { return p.stock === null || p.stock === undefined ? p.max_qty : Math.min(p.max_qty, p.stock); }
+
+  function imageUrl(v) {
+    if (!v) return '';
+    if (/^https:\/\//i.test(v)) return v;
+    if (/^[\w\-./ %()]+\.(jpe?g|png|webp|gif|avif)$/i.test(v) && v.indexOf('..') === -1) return IMAGE_BASE + encodeURI(v.replace(/^\/+/, ''));
+    return '';
+  }
+  function fillPhoto(box, p, src, eager) {
+    box.textContent = ''; box.classList.remove('empty'); box.removeAttribute('data-label');
+    var none = function () { box.textContent = ''; box.classList.add('empty'); box.setAttribute('data-label', p.name); };
+    var url = imageUrl(src);
+    if (!url) return none();
+    var img = el('img'); img.alt = p.name + (p.wood ? ' in ' + p.wood : ''); if (!eager) img.loading = 'lazy';
+    img.addEventListener('error', none); img.src = url; box.appendChild(img);
+  }
+  function stockText(p) {
+    if (p.stock === 0) return 'Sold';
+    if (p.stock === 1) return 'Only 1 available';
+    if (p.stock !== null && p.stock !== undefined && p.stock <= 3) return 'Only ' + p.stock + ' left';
+    return '';
+  }
+
+  function renderFilters() {
+    var box = $('filters'); box.textContent = '';
+    var cats = [];
+    products.forEach(function (p) { if (cats.indexOf(p.category) === -1) cats.push(p.category); });
+    if (cats.length < 2) return;
+    if (cats.indexOf(filter) === -1) filter = 'All';
+    ['All'].concat(cats).forEach(function (c) {
+      var b = el('button', 'chip', c); b.type = 'button';
+      b.setAttribute('aria-pressed', String(c === filter));
+      b.addEventListener('click', function () { filter = c; renderFilters(); renderGrid(); });
+      box.appendChild(b);
+    });
+  }
+
+  function renderGrid() {
+    var grid = $('grid'); grid.textContent = '';
+    var shown = products.filter(function (p) { return filter === 'All' || p.category === filter; });
+    $('state').hidden = shown.length > 0;
+    if (!shown.length) $('state').textContent = 'Nothing is listed right now. Check back soon.';
+    shown.forEach(function (p) {
+      var sold = p.stock === 0;
+      var card = el('article', 'card' + (sold ? ' is-sold' : ''));
+      var st = stockText(p);
+      if (st) card.appendChild(el('span', 'badge' + (sold ? ' sold' : ''), st));
+      var photo = el('div', 'photo'); fillPhoto(photo, p, (p.images || [])[0]); card.appendChild(photo);
+
+      var body = el('div', 'body');
+      body.appendChild(el('span', 'cat', p.category));
+      var h = el('h3'); var a = el('a', 'card-link', p.name); a.href = '#p=' + encodeURIComponent(p.id);
+      a.addEventListener('click', function (e) { e.preventDefault(); openProduct(p.id); });
+      h.appendChild(a); body.appendChild(h);
+      if (p.tagline) body.appendChild(el('p', '', p.tagline));
+
+      var foot = el('div', 'foot');
+      var price = el('div', 'price', money(p.price));
+      if (p.wood) price.appendChild(el('small', '', p.wood));
+      foot.appendChild(price);
+      var inCart = cart[p.id] && cart[p.id].qty > 0;
+      var label = sold ? 'Sold' : inCart ? 'In cart · ' + cart[p.id].qty : p.personalize_prompt ? 'Personalize' : 'Add to cart';
+      var add = el('button', 'btn' + (inCart ? ' in' : sold ? '' : ' btn-primary'), label);
+      add.type = 'button'; add.disabled = sold;
+      add.addEventListener('click', function () {
+        if (inCart) openCart(); else if (p.personalize_prompt) openProduct(p.id); else { setLine(p.id, 1, ''); openCart(); }
+      });
+      foot.appendChild(add);
+      body.appendChild(foot);
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+  }
+
+  // Lets search engines read the catalog even though it loads from the sheet.
+  function structuredData() {
+    var old = $('ld'); if (old) old.remove();
+    if (!LIVE || !products.length) return;
+    var s = el('script'); s.type = 'application/ld+json'; s.id = 'ld';
+    s.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: products.map(function (p, i) {
+      return { '@type': 'ListItem', position: i + 1, item: { '@type': 'Product', name: p.name, description: p.tagline || p.description, material: p.wood || undefined,
+        image: imageUrl((p.images || [])[0]) || undefined, brand: { '@type': 'Brand', name: 'Village Woodworking' },
+        offers: { '@type': 'Offer', price: p.price.toFixed(2), priceCurrency: 'USD', url: 'https://villagewoodwork.com/shop.html#p=' + encodeURIComponent(p.id),
+          availability: 'https://schema.org/' + (p.stock === 0 ? 'SoldOut' : p.stock === null ? 'MadeToOrder' : 'InStock') } } };
+    }) });
+    document.head.appendChild(s);
+  }
+
+  /* ---------- product detail ---------- */
+  var pdDialog = $('product'), pdId = null, pdQty = 1;
+  function show(d) { if (typeof d.showModal === 'function') { if (!d.open) d.showModal(); } else d.setAttribute('open', ''); }
+  function hide(d) { if (d.open && d.close) d.close(); else d.removeAttribute('open'); }
+
+  function openProduct(id) {
+    var p = byId[id]; if (!p) return;
+    pdId = id; pdQty = (cart[id] && cart[id].qty) || 1;
+    $('pd-cat').textContent = p.category; $('pd-name').textContent = p.name;
+    $('pd-tagline').textContent = p.tagline || ''; $('pd-tagline').hidden = !p.tagline;
+    $('pd-price').textContent = money(p.price);
+    $('pd-stock').textContent = stockText(p); $('pd-stock').hidden = !stockText(p);
+    $('pd-desc').textContent = p.description || ''; $('pd-desc').hidden = !p.description;
+
+    var imgs = (p.images || []).slice(0, 6), thumbs = $('pd-thumbs');
+    thumbs.textContent = ''; thumbs.hidden = imgs.length < 2;
+    fillPhoto($('pd-photo'), p, imgs[0], true);
+    if (imgs.length > 1) imgs.forEach(function (src, i) {
+      var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', 'Photo ' + (i + 1) + ' of ' + imgs.length);
+      b.setAttribute('aria-current', String(i === 0));
+      var im = el('img'); im.alt = ''; im.loading = 'lazy'; im.src = imageUrl(src); b.appendChild(im);
+      b.addEventListener('click', function () {
+        fillPhoto($('pd-photo'), p, src, true);
+        Array.prototype.forEach.call(thumbs.children, function (c) { c.setAttribute('aria-current', String(c === b)); });
+      });
+      thumbs.appendChild(b);
+    });
+
+    var specs = $('pd-specs'); specs.textContent = '';
+    var shipText = p.ship_cost === null || p.ship_cost === undefined ? 'Calculated at checkout' : (p.ship_cost === 0 ? 'Free' : money(p.ship_cost, true));
+    [['Wood', p.wood], ['Dimensions', p.dimensions], ['Finish and care', p.finish_care], ['Availability', p.lead_time],
+     ['Shipping', shipText + ' in the US. Free pickup or local delivery in Omaha.']].forEach(function (r) {
+      if (!r[1]) return;
+      var row = el('div'); row.appendChild(el('dt', '', r[0])); row.appendChild(el('dd', '', r[1])); specs.appendChild(row);
+    });
+
+    $('pd-personal').hidden = !p.personalize_prompt;
+    $('pd-note-label').textContent = p.personalize_prompt || '';
+    $('pd-note').value = (cart[id] && cart[id].note) || '';
+    $('pd-shipnote').textContent = 'Sales tax, where it applies, is shown before you pay.';
+    renderPdQty();
+    show(pdDialog);
+    try { history.replaceState(null, '', '#p=' + encodeURIComponent(id)); } catch (e) {}
+  }
+  function renderPdQty() {
+    var p = byId[pdId], max = limit(p), sold = p.stock === 0;
+    pdQty = Math.max(1, Math.min(pdQty, Math.max(1, max)));
+    $('pd-qty-n').textContent = String(pdQty);
+    $('pd-minus').disabled = pdQty <= 1; $('pd-plus').disabled = pdQty >= max;
+    $('pd-qty').hidden = sold || max <= 1;
+    var add = $('pd-add'); add.disabled = sold;
+    add.textContent = sold ? 'Sold' : (cart[pdId] ? 'Update cart' : 'Add to cart') + ' · ' + money(p.price * pdQty);
+  }
+  function closeProduct() { hide(pdDialog); try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
+  $('pd-minus').addEventListener('click', function () { pdQty--; renderPdQty(); });
+  $('pd-plus').addEventListener('click', function () { pdQty++; renderPdQty(); });
+  $('pd-add').addEventListener('click', function () { setLine(pdId, pdQty, $('pd-note').value.trim()); closeProduct(); openCart(); });
+  $('pd-close').addEventListener('click', closeProduct);
+  pdDialog.addEventListener('click', function (e) { if (e.target === pdDialog) closeProduct(); });
+  pdDialog.addEventListener('close', function () { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} });
+
+  /* ---------- cart ---------- */
+  function setLine(id, qty, note) {
+    var p = byId[id];
+    if (!p || qty <= 0) delete cart[id];
+    else cart[id] = { qty: Math.min(qty, limit(p)), note: note === undefined ? ((cart[id] && cart[id].note) || '') : note };
+    store.set('vw_shop_cart', cart);
+    renderGrid(); renderCart();
+    if (!$('checkout-view').hidden) { renderSummary(); requestQuote(); }
+  }
+  function cartLines() {
+    return Object.keys(cart).filter(function (id) { return byId[id]; }).map(function (id) { return { p: byId[id], qty: cart[id].qty, note: cart[id].note || '' }; });
+  }
+  function subtotal() { return cartLines().reduce(function (s, l) { return s + l.p.price * l.qty; }, 0); }
+
+  function renderCart() {
+    var lines = cartLines(), box = $('lines'), count = 0;
+    box.textContent = '';
+    lines.forEach(function (l) {
+      count += l.qty;
+      var row = el('div', 'line');
+      var left = el('div');
+      left.appendChild(el('div', 'name', l.p.name));
+      left.appendChild(el('div', 'each', money(l.p.price) + ' each' + (l.note ? ' · "' + l.note + '"' : '')));
+      row.appendChild(left);
+      row.appendChild(el('div', 'amt', money(l.p.price * l.qty)));
+      var q = el('div', 'qty');
+      var minus = el('button', '', '−'); minus.type = 'button'; minus.setAttribute('aria-label', 'One fewer ' + l.p.name);
+      var plus = el('button', '', '+'); plus.type = 'button'; plus.setAttribute('aria-label', 'One more ' + l.p.name);
+      plus.disabled = l.qty >= limit(l.p);
+      minus.addEventListener('click', function () { setLine(l.p.id, l.qty - 1); });
+      plus.addEventListener('click', function () { setLine(l.p.id, l.qty + 1); });
+      q.appendChild(minus); q.appendChild(el('span', '', String(l.qty))); q.appendChild(plus);
+      row.appendChild(q);
+      var rm = el('button', 'remove', 'Remove'); rm.type = 'button';
+      rm.addEventListener('click', function () { setLine(l.p.id, 0); });
+      row.appendChild(rm);
+      box.appendChild(row);
+    });
+    $('cart-count').textContent = String(count);
+    $('cart-empty').hidden = lines.length > 0;
+    $('cart-foot').hidden = lines.length === 0;
+    $('cart-subtotal').textContent = money(subtotal(), true);
+  }
+
+  var cartDialog = $('cart');
+  function openCart() { show(cartDialog); }
+  $('open-cart').addEventListener('click', openCart);
+  $('close-cart').addEventListener('click', function () { hide(cartDialog); });
+  cartDialog.addEventListener('click', function (e) { if (e.target === cartDialog) hide(cartDialog); });
+  $('edit-cart').addEventListener('click', openCart);
+
+  /* ---------- views ---------- */
+  function view(name) {
+    ['shop', 'checkout', 'done', 'confirming'].forEach(function (v) { $(v + '-view').hidden = v !== name; });
+    window.scrollTo(0, 0);
+  }
+  $('go-checkout').addEventListener('click', function () {
+    if (!cartLines().length) return;
+    hide(cartDialog); view('checkout'); $('checkout-title').focus();
+    renderSummary(); requestQuote(true); initPayments();
+  });
+  $('back-to-shop').addEventListener('click', function () { view('shop'); });
+  $('done-back').addEventListener('click', function () { view('shop'); });
+
+  /* ---------- checkout form ---------- */
+  var stateSel = $('f-state');
+  stateSel.appendChild(new Option('Select', ''));
+  STATES.forEach(function (s) { stateSel.appendChild(new Option(s, s)); });
+
+  function val(k) { return (form.elements[k].value || '').trim(); }
+  function fulfillment() { return form.elements.fulfillment.value; }
+  function payload() {
+    var f = fulfillment();
+    return {
+      name: val('name'), email: val('email'), phone: val('phone'), notes: val('notes'), website: form.elements.website.value,
+      fulfillment: f,
+      ship: f === 'pickup' ? null : { line1: val('line1'), line2: val('line2'), city: val('city'), state: f === 'local' ? 'NE' : val('state'), zip: val('zip') },
+      items: cartLines().map(function (l) { return { id: l.p.id, qty: l.qty, note: l.note }; })
+    };
+  }
+  function syncFulfillment() {
+    var f = fulfillment();
+    $('address-block').hidden = f === 'pickup';
+    stateSel.closest('.field').hidden = f === 'local';
+    if (f === 'local' && !val('city') && shop.local_cities.length === 1) form.elements.city.value = shop.local_cities[0];
+  }
+  form.addEventListener('change', function () { syncFulfillment(); requestQuote(); });
+  form.addEventListener('input', function (e) { clearPayError(); if (/^(city|zip)$/.test(e.target.name)) requestQuote(); });
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+
+  /* ---------- quote: totals always come from the server ---------- */
+  var quote = null, quoteKey = '', quoteTimer = null, quoteSeq = 0;
+  function currentKey() { var p = payload(), s = p.ship || {}; return JSON.stringify([p.items, p.fulfillment, s.city, s.state, s.zip]); }
+
+  function renderSummary() {
+    var box = $('summary-lines'); box.textContent = '';
+    cartLines().forEach(function (l) {
+      var row = el('div', 'sline'); var left = el('span', '', l.qty + ' × ' + l.p.name);
+      if (l.note) left.appendChild(el('small', '', '"' + l.note + '"'));
+      row.appendChild(left); row.appendChild(el('span', '', money(l.p.price * l.qty, true))); box.appendChild(row);
+    });
+    var f = fulfillment(), fresh = quote && quoteKey === currentKey();
+    $('s-subtotal').textContent = money(subtotal(), true);
+    $('s-ship-label').textContent = f === 'ship' ? 'Shipping' : f === 'local' ? 'Local delivery' : 'Studio pickup';
+    $('s-shipping').textContent = f !== 'ship' ? 'Free' : fresh ? (quote.shipping ? money(quote.shipping, true) : 'Free') : '…';
+    $('s-tax-label').textContent = 'Sales tax' + (fresh && quote.final && quote.rate ? ' (' + quote.rate + '%)' : '');
+    $('s-tax').textContent = fresh && quote.final ? money(quote.tax, true) : (fresh ? 'Enter address' : '…');
+    $('s-total-label').textContent = fresh && quote.final ? 'Total' : 'Total before tax';
+    $('s-total').textContent = fresh ? money(quote.final ? quote.total : quote.subtotal + quote.shipping, true) : money(subtotal(), true);
+    $('s-note').textContent = !LIVE ? 'Preview mode: shipping and tax are calculated once the shop is connected.'
+      : fresh && quote.final && f === 'ship' && !quote.tax ? 'No sales tax is collected on orders shipped outside Nebraska.' : '';
+    $('pay').classList.toggle('is-waiting', LIVE && !(fresh && quote.final));
+  }
+
+  function requestQuote(now) {
+    clearTimeout(quoteTimer);
+    renderSummary();
+    if (!LIVE || !cartLines().length) return;
+    quoteTimer = setTimeout(function () {
+      var key = currentKey(), seq = ++quoteSeq, p = payload();
+      api({ action: 'quote', items: p.items, fulfillment: p.fulfillment, ship: p.ship }).then(function (res) {
+        if (seq !== quoteSeq) return;
+        if (!res || !res.ok) { quote = null; payError((res && res.error) || 'We could not price this order. Please try again.'); if (res && res.stock) refreshCatalog(); }
+        else { quote = res.totals; quoteKey = key; clearPayError(); }
+        renderSummary();
+      }).catch(function () { if (seq === quoteSeq) payError('We could not reach the shop. Check your connection.'); });
+    }, now ? 0 : 500);
+  }
+
+  function payError(msg) { var e = $('pay-error'); e.textContent = msg; e.hidden = false; }
+  function clearPayError() { $('pay-error').hidden = true; }
+
+  // Called before any payment method starts. Returns true only when the form is complete and the total is current.
+  function ready() {
+    clearPayError();
+    var f = form.elements, p = payload();
+    var stop = function (msg, field) { payError(msg); if (field) { field.focus(); field.scrollIntoView({ block: 'center' }); } return false; };
+    if (!p.items.length) return stop('Your cart is empty.');
+    if (!p.name) return stop('Please add your name.', f.name);
+    if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/.test(p.email)) return stop('Please add a valid email. Your receipt is sent there.', f.email);
+    if (p.fulfillment !== 'pickup') {
+      if (!p.ship.line1) return stop('Please add your street address.', f.line1);
+      if (!p.ship.city) return stop('Please add your city.', f.city);
+      if (!p.ship.state) return stop('Please choose your state.', f.state);
+      if (!/^\d{5}(-\d{4})?$/.test(p.ship.zip)) return stop('Please enter a valid ZIP code.', f.zip);
+    }
+    if (!quote || !quote.final || quoteKey !== currentKey()) { requestQuote(true); return stop('One moment while we update your total, then try again.'); }
+    return true;
+  }
+
+  /* ---------- payments ---------- */
+  // Cards and Apple Pay: the buyer is sent to Stripe's own payment page and returns here afterwards.
+  // Venmo (optional): a PayPal button, shown only when PayPal keys have been added to the backend.
+  var paymentsStarted = false;
+  var FORM_KEYS = ['name', 'email', 'phone', 'line1', 'line2', 'city', 'state', 'zip', 'notes'];
+  function saveForm() {   // kept for this browser tab only, so the form survives the trip to Stripe and back
+    try {
+      var o = { fulfillment: fulfillment() };
+      FORM_KEYS.forEach(function (k) { o[k] = form.elements[k].value; });
+      sessionStorage.setItem('vw_shop_form', JSON.stringify(o));
+    } catch (e) {}
+  }
+  function restoreForm() {
+    try {
+      var o = JSON.parse(sessionStorage.getItem('vw_shop_form') || 'null');
+      if (!o) return;
+      FORM_KEYS.forEach(function (k) { if (o[k]) form.elements[k].value = o[k]; });
+      if (o.fulfillment) form.elements.fulfillment.value = o.fulfillment;
+      syncFulfillment();
+    } catch (e) {}
+  }
+  function forgetForm() { try { sessionStorage.removeItem('vw_shop_form'); } catch (e) {} }
+
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script'); s.src = src; s.async = true;
+      s.onload = resolve; s.onerror = function () { s.remove(); reject(new Error('load')); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function initPayments() {
+    if (paymentsStarted) return;
+    var stripeOn = LIVE && stripeCfg && stripeCfg.enabled;
+    var paypalOn = LIVE && paypalCfg && paypalCfg.client_id;
+    if (!stripeOn && !paypalOn) { $('pay-preview').hidden = false; $('pay').hidden = true; return; }
+    paymentsStarted = true;
+    $('stripe-block').hidden = !stripeOn;
+    if (!paypalOn) return;
+    loadScript('https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(paypalCfg.client_id) +
+      '&currency=USD&intent=capture&components=buttons&enable-funding=venmo&disable-funding=paylater,card').then(function () {
+      if (!window.paypal || !paypal.Buttons) return;
+      var any = mountButton(paypal.FUNDING.VENMO, '#venmo-button');
+      if (paypalCfg.show_paypal) any = mountButton(paypal.FUNDING.PAYPAL, '#paypal-button') || any;
+      $('alt-or').hidden = !(any && stripeOn);
+    }).catch(function () {});   // Venmo is optional: if PayPal cannot load, card checkout still works
+  }
+
+  function payFail(err) { payError((err && err.message && !/^(sdk|load)$/.test(err.message) && err.message.length < 260) ? err.message : 'The payment did not go through. You have not been charged.'); }
+
+  var stripeBtn = $('stripe-pay');
+  function stripeIdle() { stripeBtn.disabled = false; stripeBtn.textContent = 'Pay by card or Apple Pay'; }
+  stripeBtn.addEventListener('click', function () {
+    if (!ready()) return;
+    stripeBtn.disabled = true; stripeBtn.textContent = 'Opening secure payment…';
+    saveForm();
+    api(Object.assign({ action: 'create', processor: 'stripe' }, payload())).then(function (res) {
+      if (!res || !res.ok) { if (res && res.stock) refreshCatalog(); throw new Error((res && res.error) || 'We could not start the payment.'); }
+      if (!/^https:\/\/checkout\.stripe\.com\//.test(res.url || '')) throw new Error('We could not start the payment.');   // only ever leave for Stripe
+      location.href = res.url;
+    }).catch(function (err) { stripeIdle(); payFail(err); });
+  });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) stripeIdle(); });   // buyer pressed Back from Stripe
+
+  function mountButton(source, target) {
+    var b = paypal.Buttons({
+      fundingSource: source,
+      style: { layout: 'vertical', height: 48, shape: 'rect' },
+      onClick: function (data, actions) { return ready() ? actions.resolve() : actions.reject(); },
+      createOrder: function () {
+        return api(Object.assign({ action: 'create', processor: 'paypal' }, payload())).then(function (res) {
+          if (!res || !res.ok) { if (res && res.stock) refreshCatalog(); throw new Error((res && res.error) || 'We could not start the payment.'); }
+          return res.id;
+        });
+      },
+      onApprove: function (data, actions) {
+        return api({ action: 'capture', id: data.orderID }).then(function (res) {
+          if (res && res.ok) return finish(res);
+          if (res && res.soldout) refreshCatalog();
+          if (res && res.declined && actions && actions.restart) return actions.restart();
+          payFail(new Error((res && res.error) || ''));
+        }).catch(payFail);
+      },
+      onError: payFail
+    });
+    if (!b.isEligible()) return false;
+    b.render(target); return true;
+  }
+
+  // Back from Stripe with ?paid=<session id>: the server confirms with Stripe, captures, and records the order.
+  function confirmReturn(id) {
+    view('confirming');
+    $('confirm-title').textContent = 'Confirming your payment…';
+    $('confirm-msg').textContent = 'This takes a few seconds. Please keep this page open.';
+    $('confirm-actions').hidden = true;
+    var problem = function (msg, retry) {
+      $('confirm-title').textContent = retry ? 'Still confirming.' : 'This order did not go through.';
+      $('confirm-msg').textContent = msg;
+      $('confirm-retry').hidden = !retry; $('confirm-actions').hidden = false;
+      $('confirm-retry').onclick = function () { confirmReturn(id); };
+    };
+    api({ action: 'confirm', id: id }).then(function (res) {
+      if (res && res.ok) return finish(res);
+      if (res && res.soldout) refreshCatalog();
+      if (res && res.open) return backToCheckout((res && res.error) || 'The payment was not completed. You have not been charged.');
+      if (res && res.retry) return problem('Your payment was approved and we are finishing the order. You will not be charged twice. If this page does not update, your receipt will still arrive by email within about 15 minutes.', true);
+      problem((res && res.error) || 'You have not been charged.', false);
+    }).catch(function () {
+      problem('We could not reach the shop to confirm. If your payment was approved, your receipt will arrive by email within about 15 minutes. You will not be charged twice.', true);
+    });
+  }
+  function backToCheckout(msg) {
+    restoreForm();
+    if (!cartLines().length) { view('shop'); return; }
+    view('checkout'); renderSummary(); requestQuote(true); initPayments();
+    if (msg) payError(msg);
+  }
+  $('confirm-back').addEventListener('click', function () { view('shop'); });
+
+  function finish(res) {
+    var f = res.fulfillment || fulfillment();
+    forgetForm();
+    $('done-no').textContent = 'Order ' + res.order;
+    $('done-msg').textContent = (res.pending ? 'Your payment is still being confirmed by the payment processor. ' : 'Your payment of ' + money(res.total, true) + ' went through. ') +
+      (res.emailed === false ? 'The receipt email could not be sent, so please note your order number.' : 'A receipt is on its way to ' + (res.email || 'your email') + '.');
+    $('done-next').textContent = f === 'ship' ? 'We will email you again when your order ships.' : (shop.pickup_note || 'We will email you to arrange a pickup or delivery time.');
+    cart = {}; store.set('vw_shop_cart', cart); quote = null;
+    form.elements.notes.value = '';
+    renderCart(); renderGrid();
+    view('done'); $('done-title').focus();
+    refreshCatalog();
+  }
+
+  /* ---------- load ---------- */
+  function showNotice(text) { var n = $('notice'); n.textContent = text; n.hidden = !text; }
+  function addFaq(question, answer) {
+    if (!answer) return;
+    var d = el('details'); d.appendChild(el('summary', '', question)); d.appendChild(el('p', '', answer)); $('faq').appendChild(d);
+  }
+  var faqBuilt = false;
+  function applyShop(res) {
+    shop = res.shop || shop; paypalCfg = res.paypal || null; stripeCfg = res.stripe || null;
+    shop.local_cities = (shop.local_cities && shop.local_cities.length) ? shop.local_cities : ['Omaha'];
+    $('pickup-note').textContent = shop.pickup_note || '';
+    $('local-note').textContent = 'Free within ' + shop.local_cities.join(', ') + '.';
+    (shop.no_ship_states || []).forEach(function (s) { var o = stateSel.querySelector('option[value="' + s + '"]'); if (o) o.remove(); });
+    if (!faqBuilt) {
+      faqBuilt = true;
+      addFaq('Shipping details', shop.policy_shipping); addFaq('Returns and damage', shop.policy_returns); addFaq('Caring for your piece', shop.policy_care);
+    }
+    var notes = [];
+    if ((stripeCfg && stripeCfg.enabled && stripeCfg.test) || (paypalCfg && paypalCfg.client_id && paypalCfg.mode !== 'live')) notes.push('Test mode: no real payments are taken.');
+    if (shop.announcement) notes.push(shop.announcement);
+    showNotice(notes.join(' '));
+  }
+  function refreshCatalog() {
+    if (!LIVE) return Promise.resolve();
+    return fetch(SHOP_ENDPOINT, { redirect: 'follow' }).then(function (r) { return r.json(); }).then(function (res) {
+      if (!res || !res.ok) throw new Error('bad');
+      applyShop(res); setProducts(res.products); store.set('vw_shop_catalog', res.products);
+      if (!$('checkout-view').hidden) { if (!cartLines().length) view('shop'); else { renderSummary(); requestQuote(true); } }
+    });
+  }
+  function openFromHash() { var m = /^#p=(.+)$/.exec(location.hash); if (m) openProduct(decodeURIComponent(m[1])); }
+
+  // Returning from Stripe: ?paid=<session id> after payment, ?canceled=1 if the buyer backed out.
+  var back = new URLSearchParams(location.search), paidId = back.get('paid'), canceled = back.get('canceled');
+  if (paidId || canceled) { try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+
+  syncFulfillment();
+  if (!LIVE) {
+    showNotice('Preview mode: showing sample pieces. Connect the Google Sheet to go live.');
+    setProducts(SAMPLE); openFromHash();
+  } else {
+    var cached = store.get('vw_shop_catalog');
+    if (cached && cached.length) setProducts(cached);   // instant paint, then refresh with live stock
+    if (paidId) confirmReturn(paidId);
+    refreshCatalog().then(function () {
+      if (canceled) backToCheckout('Payment was canceled. You have not been charged.');
+      else if (!paidId) openFromHash();
+    }).catch(function () {
+      if (!products.length) { $('state').hidden = false; $('state').textContent = 'The shop could not be loaded. Please refresh, or email the studio.'; }
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -44,10 +44,17 @@ Photos: a file name in the sheet's image column loads from /images/ on the site.
   .site-header { border-bottom: 1px solid var(--rule); padding: 1rem; background: var(--paper); position: sticky; top: 0; z-index: 5; }
   .site-header .inner { max-width: 1080px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; }
   .brand { font: 600 1.5rem/1 var(--serif); color: var(--ink); text-decoration: none; }
+  .site-menu { display: flex; }
+  .menu-toggle { display: none; }
   .site-nav { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; font-size: .95rem; }
   .site-nav a { color: var(--ink-soft); text-decoration: none; }
   .site-nav a:hover { color: var(--walnut); }
-  @media (max-width: 720px) { .site-nav { display: none; } }
+  @media (max-width: 720px) {
+    .site-menu { position: relative; }
+    .menu-toggle { display: inline-flex; cursor: pointer; color: var(--walnut); font-weight: 600; }
+    .site-nav { display: none; position: absolute; top: calc(100% + .75rem); right: 0; z-index: 6; min-width: 12rem; flex-direction: column; padding: .8rem 1rem; background: var(--paper); border: 1px solid var(--rule); }
+    .site-menu[open] .site-nav { display: flex; }
+  }
 
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .7rem 1.2rem; border-radius: 3px;
     font-weight: 600; font-size: .98rem; text-decoration: none; border: 1px solid var(--walnut); cursor: pointer; background: none; color: var(--walnut); }
@@ -142,13 +149,17 @@ Photos: a file name in the sheet's image column loads from /images/ on the site.
 <header class="site-header">
   <div class="inner">
     <a class="brand" href="https://villagewoodwork.com/index.html">Village Woodworking</a>
-    <nav class="site-nav" aria-label="Main">
-      <a href="https://villagewoodwork.com/index.html">Home</a>
-      <a href="https://villagewoodwork.com/about.html">How We Do It</a>
-      <a href="https://villagewoodwork.com/portfolio.html">Portfolio</a>
-      <a href="https://villagewoodwork.com/journal.html">Journal</a>
-      <a href="https://villagewoodwork.com/intake.html">Contact Us</a>
-    </nav>
+    <details class="site-menu">
+      <summary class="menu-toggle">Menu</summary>
+      <nav class="site-nav" aria-label="Main">
+        <a href="https://villagewoodwork.com/index.html">Home</a>
+        <a href="https://villagewoodwork.com/about.html">How We Do It</a>
+        <a href="https://villagewoodwork.com/portfolio.html">Portfolio</a>
+        <a href="https://villagewoodwork.com/shop.html">Shop</a>
+        <a href="https://villagewoodwork.com/journal.html">Journal</a>
+        <a href="https://villagewoodwork.com/intake.html">Contact Us</a>
+      </nav>
+    </details>
     <button class="btn btn-primary cart-btn" type="button" id="open-cart" aria-haspopup="dialog">Cart <span class="count" id="cart-count">0</span></button>
   </div>
 </header>
