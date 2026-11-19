@@ -28,15 +28,24 @@ PayPal keys are added to the backend. Full steps are in SETUP.md.
 <meta property="og:description" content="Small pieces, built like the large ones. Gifts and studio pieces made in Omaha from hand-selected local lumber.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://villagewoodwork.com/shop.html">
+<link rel="icon" href="images/VWfavicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: "Calder_dark";
+    src: url("fonts/VW-webfont/calder_dark-webfont.woff2") format("woff2"),
+         url("fonts/VW-webfont/calder_dark-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+  }
+
   :root {
-    --paper: #f7f2ea; --paper-deep: #efe6d8; --ink: #2a211b; --ink-soft: #5c4e42;
-    --walnut: #6b4423; --walnut-deep: #4a2e17; --rule: #ded1bf; --alert: #8a2f1d; --field: #fffdf9;
-    --serif: "Cormorant Garamond", Georgia, serif;
-    --sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --paper: #f7f5f0; --paper-deep: #f0ece5; --ink: #1c1c1c; --ink-soft: #706b62;
+    --walnut: #6f4685; --walnut-deep: #563568; --rule: #ded9d1; --alert: #8a2f1d; --field: #fffdf9;
+    --serif: "Calder_dark", Georgia, serif;
+    --sans: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
   }
   *, *::before, *::after { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
@@ -44,14 +53,14 @@ PayPal keys are added to the backend. Full steps are in SETUP.md.
   a { color: var(--walnut); text-underline-offset: 3px; }
   img { max-width: 100%; display: block; }
   button, input, select, textarea { font: inherit; color: inherit; }
-  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.12; margin: 0; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.12; margin: 0; text-transform: uppercase; }
   [hidden] { display: none !important; }
 
   .notice { background: var(--ink); color: var(--paper); font-size: .9rem; text-align: center; padding: .55rem 1rem; }
 
   .site-header { border-bottom: 1px solid var(--rule); padding: 1rem; background: var(--paper); position: sticky; top: 0; z-index: 5; }
   .site-header .inner { max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; }
-  .brand { font: 600 1.5rem/1 var(--serif); color: var(--ink); text-decoration: none; }
+  .brand { font: 600 1.2rem/1 var(--serif); color: var(--ink); text-decoration: none; text-transform: uppercase; }
   .site-menu { display: flex; }
   .menu-toggle { display: none; }
   .site-nav { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; font-size: .95rem; }
@@ -214,11 +223,18 @@ PayPal keys are added to the backend. Full steps are in SETUP.md.
   .done h1 { margin-bottom: .5rem; }
   .done .order-no { font: 600 1.4rem/1 var(--serif); color: var(--walnut); }
 
-  .site-footer { background: var(--ink); color: var(--paper-deep); padding: 2.5rem 16px; font-size: .92rem; }
-  .site-footer .inner { max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; }
-  .site-footer a { color: var(--paper-deep); }
-  .site-footer .brand { color: var(--paper); }
-  .site-footer p { margin: .4rem 0 0; }
+  .site-footer { background: #1c1c1c; color: #f0e8da; font-size: .82rem; }
+  .site-footer .inner { max-width: 1170px; margin: 0 auto; padding: 3rem 16px; display: grid; gap: 2rem; border-bottom: 1px solid rgba(240, 232, 218, .08); }
+  @media (min-width: 760px) { .site-footer .inner { grid-template-columns: 2fr 1fr 1fr; } }
+  .site-footer a { color: #a89f91; text-decoration: none; }
+  .site-footer a:hover { color: #f0e8da; }
+  .site-footer .brand { color: #f0e8da; }
+  .site-footer p { margin: .6rem 0 0; color: #a89f91; }
+  .site-footer h2 { color: #b7999c; font: 700 .62rem/1.5 var(--sans); letter-spacing: .2em; margin: 0 0 .65rem; }
+  .site-footer ul { list-style: none; padding: 0; margin: 0; line-height: 1.9; }
+  .site-footer__bottom { max-width: 1170px; margin: 0 auto; padding: 1.25rem 16px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; color: rgba(240, 232, 218, .4); font-size: .68rem; }
+  .site-footer__bottom a { color: rgba(240, 232, 218, .55); }
+  @media (max-width: 759px) { .site-footer .inner { text-align: center; } }
   @media (prefers-reduced-motion: no-preference) { .card .photo img { transition: transform .5s ease; } .card:hover .photo img { transform: scale(1.03); } }
 </style>
 </head>
@@ -379,12 +395,30 @@ PayPal keys are added to the backend. Full steps are in SETUP.md.
   <div class="inner">
     <div>
       <a class="brand" href="https://villagewoodwork.com/index.html">Village Woodworking</a>
-      <p>Crafted with Vision, Rooted in Story.</p>
+      <p>Crafted with Vision, Rooted in Story.<br>From our village to yours.</p>
     </div>
+    <nav aria-label="Footer">
+      <h2>Navigate</h2>
+      <ul>
+        <li><a href="https://villagewoodwork.com/index.html">Home</a></li>
+        <li><a href="https://villagewoodwork.com/about.html">How We Do It</a></li>
+        <li><a href="https://villagewoodwork.com/portfolio.html">Portfolio</a></li>
+        <li><a href="https://villagewoodwork.com/journal.html">Journal</a></li>
+        <li><a href="https://villagewoodwork.com/shop.html" aria-current="page">Shop</a></li>
+      </ul>
+    </nav>
     <div>
-      <p>Questions about an order? <a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a></p>
-      <p><a href="https://villagewoodwork.com/intake.html">Start a commission</a> · <a href="https://www.instagram.com/villagewoodworking/">Instagram</a></p>
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="https://villagewoodwork.com/intake.html">Start a Project</a></li>
+        <li><a href="https://www.instagram.com/villagewoodworking/">Instagram</a></li>
+        <li><a href="mailto:village.woodwrking@gmail.com">Email Us</a></li>
+      </ul>
     </div>
+  </div>
+  <div class="site-footer__bottom">
+    <span>&copy; 2026 Village Woodworking &mdash; Lincoln &amp; Omaha, NE</span>
+    <a href="mailto:village.woodwrking@gmail.com">village.woodwrking@gmail.com</a>
   </div>
 </footer>
 
